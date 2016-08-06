@@ -1,0 +1,683 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Developer," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 框架内使用 window.parent.wx.xxx() 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 框架不在同一域名（跨域）情况下，这尼玛简直就是坑爹的需求！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5 跨域通信API - window.postMessage">
+<meta property="og:url" content="https://monine.github.io/2016/08/06/postMessage/index.html">
+<meta property="og:site_name" content="Monine">
+<meta property="og:description" content="最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 框架内使用 window.parent.wx.xxx() 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 框架不在同一域名（跨域）情况下，这尼玛简直就是坑爹的需求！">
+<meta property="og:updated_time" content="2016-08-06T04:02:57.648Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML5 跨域通信API - window.postMessage">
+<meta name="twitter:description" content="最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 框架内使用 window.parent.wx.xxx() 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 框架不在同一域名（跨域）情况下，这尼玛简直就是坑爹的需求！">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://monine.github.io/2016/08/06/postMessage/"/>
+
+  <title> HTML5 跨域通信API - window.postMessage | Monine </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Monine</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Front-End Developer Dog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HTML5 跨域通信API - window.postMessage
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-06T11:54:38+08:00" content="2016-08-06">
+              2016-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Developer/" itemprop="url" rel="index">
+                    <span itemprop="name">Developer</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>最近遇到一个可以说是非常头疼的问题，微信的 API 在 <code>iframe</code> 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 <code>iframe</code> 框架内使用 <code>window.parent.wx.xxx()</code> 可以调用微信 API 方法，但是！如果当前页面与嵌入的 <code>iframe</code> 框架不在同一域名<strong>（跨域）</strong>情况下，这尼玛简直就是坑爹的需求！</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p>好在哥还算是比较机智的少年，再加上有我军哥的引导，发现 HTML5 的新 API <code>window.postMessage()</code> 貌似是能够解决俺这个问题的。So.. 随即进行一系列研究测试。</p>
+<ul>
+<li>参考：<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage" target="_blank" rel="external">MDN - Window.postMessage()</a></li>
+</ul>
+<p>MDN 介绍的 <code>window.postMessage()</code> 是针对在一个页面使用 <code>window.open()</code> 动态打开新的页面而进行的跨域通信，非常详细，Demo 也很实用，但是对我而言貌似还欠缺什么东西。</p>
+<p><strong>Tips</strong></p>
+<blockquote>
+<p>在 <code>var targetPage = window.open(&#39;http://target.com&#39;)</code> 打开新页面之后需要等到 <code>http://target.com</code> 页面加载完成之后才能进行 <code>window.postMessage()</code> 跨域通信，但是在跨域的情况下我们是无法对 <code>targetPage</code> 进行 <code>onload</code> 事件监听，所以这里只能做 延迟 <code>setTimeout</code> 或者 定时 <code>setInterval</code> 处理。</p>
+</blockquote>
+<p>缕缕思路，写了一些小 Demo，使用 <code>window.open()</code> 动态打开新的页面实现跨域通信是 OK 的，但是在页面内嵌入 iframe 还是实现不了，Chrome Console 内经常这样报错：</p>
+<blockquote>
+<p>Failed to execute ‘postMessage’ on ‘DOMWindow’: The target origin provided (‘<a href="http://192.168.198.157:8000" target="_blank" rel="external">http://192.168.198.157:8000</a>‘) does not match the recipient window’s origin (‘<a href="http://192.168.198.157:3000" target="_blank" rel="external">http://192.168.198.157:3000</a>‘).</p>
+</blockquote>
+<p><strong>PS</strong></p>
+<ul>
+<li>PageA &gt;&gt; <a href="http://192.168.198.157:8000" target="_blank" rel="external">http://192.168.198.157:8000</a></li>
+<li>PageB &gt;&gt; <a href="http://192.168.198.157:3000" target="_blank" rel="external">http://192.168.198.157:3000</a></li>
+</ul>
+<p>PageA  页面内嵌入 <code>iframe</code> PageB</p>
+<h2 id="思考思考"><a href="#思考思考" class="headerlink" title="思考思考"></a>思考思考</h2><p>半个小时都没有解决，这个时候觉得应该放一放，再仔细思考思考是哪里出问题了，一定是有没弄明白的地方，然后也 Google 了许多资料详细查看，讲讲思路吧。</p>
+<ul>
+<li>解决问题要从问题源头出发，我现在遇到的问题归根究底就是两个不同域名的页面如何进行通信？</li>
+<li>浏览器的同源政策不允许跨域，然而 HTML5 API <code>window.postMessage()</code> 就是用来实现跨域通信的。</li>
+<li>那么通信的原理是怎样的了？</li>
+<li>如果有两个页面 PageA 和 PageB，PageA  页面内嵌入 <code>iframe</code> PageB，那么理论上是应该可以实现双向通信的。</li>
+</ul>
+<p>其实非常简单，就是 PageA 通过 <code>window.postMessage()</code> 发送一个信息给 PageB，PageB 在 <code>window</code> 上添加一个事件监听绑定 <code>message</code> 事件可以接收到来自任何不同域名通过 <code>window.postMessage()</code> 发送过来的信息，当 PageB 接收到 PageA 发送过来的信息时执行监听事件就 OK，在监听事件的 <code>event</code> 参数中包含了所有 <code>message</code> 事件接收到的相关数据。包括发送信息的内容 <code>event.data</code>，发送信息的域名 <code>event.origin</code> 等等。</p>
+<p>同样的，在 PageA 内添加一个事件监听绑定 <code>message</code> 事件，在 PageB 内通过 <code>window.postMessage()</code> 发送信息给 PageA 一样可以进行跨域通信。</p>
+<p><strong>我们可以通过 <code>event.origin</code> 来过滤掉来自其他未知站点发送过来的 <code>message</code> 事件信息</strong></p>
+<p>大概就是以上的思考，然后继续写 Demo..</p>
+<h2 id="干货代码"><a href="#干货代码" class="headerlink" title="干货代码"></a>干货代码</h2><p>以下就是页面嵌入<code>iframe</code> 情况下实现跨域通信的干货 Demo 代码啦</p>
+<p>PageA：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang="en"&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;meta charset="UTF-8"&gt;</div><div class="line">  &lt;title&gt;Page A&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;h1&gt;This is Page A&lt;/h1&gt;</div><div class="line">  &lt;button id="postMessageBtn" type="button"&gt;Post Message&lt;/button&gt;</div><div class="line">  &lt;p id="message"&gt;&lt;/p&gt;</div><div class="line">  &lt;iframe id="receiverIframe" src="http://192.168.198.157:3000/pageB.html" frameborder="1" width="800" height="500"&gt;&lt;/iframe&gt;</div><div class="line">  &lt;script&gt;</div><div class="line">    window.onload = function() &#123;</div><div class="line">      var receiver = document.getElementById('receiverIframe').contentWindow;</div><div class="line">      var postBtn = document.getElementById('postMessageBtn');</div><div class="line">      var messageEle = document.getElementById('message');</div><div class="line"></div><div class="line">      function sendMessage() &#123;</div><div class="line">        receiver.postMessage('Hello Page B.. This is page A..', 'http://192.168.198.157:3000');</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      function receiveMessage(event) &#123;</div><div class="line">        console.log(event);</div><div class="line"></div><div class="line">        if (event.origin !== "http://192.168.198.157:3000") return;</div><div class="line"></div><div class="line">        messageEle.innerHTML = "Message Received: " + event.data;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      postBtn.addEventListener('click', sendMessage, false);</div><div class="line"></div><div class="line">      window.addEventListener('message', receiveMessage, false);</div><div class="line"></div><div class="line">      // window.postMessage('Hello Page A.. This is Page A', 'http://192.168.198.157:8000')</div><div class="line">    &#125;</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>PageB：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang="en"&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset="UTF-8"&gt;</div><div class="line">    &lt;title&gt;Page B&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;h1&gt;This is Page B&lt;/h1&gt;</div><div class="line">    &lt;button id="postMessageBtn" type="button"&gt;Post Message&lt;/button&gt;</div><div class="line">    &lt;p id="message"&gt;&lt;/p&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">        window.onload = function() &#123;</div><div class="line">            var postBtn = document.getElementById('postMessageBtn')</div><div class="line">            var messageEle = document.getElementById('message');</div><div class="line"></div><div class="line">            function receiveMessage(event) &#123;</div><div class="line">                console.log(event);</div><div class="line"></div><div class="line">                if (event.origin !== "http://192.168.3.2:8000") return;</div><div class="line"></div><div class="line">                messageEle.innerHTML = "Message Received: " + event.data;</div><div class="line"></div><div class="line">                // 接收 PageA 的任何消息都自动回复</div><div class="line">                event.source.postMessage('Hello Page A.. This is page B..', event.origin);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            function sendMessage() &#123;</div><div class="line">                // 这里需要特别注意！！！</div><div class="line">                // 不能使用 window.postMessage()</div><div class="line">                // 因为 PageB (当前页面)是 PageA 页面嵌入的 iframe，此时 PageB 的 window 指向的是 PageA 内 iframe 框架的 window</div><div class="line">                // 而当前情况需要指向父级 window(即 top 或者 parent)才能实现 postMessage()</div><div class="line">                top.postMessage('Hello Page A.. This is page B..', 'http://192.168.3.2:8000');</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            postBtn.addEventListener('click', sendMessage, false);</div><div class="line"></div><div class="line">            window.addEventListener('message', receiveMessage, false);</div><div class="line">        &#125;</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><p><strong>PageB 需要特别注意的地方！！！</strong></p>
+<p>按照正常逻辑，应该是 PageB <code>window</code> 发出 <code>postMessage()</code> 事件给 PageA 接收，但在 PageA 页面的 <code>iframe</code> PageB 内使用的是 <code>top.postMessage()</code>，也就是说，这里其实是用的 PageA 的 <code>window</code> 向 PageA 发送 <code>postMessage()</code> 事件，接收者还是 PageA… 好像有点诡异。</p>
+<p><strong>如果不是使用 <code>window.open()</code> 打开的页面或者 <code>iframe</code> 嵌入的页面，就跟当前页面扯不上任何关系，是无法使用 <code>window.postMessage()</code> 进行跨域通信的！</strong></p>
+<p>描述的貌似不是很清楚，举个栗子：</p>
+<ul>
+<li><p>如果你打开浏览器，输入一个页面地址 PageA，然后打开一个新的标签页，又输入一个页面地址 PageB，那么这两个页面是无论如何都不能使用 <code>window.postMessage()</code> 来进行跨域通信的，他们并没有任何血缘关系…</p>
+</li>
+<li><p>同样，打开浏览器，输入一个页面地址 PageA，然后通过 PageA 动态打开 PageB (当然，不是通过 PageA 内的 <code>a</code> 标签链接打开)，或者 PageA 内嵌入了 <code>iframe</code> PageB，那么这个时候就厉害了，它两有血缘关系啦！PageB 这个时候是不是就相当于是 PageA 是崽崽？是因为有了 PageA，所以才有了 PageB 的出现。然后理所当然的，PageA 拥有了控制 PageB 的某些权限，其中就包括 <code>window.postMessage()</code>。</p>
+</li>
+</ul>
+<h2 id="得出结论"><a href="#得出结论" class="headerlink" title="得出结论"></a>得出结论</h2><p><strong><code>window.postMessage()</code> 中的 <code>window</code> 到底是什么呢？</strong></p>
+<ul>
+<li>在 PageA 页面嵌入 <code>iframe</code> PageB 的情况下是 PageA 的 <code>window</code>。</li>
+<li>在 <code>window.open()</code> 打开新页面的情况下是 PageA 页面 <code>window.open()</code> 所赋值的那个变量 <code>var pageB = window.open(&#39;http://192.168.197.157:3000/pageB.html&#39;)</code> 中的 <code>pageB</code>。</li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><strong>请无论如何在监听 <code>message</code> 事件的函数内对 <code>event.origin</code> 进行过滤，不然来自未知站点的 <code>window.postMessage()</code> 可以对你的站点为所欲为。</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Developer/" rel="tag">#Developer</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/16/Develop-Tools/" rel="next" title="Develop Tools">
+                <i class="fa fa-chevron-left"></i> Develop Tools
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars3.githubusercontent.com/u/8335856?v=3&s=460"
+               alt="Monine" />
+          <p class="site-author-name" itemprop="name">Monine</p>
+          <p class="site-description motion-element" itemprop="description">Be better..</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/monine" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到问题"><span class="nav-number">1.</span> <span class="nav-text">遇到问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考思考"><span class="nav-number">2.</span> <span class="nav-text">思考思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#干货代码"><span class="nav-number">3.</span> <span class="nav-text">干货代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#踩过的坑"><span class="nav-number">4.</span> <span class="nav-text">踩过的坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#得出结论"><span class="nav-number">5.</span> <span class="nav-text">得出结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Monine</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
