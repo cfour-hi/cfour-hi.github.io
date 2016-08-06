@@ -102,7 +102,7 @@
 <meta property="og:url" content="https://monine.github.io/2016/08/06/postMessage/index.html">
 <meta property="og:site_name" content="Monine">
 <meta property="og:description" content="最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 框架内使用 window.parent.wx.xxx() 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 框架不在同一域名（跨域）情况下，这尼玛简直就是坑爹的需求！">
-<meta property="og:updated_time" content="2016-08-06T14:16:23.146Z">
+<meta property="og:updated_time" content="2016-08-06T14:21:09.183Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTML5 跨域通信 API - window.postMessage()">
 <meta name="twitter:description" content="最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 框架内使用 window.parent.wx.xxx() 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 框架不在同一域名（跨域）情况下，这尼玛简直就是坑爹的需求！">
@@ -129,14 +129,19 @@
   <link rel="canonical" href="https://monine.github.io/2016/08/06/postMessage/"/>
 
   <title> HTML5 跨域通信 API - window.postMessage() | Monine </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
 
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4ffff5bdbf3c9645c02b2c092835acd7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -144,6 +149,9 @@
 
 
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
   
   
     
