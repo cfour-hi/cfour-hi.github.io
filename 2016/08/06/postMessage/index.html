@@ -12,10 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-
 
 
 
@@ -102,7 +100,7 @@
 <meta property="og:url" content="https://monine.github.io/2016/08/06/postMessage/index.html">
 <meta property="og:site_name" content="Monine">
 <meta property="og:description" content="最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 框架内使用 window.parent.wx.xxx() 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 框架不在同一域名（跨域）情况下，这尼玛简直就是坑爹的需求！">
-<meta property="og:updated_time" content="2016-08-06T14:21:09.183Z">
+<meta property="og:updated_time" content="2016-08-06T14:48:26.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTML5 跨域通信 API - window.postMessage()">
 <meta name="twitter:description" content="最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 框架内使用 window.parent.wx.xxx() 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 框架不在同一域名（跨域）情况下，这尼玛简直就是坑爹的需求！">
@@ -240,9 +238,32 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
   
 </nav>
 
@@ -316,6 +337,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/06/postMessage/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/06/postMessage/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -344,7 +372,7 @@
 <li>参考：<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage" target="_blank" rel="external">MDN - Window.postMessage()</a></li>
 </ul>
 <p>MDN 介绍的 <code>window.postMessage()</code> 是针对在一个页面使用 <code>window.open()</code> 动态打开新的页面而进行的跨域通信，非常详细，Demo 也很实用，但是对我而言貌似还欠缺什么东西。</p>
-<p><strong>Tips</strong></p>
+<p><em>*Tips</em></p>
 <blockquote>
 <p>在 <code>var targetPage = window.open(&#39;http://target.com&#39;)</code> 打开新页面之后需要等到 <code>http://target.com</code> 页面加载完成之后才能进行 <code>window.postMessage()</code> 跨域通信，但是在跨域的情况下我们是无法对 <code>targetPage</code> 进行 <code>onload</code> 事件监听，所以这里只能做 延迟 <code>setTimeout</code> 或者 定时 <code>setInterval</code> 处理。</p>
 </blockquote>
@@ -374,7 +402,10 @@
 <p>PageB：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Page B<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>This is Page B<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"postMessageBtn"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Post Message<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"message"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">        window.onload = function() &#123;</div><div class="line">            var postBtn = document.getElementById('postMessageBtn')</div><div class="line">            var messageEle = document.getElementById('message');</div><div class="line"></div><div class="line">            function receiveMessage(event) &#123;</div><div class="line">                console.log(event);</div><div class="line"></div><div class="line">                if (event.origin !== "http://192.168.3.2:8000") return;</div><div class="line"></div><div class="line">                messageEle.innerHTML = "Message Received: " + event.data;</div><div class="line"></div><div class="line">                // 接收 PageA 的任何消息都自动回复</div><div class="line">                event.source.postMessage('Hello Page A.. This is page B..', event.origin);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            function sendMessage() &#123;</div><div class="line">                // 这里需要特别注意！！！</div><div class="line">                // 不能使用 window.postMessage()</div><div class="line">                // 因为 PageB (当前页面)是 PageA 页面嵌入的 iframe，此时 PageB 的 window 指向的是 PageA 内 iframe 框架的 window</div><div class="line">                // 而当前情况需要指向父级 window(即 top 或者 parent)才能实现 postMessage()</div><div class="line">                top.postMessage('Hello Page A.. This is page B..', 'http://192.168.3.2:8000');</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            postBtn.addEventListener('click', sendMessage, false);</div><div class="line"></div><div class="line">            window.addEventListener('message', receiveMessage, false);</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <h2 id="———-踩过的坑-———"><a href="#———-踩过的坑-———" class="headerlink" title="——— 踩过的坑 ———"></a>——— 踩过的坑 ———</h2><p><strong>PageB 需要特别注意的地方！！！</strong></p>
 <p>按照正常逻辑，应该是 PageB <code>window</code> 发出 <code>postMessage()</code> 事件给 PageA 接收，但在 PageA 页面的 <code>iframe</code> PageB 内使用的是 <code>top.postMessage()</code>，也就是说，这里其实是用的 PageA 的 <code>window</code> 向 PageA 发送 <code>postMessage()</code> 事件，接收者还是 PageA… 好像有点诡异。</p>
-<p><strong>如果不是使用 <code>window.open()</code> 打开的页面或者 <code>iframe</code> 嵌入的页面，就跟当前页面扯不上任何关系，是无法使用 <code>window.postMessage()</code> 进行跨域通信的！</strong></p>
+<p><strong>Tips</strong></p>
+<blockquote>
+<p>如果不是使用 <code>window.open()</code> 打开的页面或者 <code>iframe</code> 嵌入的页面，就跟当前页面扯不上任何关系，是无法使用 <code>window.postMessage()</code> 进行跨域通信的！</p>
+</blockquote>
 <p>描述的貌似不是很清楚，举个栗子：</p>
 <ul>
 <li><p>如果你打开浏览器，输入一个页面地址 PageA，然后打开一个新的标签页，又输入一个页面地址 PageB，那么这两个页面是无论如何都不能使用 <code>window.postMessage()</code> 来进行跨域通信的，他们并没有任何血缘关系…</p>
@@ -450,6 +481,10 @@
 
           
   <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/06/postMessage/"
+           data-title="HTML5 跨域通信 API - window.postMessage()" data-url="https://monine.github.io/2016/08/06/postMessage/">
+      </div>
     
   </div>
 
@@ -671,15 +706,165 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monine"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
   
 
 
 
 
+
+
   
   
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
 
   
 
