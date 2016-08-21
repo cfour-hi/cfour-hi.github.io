@@ -91,15 +91,16 @@
 
 
 
-<meta name="description" content="Be better..">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Monine">
-<meta property="og:url" content="https://monine.github.io/index.html">
+<meta name="description" content="以前有做过一些 HTML5 canvas 动画，但一直也没有仔细去了解过，而且也都是使用定时器 setTimeout 和 setInterval 方法去刷新 canvas。然而定时器延迟是无法保证准确的，因为所有的 JavaScript 在单线程中执行，只有当前面队列（代码）执行完毕且轮到了自己才能被执行，而且页面定时器可能不只有一个是吧，定时器越多延迟也就越严重。也就是说，无法保证帧速率达到显">
+<meta property="og:type" content="article">
+<meta property="og:title" content="告别定时器，走向 window.requestAnimationFrame()">
+<meta property="og:url" content="https://monine.github.io/2016/08/21/requestAnimationFrame/index.html">
 <meta property="og:site_name" content="Monine">
-<meta property="og:description" content="Be better..">
+<meta property="og:description" content="以前有做过一些 HTML5 canvas 动画，但一直也没有仔细去了解过，而且也都是使用定时器 setTimeout 和 setInterval 方法去刷新 canvas。然而定时器延迟是无法保证准确的，因为所有的 JavaScript 在单线程中执行，只有当前面队列（代码）执行完毕且轮到了自己才能被执行，而且页面定时器可能不只有一个是吧，定时器越多延迟也就越严重。也就是说，无法保证帧速率达到显">
+<meta property="og:updated_time" content="2016-08-21T03:45:45.073Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Monine">
-<meta name="twitter:description" content="Be better..">
+<meta name="twitter:title" content="告别定时器，走向 window.requestAnimationFrame()">
+<meta name="twitter:description" content="以前有做过一些 HTML5 canvas 动画，但一直也没有仔细去了解过，而且也都是使用定时器 setTimeout 和 setInterval 方法去刷新 canvas。然而定时器延迟是无法保证准确的，因为所有的 JavaScript 在单线程中执行，只有当前面队列（代码）执行完毕且轮到了自己才能被执行，而且页面定时器可能不只有一个是吧，定时器越多延迟也就越严重。也就是说，无法保证帧速率达到显">
 
 
 
@@ -120,9 +121,9 @@
 
 
 
-  <link rel="canonical" href="https://monine.github.io/"/>
+  <link rel="canonical" href="https://monine.github.io/2016/08/21/requestAnimationFrame/"/>
 
-  <title> Monine </title>
+  <title> 告别定时器，走向 window.requestAnimationFrame() | Monine </title>
   
 
 
@@ -151,9 +152,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,9 +272,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -295,10 +294,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/08/21/requestAnimationFrame/" itemprop="url">
-                  告别定时器，走向 window.requestAnimationFrame()
-                </a>
+                告别定时器，走向 window.requestAnimationFrame()
               
             
           </h1>
@@ -345,24 +341,37 @@
       
 
       
-        
-          <blockquote>
+        <blockquote>
 <p>以前有做过一些 HTML5 <code>canvas</code> 动画，但一直也没有仔细去了解过，而且也都是使用定时器 <code>setTimeout</code> 和 <code>setInterval</code> 方法去刷新 <code>canvas</code>。然而定时器延迟是无法保证准确的，因为所有的 JavaScript 在单线程中执行，只有当前面队列（代码）执行完毕且轮到了自己才能被执行，而且页面定时器可能不只有一个是吧，定时器越多延迟也就越严重。也就是说，无法保证帧速率达到显示器的刷新速率 <strong>60帧/秒 (60FPS)</strong>。</p>
 </blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/21/requestAnimationFrame/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+<a id="more"></a>
+<h2 id="———-前言-———"><a href="#———-前言-———" class="headerlink" title="——— 前言 ———"></a>——— 前言 ———</h2><p>浏览器厂商可能也因为市场需求（上诉原因导致）原生支持了 <code>requestAnimationFrame</code> 方法，此方法基本上能保证帧速率达到 60FPS。但是此方法在还没形成标准之前，很多低版本浏览器是不支持的，比如：IE9 以及以下版本，不过谷歌和火狐都用私有的方法名实现了 <code>requestAnimationFrame</code> 方法。比如：谷歌 - <code>webkitRequestAnimationFrame</code>、火狐 - <code>mozRequestAnimationFrame</code>。形成标准后，IE10 才开始支持，由于 IE10 支持的是标准的 <code>requestAnimationFrame</code> 方法，因此它没有私有前缀。</p>
+<h3 id="—-参考-—"><a href="#—-参考-—" class="headerlink" title="— 参考 —"></a><em>— 参考 —</em></h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame/" target="_blank" rel="external">MDN - window.requestAnimationFrame()</a><br><a href="http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/" target="_blank" rel="external">requestAnimationFrame for Smart Animating</a></p>
+<h2 id="———-那么-———"><a href="#———-那么-———" class="headerlink" title="——— 那么 ———"></a>——— 那么 ———</h2><p>如何使用了？首先解决兼容性问题，先贴一段<a href="https://github.com/darius/requestAnimationFrame" target="_blank" rel="external">大神</a>的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">if</span> (!<span class="built_in">Date</span>.now)</div><div class="line">    <span class="built_in">Date</span>.now = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Date</span>().getTime(); &#125;;</div><div class="line"></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">    'use strict'</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> vendors = [<span class="string">'webkit'</span>, <span class="string">'moz'</span>];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; vendors.length &amp;&amp; !<span class="built_in">window</span>.requestAnimationFrame; ++i) &#123;</div><div class="line">        <span class="keyword">var</span> vp = vendors[i];</div><div class="line">        <span class="built_in">window</span>.requestAnimationFrame = <span class="built_in">window</span>[vp+<span class="string">'RequestAnimationFrame'</span>];</div><div class="line">        <span class="built_in">window</span>.cancelAnimationFrame = (<span class="built_in">window</span>[vp+<span class="string">'CancelAnimationFrame'</span>]</div><div class="line">                                   || <span class="built_in">window</span>[vp+<span class="string">'CancelRequestAnimationFrame'</span>]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="regexp">/iP(ad|hone|od).*OS 6/</span>.test(<span class="built_in">window</span>.navigator.userAgent) <span class="comment">// iOS6 is buggy</span></div><div class="line">        || !<span class="built_in">window</span>.requestAnimationFrame || !<span class="built_in">window</span>.cancelAnimationFrame) &#123;</div><div class="line">        <span class="keyword">var</span> lastTime = <span class="number">0</span>;</div><div class="line">        <span class="built_in">window</span>.requestAnimationFrame = <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> now = <span class="built_in">Date</span>.now();</div><div class="line">            <span class="keyword">var</span> nextTime = <span class="built_in">Math</span>.max(lastTime + <span class="number">16</span>, now);</div><div class="line">            <span class="keyword">return</span> setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; callback(lastTime = nextTime); &#125;,</div><div class="line">                              nextTime - now);</div><div class="line">        &#125;;</div><div class="line">        <span class="built_in">window</span>.cancelAnimationFrame = clearTimeout;</div><div class="line">    &#125;</div><div class="line">&#125;());</div></pre></td></tr></table></figure>
+<p>好啦，现在就不用管兼容性问题啦。有兴趣的同学可以好好去理解上面这段代码。</p>
+<p>然后我们把执行动画的方法传入 <code>requestAnimationFrame</code> 用做参数就行啦。</p>
+<p><a href="http://monine.github.io/study/demo/requestAnimationFrame.html">查看 Demo</a></p>
+<h3 id="—-Tips-—"><a href="#—-Tips-—" class="headerlink" title="— Tips —"></a><em>— Tips —</em></h3><p>在执行动画的方法最后必须继续调用 <code>requestAnimationFrame</code> 方法，参数就传当前方法名。</p>
+<h3 id="—-然而-—"><a href="#—-然而-—" class="headerlink" title="— 然而 —"></a><em>— 然而 —</em></h3><p><code>requestAnimationFrame</code> 也并不是没有缺陷，我认为它最大而且唯一的缺陷就是根本无法控制它的 <strong>刷新速率（FPS）</strong>！！！</p>
+<p>目前为止是无解，如果需要控制 <strong>刷新速率（FPS）</strong> 还是只能转身回区使用定时器吧。T-T</p>
+<h2 id="———-最后-———"><a href="#———-最后-———" class="headerlink" title="——— 最后 ———"></a>——— 最后 ———</h2><p>上周三8月17号是我入职智云70度正好一年的时间，后知后觉才记起，打算整理下从我入职以来所做的事情，应该说给咱70度制作平台添加的功能。写这篇文章的源头是我以前做的一个叫环境的特效功能，引入的这段特效的 js 代码头部有一段 <code>requestAnimationFrame</code> 的代码，当时太菜所以没关注，现在回过头来整理理解，也算是发现了一块新大陆。</p>
+<p>本想着写一段抒情的话语说说过去的这一年，算了，实在不够矫情。前端的路还很长，继续加油！！！</p>
+
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -370,394 +379,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/08/13/Gulp-Practice/" rel="next" title="Gulp 实践">
+                <i class="fa fa-chevron-left"></i> Gulp 实践
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/08/13/Gulp-Practice/" itemprop="url">
-                  Gulp 实践
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-13T09:49:14+08:00" content="2016-08-13">
-              2016-08-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Developer/" itemprop="url" rel="index">
-                    <span itemprop="name">Developer</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/13/Gulp-Practice/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/13/Gulp-Practice/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="———-安装-Node-JS-———"><a href="#———-安装-Node-JS-———" class="headerlink" title="——— 安装 Node.JS ———"></a>——— 安装 <a href="http://nodejs.cn/">Node.JS</a> ———</h2><p>Node.JS 自带 npm 包管理器，使用 npm 来安装 Gulp 非常方便。</p>
-<h2 id="———-全局安装-Gulp-———"><a href="#———-全局安装-Gulp-———" class="headerlink" title="——— 全局安装 Gulp ———"></a>——— 全局安装 <a href="http://www.gulpjs.com.cn/">Gulp</a> ———</h2><p><code>$ npm install gulp -g</code><br><code>$ npm install gulp-cli -g</code></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/13/Gulp-Practice/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/06/postMessage/" itemprop="url">
-                  HTML5 跨域通信 API - window.postMessage()
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-06T11:54:38+08:00" content="2016-08-06">
-              2016-08-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Developer/" itemprop="url" rel="index">
-                    <span itemprop="name">Developer</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/08/06/postMessage/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/06/postMessage/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>最近遇到一个可以说是非常头疼的问题，微信的 API 在 <code>iframe</code> 框架内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 <code>iframe</code> 框架内使用 <code>window.parent.wx.xxx()</code> 可以调用微信 API 方法，但是！！！如果当前页面与嵌入的 <code>iframe</code> 框架不在同一域名<strong>（跨域）</strong>情况下，这尼玛简直就是坑爹的需求！</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/06/postMessage/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/16/Develop-Tools/" itemprop="url">
-                  Develop Tools
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-16T20:33:03+08:00" content="2016-07-16">
-              2016-07-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Developer/" itemprop="url" rel="index">
-                    <span itemprop="name">Developer</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/16/Develop-Tools/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/16/Develop-Tools/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li><h3 id="Chrome"><a href="#Chrome" class="headerlink" title="Chrome"></a><a href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a></h3><blockquote>
-<p>a fast, free web browser</p>
-</blockquote>
-<p>V8 引擎，你值得拥有~</p>
-</li>
-</ul>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/16/Develop-Tools/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -765,6 +412,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/21/requestAnimationFrame/"
+           data-title="告别定时器，走向 window.requestAnimationFrame()" data-url="https://monine.github.io/2016/08/21/requestAnimationFrame/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -784,8 +439,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://avatars3.githubusercontent.com/u/8335856?v=3&s=460"
@@ -846,6 +510,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#———-前言-———"><span class="nav-number">1.</span> <span class="nav-text">——— 前言 ———</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#—-参考-—"><span class="nav-number">1.1.</span> <span class="nav-text">— 参考 —</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-那么-———"><span class="nav-number">2.</span> <span class="nav-text">——— 那么 ———</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#—-Tips-—"><span class="nav-number">2.1.</span> <span class="nav-text">— Tips —</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#—-然而-—"><span class="nav-number">2.2.</span> <span class="nav-text">— 然而 —</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-最后-———"><span class="nav-number">3.</span> <span class="nav-text">——— 最后 ———</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -949,6 +624,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
