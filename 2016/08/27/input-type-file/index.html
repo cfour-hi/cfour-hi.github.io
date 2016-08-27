@@ -91,19 +91,18 @@
 
 
 
-<meta name="description" content="——— 安装 Node.JS ———Node.JS 自带 npm 包管理器，使用 npm 来安装 Gulp 非常方便。
-——— 全局安装 Gulp ———$ npm install gulp -g$ npm install gulp-cli -g">
+<meta name="description" content="近期移动端项目用到了图片上传的功能，之前一直没有接触过，不知道原来在不需要后端的情况下前端就能够做那么多事情，再次感叹 HTML5 的强大。在近期移动端这个项目中用到的东西不多，不过应该是满足了平时的基本需求，包括按钮样式、文件多选、事件监听、文件类型、大小限制、图片预览和上传。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Gulp 实践">
-<meta property="og:url" content="https://monine.github.io/2016/08/13/Gulp-Practice/index.html">
+<meta property="og:title" content="聊聊 input file - 文件上传">
+<meta property="og:url" content="https://monine.github.io/2016/08/27/input-type-file/index.html">
 <meta property="og:site_name" content="Monine">
-<meta property="og:description" content="——— 安装 Node.JS ———Node.JS 自带 npm 包管理器，使用 npm 来安装 Gulp 非常方便。
-——— 全局安装 Gulp ———$ npm install gulp -g$ npm install gulp-cli -g">
-<meta property="og:updated_time" content="2016-08-13T03:50:15.465Z">
+<meta property="og:description" content="近期移动端项目用到了图片上传的功能，之前一直没有接触过，不知道原来在不需要后端的情况下前端就能够做那么多事情，再次感叹 HTML5 的强大。在近期移动端这个项目中用到的东西不多，不过应该是满足了平时的基本需求，包括按钮样式、文件多选、事件监听、文件类型、大小限制、图片预览和上传。">
+<meta property="og:image" content="https://monine.github.io/../../../../images/2016-08-27-1.png">
+<meta property="og:updated_time" content="2016-08-27T17:03:54.355Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gulp 实践">
-<meta name="twitter:description" content="——— 安装 Node.JS ———Node.JS 自带 npm 包管理器，使用 npm 来安装 Gulp 非常方便。
-——— 全局安装 Gulp ———$ npm install gulp -g$ npm install gulp-cli -g">
+<meta name="twitter:title" content="聊聊 input file - 文件上传">
+<meta name="twitter:description" content="近期移动端项目用到了图片上传的功能，之前一直没有接触过，不知道原来在不需要后端的情况下前端就能够做那么多事情，再次感叹 HTML5 的强大。在近期移动端这个项目中用到的东西不多，不过应该是满足了平时的基本需求，包括按钮样式、文件多选、事件监听、文件类型、大小限制、图片预览和上传。">
+<meta name="twitter:image" content="https://monine.github.io/../../../../images/2016-08-27-1.png">
 
 
 
@@ -124,9 +123,9 @@
 
 
 
-  <link rel="canonical" href="https://monine.github.io/2016/08/13/Gulp-Practice/"/>
+  <link rel="canonical" href="https://monine.github.io/2016/08/27/input-type-file/"/>
 
-  <title> Gulp 实践 | Monine </title>
+  <title> 聊聊 input file - 文件上传 | Monine </title>
   
 
 
@@ -297,7 +296,7 @@
             
             
               
-                Gulp 实践
+                聊聊 input file - 文件上传
               
             
           </h1>
@@ -309,8 +308,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-13T09:49:14+08:00" content="2016-08-13">
-              2016-08-13
+            <time itemprop="dateCreated" datetime="2016-08-27T22:12:32+08:00" content="2016-08-27">
+              2016-08-27
             </time>
           </span>
 
@@ -339,8 +338,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/13/Gulp-Practice/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/13/Gulp-Practice/" itemprop="commentsCount"></span>
+                <a href="/2016/08/27/input-type-file/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/27/input-type-file/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -363,74 +362,38 @@
       
 
       
-        <h2 id="———-安装-Node-JS-———"><a href="#———-安装-Node-JS-———" class="headerlink" title="——— 安装 Node.JS ———"></a>——— 安装 <a href="http://nodejs.cn/" target="_blank" rel="external">Node.JS</a> ———</h2><p>Node.JS 自带 npm 包管理器，使用 npm 来安装 Gulp 非常方便。</p>
-<h2 id="———-全局安装-Gulp-———"><a href="#———-全局安装-Gulp-———" class="headerlink" title="——— 全局安装 Gulp ———"></a>——— 全局安装 <a href="http://www.gulpjs.com.cn/" target="_blank" rel="external">Gulp</a> ———</h2><p><code>$ npm install gulp -g</code><br><code>$ npm install gulp-cli -g</code></p>
+        <blockquote>
+<p>近期移动端项目用到了图片上传的功能，之前一直没有接触过，不知道原来在不需要后端的情况下前端就能够做那么多事情，再次感叹 HTML5 的强大。在近期移动端这个项目中用到的东西不多，不过应该是满足了平时的基本需求，包括按钮样式、文件多选、事件监听、文件类型、大小限制、图片预览和上传。</p>
+</blockquote>
 <a id="more"></a>
-<h3 id="—-Tips-—"><a href="#—-Tips-—" class="headerlink" title="— Tips —"></a><em>— Tips —</em></h3><p>如果 gulp 有版本冲突，请先卸载之前的版本。</p>
-<h2 id="———-在项目中使用-gulp-———"><a href="#———-在项目中使用-gulp-———" class="headerlink" title="——— 在项目中使用 gulp ———"></a>——— 在项目中使用 gulp ———</h2><h3 id="—-Tips-—-1"><a href="#—-Tips-—-1" class="headerlink" title="— Tips —"></a><em>— Tips —</em></h3><blockquote>
-<p>请在项目根目录完成以下操作</p>
-</blockquote>
-<p>初始化项目目录</p>
-<p><code>$ npm init</code></p>
-<p>在项目根目录创建一个 gulpfile.js 文件然后输入以下代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'default'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 在这里写默认任务的代码</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>执行 <code>$ gulp</code></p>
-<p>执行完成后暂时是看不到任何变化的，因为 gulpfile.js 目前并没有做任何事情。</p>
-<h2 id="———-安装常用依赖插件-———"><a href="#———-安装常用依赖插件-———" class="headerlink" title="——— 安装常用依赖插件 ———"></a>——— 安装常用依赖插件 ———</h2><ul>
-<li><a href="https://github.com/sindresorhus/gulp-autoprefixer" target="_blank" rel="external">gulp-autoprefixer</a></li>
-</ul>
-<blockquote>
-<p>Auto add vendor prefixes to rules</p>
-</blockquote>
-<p>自动添加浏览器私有前缀工具</p>
+<p>首先推荐<strong>张鑫旭</strong>大神的以下这两篇文章</p>
 <ul>
-<li><a href="https://github.com/joaoeaugusto/gulp-minify-css" target="_blank" rel="external">gulp-minify-css</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/?p=5071" target="_blank" rel="external">HTML input type=file文件选择表单元素二三事</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/?p=1923" target="_blank" rel="external">基于HTML5的可预览多图片Ajax上传</a></li>
 </ul>
-<blockquote>
-<p>Gulp task to concatenate and minify raw css</p>
-</blockquote>
-<p>CSS 压缩工具</p>
-<ul>
-<li><a href="https://github.com/terinjokes/gulp-uglify" target="_blank" rel="external">gulp-uglify</a></li>
-</ul>
-<blockquote>
-<p>Minify JavaScript with UglifyJS2.</p>
-</blockquote>
-<p>Javascript 压缩工具 - 代码混淆</p>
-<ul>
-<li><a href="">gulp-jshint</a></li>
-</ul>
-<blockquote>
-<p>JSHint plugin for gulp</p>
-</blockquote>
-<p>JavaScript 代码质量工具，用来检测 Javascript 代码的问题。</p>
-<ul>
-<li><a href="https://github.com/peter-vilja/gulp-clean" target="_blank" rel="external">gulp-clean</a></li>
-</ul>
-<blockquote>
-<p>A gulp plugin for removing files and folders from given paths.</p>
-</blockquote>
-<p>清理工具，用来删除指定的文件或是文件夹。</p>
-<ul>
-<li><a href="https://github.com/hparra/gulp-rename" target="_blank" rel="external">gulp-rename</a></li>
-</ul>
-<blockquote>
-<p>Rename files easily</p>
-</blockquote>
-<p>文件重命名工具</p>
-<ul>
-<li><a href="https://github.com/contra/gulp-concat" target="_blank" rel="external">gulp-concat</a></li>
-</ul>
-<blockquote>
-<p>Streaming concat middleware for gulp</p>
-</blockquote>
-<p>文件合并工具</p>
-<h3 id="—-一键安装-—"><a href="#—-一键安装-—" class="headerlink" title="— 一键安装 —"></a><em>— 一键安装 —</em></h3><blockquote>
-<p><code>$ npm install gulp-autoprefixer gulp-minify-css gulp-uglify gulp-jshint gulp-clean gulp-rename gulp-concat --save-dev</code></p>
-</blockquote>
-<h2 id="———-干货代码-———"><a href="#———-干货代码-———" class="headerlink" title="——— 干货代码 ———"></a>——— 干货代码 ———</h2><h3 id="—-提供最简单的-gulpfile-js-—"><a href="#—-提供最简单的-gulpfile-js-—" class="headerlink" title="— 提供最简单的 gulpfile.js —"></a><em>— 提供最简单的 gulpfile.js —</em></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// 引入依赖插件</span></div><div class="line"><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);  </div><div class="line"><span class="keyword">var</span> autoprefixer = <span class="built_in">require</span>(<span class="string">'gulp-autoprefixer'</span>);</div><div class="line"><span class="keyword">var</span> minifycss = <span class="built_in">require</span>(<span class="string">'gulp-minify-css'</span>);</div><div class="line"><span class="keyword">var</span> uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>);</div><div class="line"><span class="keyword">var</span> jshint = <span class="built_in">require</span>(<span class="string">'gulp-jshint'</span>);</div><div class="line"><span class="keyword">var</span> clean = <span class="built_in">require</span>(<span class="string">'gulp-clean'</span>);</div><div class="line"><span class="keyword">var</span> rename = <span class="built_in">require</span>(<span class="string">'gulp-rename'</span>);</div><div class="line"><span class="keyword">var</span> concat = <span class="built_in">require</span>(<span class="string">'gulp-concat'</span>);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'styles'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> gulp.src([<span class="string">'./**/*.css'</span>]) <span class="comment">// 读取 css 文件</span></div><div class="line">             .autoprefixer(<span class="string">'last 2 version'</span>, <span class="string">'ios 7'</span>, <span class="string">'android 4'</span>) <span class="comment">// 添加浏览器私有前缀</span></div><div class="line">             .pipe(concat(<span class="string">'main.css'</span>)) <span class="comment">// 合并读取到的 css 文件到 main.css</span></div><div class="line">             .pipe(gulp.dest(<span class="string">'./dist/'</span>)) <span class="comment">// 把 main.css 发布到 dist 文件夹内</span></div><div class="line">             .pipe(rename(&#123;suffix: <span class="string">'.min'</span>&#125;)) <span class="comment">// 重命名添加 .min 后缀 - main.min.css</span></div><div class="line">             .pipe(minifycss()) <span class="comment">// css 代码压缩</span></div><div class="line">             .pipe(gulp.dest(<span class="string">'./dist/'</span>)) <span class="comment">// 把 main.min.css 发布到 dist 文件夹内</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'scripts'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> gulp.src([<span class="string">'./**/*.js'</span>]) <span class="comment">// 读取 js 文件</span></div><div class="line">             .pipe(jshint(<span class="string">'.jshintrc'</span>)) <span class="comment">// js 代码检测</span></div><div class="line">             .pipe(jshint.reporter(<span class="string">'default'</span>)) <span class="comment">// js 检测问题报告</span></div><div class="line">             .pipe(concat(<span class="string">'main.js'</span>)) <span class="comment">// 合并读取到的 js 文件到 main.js</span></div><div class="line">             .pipe(gulp.dest(<span class="string">'./dist/'</span>)) <span class="comment">// 把 main.js 发布到 dist 文件夹内</span></div><div class="line">             .pipe(rename(&#123;suffix: <span class="string">'.min'</span>&#125;)) <span class="comment">// 重命名添加 .min 后缀 - main.min.js</span></div><div class="line">             .pipe(uglify()) <span class="comment">// js 代码压缩混淆</span></div><div class="line">             .pipe(gulp.dest(<span class="string">'./dist'</span>)) <span class="comment">// 把 main.min.js 发布到 dist 文件夹内</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line">gulp.tast(<span class="string">'clean'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> gulp.src([<span class="string">'./dist'</span>], &#123;read: <span class="literal">false</span>&#125;)</div><div class="line">             .pipe(clean())</div><div class="line">&#125;);</div><div class="line"></div><div class="line">gulp.task(<span class="string">'default'</span>, [<span class="string">'clean'</span>], <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  gulp.start(<span class="string">'styles'</span>, <span class="string">'scripts'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="———-最后吐槽-———"><a href="#———-最后吐槽-———" class="headerlink" title="——— 最后吐槽 ———"></a>——— 最后吐槽 ———</h2><p>真的比 Grunt 简洁好多！！！你走…</p>
-
+<p>不得不感叹一句 “前人栽树，后人乘凉”，真心要感谢这些前辈对行业发展作出的贡献，没有他们的付出，就没有咱这些后人的便捷。</p>
+<hr>
+<h2 id="———-按钮样式-———"><a href="#———-按钮样式-———" class="headerlink" title="——— 按钮样式 ———"></a>——— 按钮样式 ———</h2><p><code>&lt;input type=&quot;file&quot;&gt;</code> 的默认样式简直丑到爆！而且还很不好控制，在项目中简直不可能使用。</p>
+<p><img src="../../../../images/2016-08-27-1.png" alt="input-type=file"></p>
+<p><code>input</code> 这种货色并不是不能替代，给它一个 <code>id</code>，你就能用 <code>label</code> 标签替代它干活，样式问题自然就交给 <code>label</code> 标签也是很 OK 的。</p>
+<h2 id="———-支持多选-———"><a href="#———-支持多选-———" class="headerlink" title="——— 支持多选 ———"></a>——— 支持多选 ———</h2><p>只要在 <code>&lt;input type=&quot;file&quot;&gt;</code> 上添加一个叫做 <code>multiple</code> 的属性名就能够支持文件多选，HTML5 简直了…</p>
+<h2 id="———-文件类型-———"><a href="#———-文件类型-———" class="headerlink" title="——— 文件类型 ———"></a>——— 文件类型 ———</h2><p>前端做久了，深刻的感受到用户的行为是不可控的。<br>拿上传图片来说，我们希望用户上传的是图片资源，可尼玛有些用户就是不听指挥，上传一些种子资源，这尼玛情何以堪。</p>
+<p><em>用户的操作我们不能控制，但是我们可以做到限制。</em></p>
+<p>So… <code>accept</code> 这个属性就要隆重登场啦，它指定浏览器接受的文件类型。<br>例如我们限制用户只能上传图片：<code>accept=&quot;image/*&quot;</code><br>打开系统选择文件弹框的时候右下角文件类型选项显示的就是 “图片文件” 啦。<br>多种文件格式 <code>accept</code> 值使用逗号隔开： <code>accept=&quot;image/*, video/*, audio/*&quot;</code></p>
+<p>OK，到此我们 html 里面的代码就应该是下面这样的。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"uploadFileBtn"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"uploadFileBtn"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">accept</span>=<span class="string">"image/*"</span> <span class="attr">multiple</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="———-事件监听-———"><a href="#———-事件监听-———" class="headerlink" title="——— 事件监听 ———"></a>——— 事件监听 ———</h2><p>在 <code>input</code> 元素上监听 <code>change</code> 事件就能获取到用户上传的文件信息，包括文件名、上传时间、文件大小等等，通过 <code>FileReader</code> 我们还可以将图片文件转换成 base64 编码格式实现预览图片功能。</p>
+<p>在 <code>change</code> 事件监听的函数内，<code>event.target.files</code> 就是用户上传的图片信息。</p>
+<h2 id="———-文件大小-———"><a href="#———-文件大小-———" class="headerlink" title="——— 文件大小 ———"></a>——— 文件大小 ———</h2><p>实际情况下，我们不可能让用户随意上传太大的文件，所以这里我们也需要对文件大小做一些限制。</p>
+<p>在获取到的文件信息中有个 <code>size</code> 的属性就是文件的大小，单位是 B。也就是说，如果我们限制用户上传的单个文件最大为 3M，那么 <code>size</code> 属性的值就应该不大于 <code>3 * 1024 * 1024 = 3145728</code>。</p>
+<h2 id="———-图片预览-———"><a href="#———-图片预览-———" class="headerlink" title="——— 图片预览 ———"></a>——— 图片预览 ———</h2><p>上面已经说到了，图片预览就是将用户上传的图片格式转换成 base64 格式，然后将它设置为 <code>img</code> 标签的 <code>src</code> 属性值添加到 DOM 中去。</p>
+<p>那么怎么实现了？</p>
+<p><code>FileReader</code> 提供 <code>readAsDataURL</code> 方法可以实现我们的需求，当 <code>FileReader</code> 的实例把图片转换为 base64 格式之后，会触发 <code>onload</code> 方法，此方法内的 <code>event.target.result</code> 就是我们所需要的 base64 格式图片。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">previewImgFile</span>(<span class="params">event, files, index</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> _files = files || event.target.files;</div><div class="line">  <span class="keyword">var</span> _index = index || <span class="number">0</span>;</div><div class="line">  <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</div><div class="line"></div><div class="line">  reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> eImg = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>);</div><div class="line">    eImg.src = event.target.result;</div><div class="line">    <span class="built_in">document</span>.body.appendChild(eImg);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> ((_index += <span class="number">1</span>) &lt; _files.length) previewFiles(event, _files, _index);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  reader.readAsDataURL(_files[_index]);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#uploadFileBtn'</span>).addEventListener(<span class="string">'change'</span>, previewImgFile, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<h2 id="———-图片上传-———"><a href="#———-图片上传-———" class="headerlink" title="——— 图片上传 ———"></a>——— 图片上传 ———</h2><p>这里有个非常重要的点需要明白，图片上传不同于普通表单数据提交，它们需要的编码格式是不一样的。<br>普通表单数据的编码类型为 <code>application/x-www-form-urlencoded</code>，而对于文件上传，编码类型应该使用 <code>multipart/form-data</code>。</p>
+<p>也就是说，如果使用 <code>form</code> 表单上传文件（比如图片），那么 <code>form</code> 元素需要添加属性 <code>enctype=&quot;multipart/form-data&quot;</code>。<br><code>&lt;form enctype=&quot;multipart/form-data&gt;&lt;/form&gt;</code></p>
+<p>还有一种方式是在 js 中使用 <code>FormData</code> 和 <code>XMLHttpRequest</code> 实现上传<br><code>FormData</code> 用来保存文件数据<br><code>XMLHttpRequest</code> 提供发送数据请求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadUserFile</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> files = event.target.files;</div><div class="line">  <span class="keyword">var</span> formData = <span class="keyword">new</span> FormData();</div><div class="line">  <span class="keyword">var</span> request = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line"></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = files.length; i &lt; len; i++) &#123;</div><div class="line">    formData.append(<span class="string">'userUploadFile'</span>, files[i]);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  request.open(<span class="string">'POST'</span>, <span class="string">'a/p/i'</span>);</div><div class="line">  request.send(formData);</div><div class="line"></div><div class="line">  request.onload = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> oResponse = <span class="built_in">JSON</span>.parse(event.target.response);</div><div class="line">    <span class="comment">// do something</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#uploadFileBtn'</span>).addEventListener(<span class="string">'change'</span>, uploadUserFile, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -461,17 +424,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/06/postMessage/" rel="next" title="HTML5 跨域通信 API - window.postMessage()">
-                <i class="fa fa-chevron-left"></i> HTML5 跨域通信 API - window.postMessage()
+              <a href="/2016/08/21/requestAnimationFrame/" rel="next" title="告别定时器，走向 window.requestAnimationFrame()">
+                <i class="fa fa-chevron-left"></i> 告别定时器，走向 window.requestAnimationFrame()
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/21/requestAnimationFrame/" rel="prev" title="告别定时器，走向 window.requestAnimationFrame()">
-                告别定时器，走向 window.requestAnimationFrame() <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -497,8 +456,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/08/13/Gulp-Practice/"
-           data-title="Gulp 实践" data-url="https://monine.github.io/2016/08/13/Gulp-Practice/">
+      <div class="ds-thread" data-thread-key="2016/08/27/input-type-file/"
+           data-title="聊聊 input file - 文件上传" data-url="https://monine.github.io/2016/08/27/input-type-file/">
       </div>
     
   </div>
@@ -600,7 +559,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#———-安装-Node-JS-———"><span class="nav-number">1.</span> <span class="nav-text">——— 安装 Node.JS ———</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-全局安装-Gulp-———"><span class="nav-number">2.</span> <span class="nav-text">——— 全局安装 Gulp ———</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#—-Tips-—"><span class="nav-number">2.1.</span> <span class="nav-text">— Tips —</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-在项目中使用-gulp-———"><span class="nav-number">3.</span> <span class="nav-text">——— 在项目中使用 gulp ———</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#—-Tips-—-1"><span class="nav-number">3.1.</span> <span class="nav-text">— Tips —</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-安装常用依赖插件-———"><span class="nav-number">4.</span> <span class="nav-text">——— 安装常用依赖插件 ———</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#—-一键安装-—"><span class="nav-number">4.1.</span> <span class="nav-text">— 一键安装 —</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-干货代码-———"><span class="nav-number">5.</span> <span class="nav-text">——— 干货代码 ———</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#—-提供最简单的-gulpfile-js-—"><span class="nav-number">5.1.</span> <span class="nav-text">— 提供最简单的 gulpfile.js —</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-最后吐槽-———"><span class="nav-number">6.</span> <span class="nav-text">——— 最后吐槽 ———</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#———-按钮样式-———"><span class="nav-number">1.</span> <span class="nav-text">——— 按钮样式 ———</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-支持多选-———"><span class="nav-number">2.</span> <span class="nav-text">——— 支持多选 ———</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-文件类型-———"><span class="nav-number">3.</span> <span class="nav-text">——— 文件类型 ———</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-事件监听-———"><span class="nav-number">4.</span> <span class="nav-text">——— 事件监听 ———</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-文件大小-———"><span class="nav-number">5.</span> <span class="nav-text">——— 文件大小 ———</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-图片预览-———"><span class="nav-number">6.</span> <span class="nav-text">——— 图片预览 ———</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#———-图片上传-———"><span class="nav-number">7.</span> <span class="nav-text">——— 图片上传 ———</span></a></li></ol></div>
             
           </div>
         </section>
