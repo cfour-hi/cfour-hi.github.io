@@ -2,7 +2,7 @@
 
 > 记录我的前端生涯
 
-## [文章](https://monine.github.io/#/article)
+## 文章
 
 - [基于 webpack 的前端多页工程](https://monine.github.io/#/article/21)
 
