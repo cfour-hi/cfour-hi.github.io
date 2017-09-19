@@ -1,4 +1,4 @@
-# [monine.github.io](monine.github.io)
+# monine.github.io
 
 > 记录我的前端生涯
 
