@@ -1,7 +1,7 @@
 {
-  "name": "aaa",
+  "name": "monine.github.io",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Monine's Blog",
   "author": "monine <bob.zhouxiang@gmail.com>",
   "private": true,
   "scripts": {
@@ -11,7 +11,15 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "2.5.2"
+    "animate.css": "3.5.2",
+    "axios": "0.17.1",
+    "babel-polyfill": "6.26.0",
+    "font-awesome": "4.7.0",
+    "highlight.js": "9.12.0",
+    "marked": "0.3.7",
+    "vue": "2.5.2",
+    "vue-router": "3.0.1",
+    "vuex": "3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -49,6 +57,7 @@
     "rimraf": "^2.6.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "standard": "10.0.3",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
@@ -67,5 +76,11 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "/build/"
+    ]
+  }
 }
