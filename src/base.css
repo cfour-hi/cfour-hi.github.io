@@ -28,6 +28,10 @@ a {
   color: currentColor;
 }
 
+a:hover {
+  color: #7265e6;
+}
+
 button {
   border: none;
   cursor: pointer;

@@ -1,30 +1,38 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <app-main>
-      <app-nav slot="app-nav"></app-nav>
-    </app-main>
+    <app-header/>
+    <main id="app-main">
+      <app-nav-container/>
+      <router-view/>
+    </main>
   </div>
 </template>
 
 <script>
 import AppHeader from './components/AppHeader'
-import AppMain from './components/AppMain'
-import AppNav from './components/AppNav'
+import AppNavContainer from './components/AppNavContainer'
 
 export default {
   name: 'app',
 
-  components: { AppHeader, AppMain, AppNav },
+  components: { AppHeader, AppNavContainer },
 
   data () {
-    return {
-
-    }
+    return {}
   }
 }
 </script>
 
+<style scoped>
+#app-main {
+  width: 60em;
+  margin: 5.5em auto 1em;
+}
+</style>
+
+
 <style>
-@import './assets/css/base.css';
+@import "./base.css";
+@import "./app.css";
+@import './vs2015.css';
 </style>

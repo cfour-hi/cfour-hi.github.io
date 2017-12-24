@@ -6,6 +6,17 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {}
+  state: {
+    progress: 'wait',
+    blogArticles: []
+  },
+  mutations: {
+    setProgress (state, { step }) {
+      state.progress = step
+    },
+
+    updateBlogArticles (state, { articles }) {
+      state.blogArticles = articles
+    }
+  }
 })
