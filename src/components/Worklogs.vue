@@ -83,20 +83,14 @@ export default {
   created () {
     getWorklogs(paging).then(worklogs => {
       worklogs.forEach(convertWorklog)
-
-      paging.page += 1
       this.timelines = addTimelineInfo(worklogs)
       this.$store.commit('updateWorklogs', { worklogs })
+
+      paging.page += 1
     })
   },
 
   methods: {
-    _sortTimelineYear (timelines) {
-      const sortedTimelines = []
-      Object.keys(timelines).forEach(year => sortedTimelines.unshift(timelines[year]))
-      return sortedTimelines
-    },
-
     handleToggleTimelineMonth (timeline, index) {
       if (index > timeline.activeIndex) {
         timeline.enterActiveClass = FADE_IN_RIGHT

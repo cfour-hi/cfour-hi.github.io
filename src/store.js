@@ -10,15 +10,10 @@ export const WORKLOGS = 'worklogs'
 
 export default new Vuex.Store({
   state: {
-    progress: 'wait',
     [BLOG_ARTICLES]: [],
     [WORKLOGS]: []
   },
   mutations: {
-    setProgress (state, { step }) {
-      state.progress = step
-    },
-
     updateBlogArticles (state, { articles }) {
       state[BLOG_ARTICLES] = articles
     },
