@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { repository } from './config'
+import { BLOG_ARTICLES, WORKLOGS } from './store'
+import { convertBlogArticle, convertWorklog } from './assets/js/app'
 
 const MainContainer = () => import('./components/MainContainer')
 const BlogArticles = () => import('./components/BlogArticles')
@@ -27,15 +29,17 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'blog-articles',
+        name: BlogArticles.name,
         component: BlogArticles
       },
       {
         path: ':number',
-        name: 'blog-article',
+        name: `blog-${Article.name}`,
         component: Article,
         meta: {
-          repository: repository.blog
+          repository: repository.blog,
+          store: BLOG_ARTICLES,
+          convert: convertBlogArticle
         }
       }
     ]
@@ -52,7 +56,18 @@ const routes = [
     children: [
       {
         path: '',
+        name: Worklogs.name,
         component: Worklogs
+      },
+      {
+        path: ':number',
+        name: `worklog-${Article.name}`,
+        component: Article,
+        meta: {
+          repository: repository.worklog,
+          store: WORKLOGS,
+          convert: convertWorklog
+        }
       }
     ]
   }

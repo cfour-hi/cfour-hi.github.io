@@ -32,7 +32,7 @@ export const getArticleByNumber = function (repo, number) {
   return axios.get(`/repos/${OWNER}/${repo}/issues/${number}`)
 }
 
-export const getWorklogList = function ({ page = 1, size = 24 }) {
+export const getWorklogs = function ({ page = 1, size = 36 }) {
   const params = { page, per_page: size, filter: 'created' }
   return axios.get(`/repos/${OWNER}/${repository.worklog}/issues`, { params })
 }

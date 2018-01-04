@@ -1,19 +1,21 @@
 <template>
   <ul v-if="!!Object.keys(timelines).length" id="worklogs">
-    <li v-for="timeline of _sortTimelineYear(timelines)" :key="timeline.year">
+    <li v-for="timeline in timelines" :key="timeline.year">
       <dl class="timeline-bar" :style="{ color: timeline.color }">
         <dt class="timeline-year" :style="{ backgroundColor: timeline.color }">{{ timeline.year }}</dt>
           <dd
-            v-for="(worklog, index) of timeline.worklog"
-            :key="worklog.id" :class="{ active: timeline.activeIndex === index }"
-            :style="[ timeline.activeIndex === index ? worklog.activeStyle : '' ]"
+            v-for="({ id, color, number, month }, index) of timeline.worklogs"
+            :key="id"
+            :class="{ active: timeline.activeIndex === index }"
+            :style="[ timeline.activeIndex === index ? { color: color, backgroundColor: color, borderColor: color } : '' ]"
             class="timeline-month"
-            @mouseover="toggleTimelineMonth(timeline, index)">
+            @mouseover="handleToggleTimelineMonth(timeline, index)">
             <router-link
-              :to="`/worklog/${worklog.number}`"
+              :to="`${number}`"
               :style="{ color: timeline.activeIndex === index ? '#fff' : timeline.color }"
-              class="timeline-month-link">
-              {{ worklog.month }}
+              class="timeline-month-link"
+              append>
+              {{ month }}
             </router-link>
           </dd>
       </dl>
@@ -24,9 +26,9 @@
           name="fade"
           mode="out-in">
           <blockquote
-            v-for="(worklog, index) of timeline.worklog"
+            v-for="(worklog, index) of timeline.worklogs"
             v-show="timeline.activeIndex === index"
-            v-html="worklog.quote"
+            v-html="worklog.summary"
             :key="worklog.id"
             class="timeline-quote">
           </blockquote>
@@ -44,7 +46,30 @@ const FADE_IN_LEFT = 'fadeInLeft'
 const FADE_IN_RIGHT = 'fadeInRight'
 const FADE_OUT_LEFT = 'fadeOutLeft'
 const FADE_OUT_RIGHT = 'fadeOutRight'
-const paging = { page: 1, size: 24 }
+const paging = { page: 1, size: 36 }
+
+const addTimelineInfo = function (worklogs) {
+  const timelines = {}
+
+  worklogs.forEach(worklog => {
+    const { year, color } = worklog
+
+    if (timelines[year]) {
+      timelines[year].worklogs.unshift(worklog)
+    } else {
+      timelines[year] = {
+        activeIndex: 0,
+        enterActiveClass: FADE_IN_RIGHT,
+        leaveActiveClass: FADE_OUT_LEFT,
+        color: color,
+        year: year,
+        worklogs: [worklog]
+      }
+    }
+  })
+
+  return timelines
+}
 
 export default {
   name: 'worklogs',
@@ -59,22 +84,20 @@ export default {
     getWorklogs(paging).then(worklogs => {
       worklogs.forEach(convertWorklog)
 
-      const worklogList = []
-      worklogs.forEach(worklog => worklogList.push(convertWorklog(worklog)))
       paging.page += 1
-      addTimelineInfo(this, worklogList)
-      this.$store.commit('concatArticleList', { category: this.$route.meta.category, list: worklogList })
+      this.timelines = addTimelineInfo(worklogs)
+      this.$store.commit('updateWorklogs', { worklogs })
     })
   },
 
   methods: {
     _sortTimelineYear (timelines) {
-      const timelineList = []
-      Object.keys(timelines).forEach(year => timelineList.unshift(timelines[year]))
-      return timelineList
+      const sortedTimelines = []
+      Object.keys(timelines).forEach(year => sortedTimelines.unshift(timelines[year]))
+      return sortedTimelines
     },
 
-    toggleTimelineMonth (timeline, index) {
+    handleToggleTimelineMonth (timeline, index) {
       if (index > timeline.activeIndex) {
         timeline.enterActiveClass = FADE_IN_RIGHT
         timeline.leaveActiveClass = FADE_OUT_LEFT
@@ -87,28 +110,13 @@ export default {
     }
   }
 }
-
-function addTimelineInfo (vm, list) {
-  list.forEach(worklog => {
-    if (vm.timelines[worklog.year]) {
-      vm.$store.state.inMobile ? vm.timelines[worklog.year].worklog.push(worklog) : vm.timelines[worklog.year].worklog.unshift(worklog)
-    } else {
-      vm.$set(vm.timelines, worklog.year, {
-        activeIndex: 0,
-        enterActiveClass: FADE_IN_RIGHT,
-        leaveActiveClass: FADE_OUT_LEFT,
-        color: worklog.color,
-        year: worklog.year,
-        worklog: [worklog]
-      })
-    }
-  })
-}
 </script>
 
 
 <style scoped>
-.worklogs {
+#worklogs {
+  display: flex;
+  flex-direction: column-reverse;
   padding: 2em;
   list-style: none;
   background-color: rgba(255, 255, 255, 0.8);
@@ -156,11 +164,6 @@ function addTimelineInfo (vm, list) {
   cursor: pointer;
 }
 
-.timeline-month--mobile {
-  position: relative;
-  margin-left: 0;
-}
-
 .timeline-month::after {
   content: "";
   display: none;
@@ -179,21 +182,6 @@ function addTimelineInfo (vm, list) {
 .timeline-month-link {
   display: block;
   text-decoration: none;
-}
-
-.timeline-month-link--mobile {
-  position: absolute;
-  top: 50%;
-  width: 1.5em;
-  height: 1.5em;
-  border: 1px solid currentColor;
-  margin-top: -0.75em;
-  margin-left: 0.75em;
-  line-height: 1.5;
-  border-radius: 50%;
-  text-align: center;
-  text-decoration: none;
-  background-color: #fff;
 }
 
 .timeline-article {
@@ -218,33 +206,5 @@ function addTimelineInfo (vm, list) {
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
   color: #404040;
-}
-
-.timeline-quote--mobile {
-  position: relative;
-  padding: 0 1em;
-  border-bottom: 1px dashed #bfbfbf;
-  margin-right: 0;
-  margin-left: 3.5em;
-  font-size: 12px;
-  color: #404040;
-  opacity: 0.6;
-}
-
-.timeline-quote--mobile::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 35%;
-  border-left: 1px dashed #bfbfbf;
-  transform-origin: right bottom;
-  transform: skewX(15deg);
-}
-</style>
-
-<style>
-.page__worklog-timeline .timeline-quote--mobile p {
-  margin-bottom: 0.5em;
 }
 </style>

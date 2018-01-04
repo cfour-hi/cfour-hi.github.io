@@ -14,8 +14,6 @@ export default {
   components: { AppNav },
 
   data () {
-    console.log(this.$router)
-
     return {
       height: 2.5,
       navs: this.$router.options.routes.filter(({ meta }) => meta && meta.nav)

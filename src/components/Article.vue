@@ -17,13 +17,12 @@
 <script>
 import ArticlePlaceholder from './ArticlePlaceholder'
 import { getArticleByNumber } from '../api'
-import { convertBlogArticle } from '../assets/js/app'
 
 const ArticleMeta = () => import('./ArticleMeta')
 
 const findArticleByNumber = function () {
   const num = parseInt(this.$route.params.number, 10)
-  return this.$store.state.blogArticles.find(({ number }) => number === num)
+  return this.$store.state[this.$route.meta.store].find(({ number }) => number === num)
 }
 
 export default {
@@ -41,9 +40,9 @@ export default {
     const article = findArticleByNumber.call(this)
     if (article) return (this.article = article)
 
-    const { $route } = this
-    getArticleByNumber($route.meta.repository, $route.params.number)
-      .then(article => (this.article = convertBlogArticle(article)))
+    const { params, meta } = this.$route
+    getArticleByNumber(meta.repository, params.number)
+      .then(article => (this.article = meta.convert(article)))
   }
 }
 </script>

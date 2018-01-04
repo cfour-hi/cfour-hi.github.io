@@ -5,10 +5,14 @@ if (process.env.NODE_ENV === 'development') {
   Vue.use(Vuex)
 }
 
+export const BLOG_ARTICLES = 'blog-articles'
+export const WORKLOGS = 'worklogs'
+
 export default new Vuex.Store({
   state: {
     progress: 'wait',
-    blogArticles: []
+    [BLOG_ARTICLES]: [],
+    [WORKLOGS]: []
   },
   mutations: {
     setProgress (state, { step }) {
@@ -16,7 +20,11 @@ export default new Vuex.Store({
     },
 
     updateBlogArticles (state, { articles }) {
-      state.blogArticles = articles
+      state[BLOG_ARTICLES] = articles
+    },
+
+    updateWorklogs (state, { worklogs }) {
+      state[WORKLOGS] = worklogs
     }
   }
 })
