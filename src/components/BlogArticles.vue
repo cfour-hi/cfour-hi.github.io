@@ -24,7 +24,7 @@
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
 import { getBlogArticles } from '../api'
-import { convertBlogArticle } from '../app'
+import { convertBlogArticle } from '../assets/js/app'
 
 const ArticleMeta = () => import('./ArticleMeta')
 const paging = { page: 1, size: 5 }
@@ -48,7 +48,7 @@ export default {
   },
 
   created () {
-    // this.handleLoadArticles()
+    this.handleLoadArticles()
   },
 
   methods: {

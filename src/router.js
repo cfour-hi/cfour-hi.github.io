@@ -5,10 +5,9 @@ import { repository } from './config'
 const MainContainer = () => import('./components/MainContainer')
 const BlogArticles = () => import('./components/BlogArticles')
 const Article = () => import('./components/Article')
+const Worklogs = () => import('./components/Worklogs')
 
-if (process.env.NODE_ENV === 'development') {
-  Vue.use(Router)
-}
+if (process.env.NODE_ENV === 'development') Vue.use(Router)
 
 const routes = [
   {
@@ -49,7 +48,13 @@ const routes = [
         name: 'WORKLOG',
         icon: 'fa-internet-explorer'
       }
-    }
+    },
+    children: [
+      {
+        path: '',
+        component: Worklogs
+      }
+    ]
   }
 ]
 

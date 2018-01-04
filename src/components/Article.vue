@@ -17,7 +17,7 @@
 <script>
 import ArticlePlaceholder from './ArticlePlaceholder'
 import { getArticleByNumber } from '../api'
-import { convertBlogArticle } from '../app'
+import { convertBlogArticle } from '../assets/js/app'
 
 const ArticleMeta = () => import('./ArticleMeta')
 

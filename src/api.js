@@ -31,3 +31,8 @@ export const getBlogArticles = function ({ page = 1, size = 5 }) {
 export const getArticleByNumber = function (repo, number) {
   return axios.get(`/repos/${OWNER}/${repo}/issues/${number}`)
 }
+
+export const getWorklogList = function ({ page = 1, size = 24 }) {
+  const params = { page, per_page: size, filter: 'created' }
+  return axios.get(`/repos/${OWNER}/${repository.worklog}/issues`, { params })
+}
