@@ -9,7 +9,7 @@ const BlogArticles = () => import('./components/BlogArticles')
 const Article = () => import('./components/Article')
 const Worklogs = () => import('./components/Worklogs')
 
-if (process.env.NODE_ENV === 'development') Vue.use(Router)
+Vue.use(Router)
 
 const routes = [
   {

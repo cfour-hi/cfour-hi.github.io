@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-if (process.env.NODE_ENV === 'development') Vue.use(Vuex)
+Vue.use(Vuex)
 
 export const BLOG_ARTICLES = 'blog-articles'
 export const WORKLOGS = 'worklogs'
