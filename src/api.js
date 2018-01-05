@@ -3,7 +3,7 @@ import { repository } from './config'
 
 axios.defaults.baseURL = 'https://api.github.com'
 const OWNER = 'monine'
-const ACCESS_TOKEN = '090bbff2743e2df29457' + 'd475ecec43be93c5fd57'
+const ACCESS_TOKEN = '654f89e6030e8356063e' + '98c2782e58ac3ba53c3a'
 
 axios.interceptors.request.use(config => {
   config.url += `${config.url.includes('?') ? '&' : '?'}access_token=${ACCESS_TOKEN}`
