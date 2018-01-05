@@ -1,44 +1,48 @@
 <template>
-  <ul v-if="!!Object.keys(timelines).length" id="worklogs">
-    <li v-for="timeline in timelines" :key="timeline.year">
-      <dl class="timeline-bar" :style="{ color: timeline.color }">
-        <dt class="timeline-year" :style="{ backgroundColor: timeline.color }">{{ timeline.year }}</dt>
-          <dd
-            v-for="({ id, color, number, month }, index) of timeline.worklogs"
-            :key="id"
-            :class="{ active: timeline.activeIndex === index }"
-            :style="[ timeline.activeIndex === index ? { color: color, backgroundColor: color, borderColor: color } : '' ]"
-            class="timeline-month"
-            @mouseover="handleToggleTimelineMonth(timeline, index)">
-            <router-link
-              :to="`${number}`"
-              :style="{ color: timeline.activeIndex === index ? '#fff' : timeline.color }"
-              class="timeline-month-link"
-              append>
-              {{ month }}
-            </router-link>
-          </dd>
-      </dl>
-      <article class="timeline-article">
-        <transition-group
-          :enter-active-class="`animated ${timeline.enterActiveClass}`"
-          :leave-active-class="`animated ${timeline.leaveActiveClass}`"
-          name="fade"
-          mode="out-in">
-          <blockquote
-            v-for="(worklog, index) of timeline.worklogs"
-            v-show="timeline.activeIndex === index"
-            v-html="worklog.summary"
-            :key="worklog.id"
-            class="timeline-quote">
-          </blockquote>
-        </transition-group>
-      </article>
-    </li>
-  </ul>
+  <div id="worklogs">
+    <worklogs-placeholder v-if="!Object.keys(timelines).length"></worklogs-placeholder>
+    <ul v-else class="timelines">
+      <li v-for="timeline in timelines" :key="timeline.year">
+        <dl class="timeline-bar" :style="{ color: timeline.color }">
+          <dt class="timeline-year" :style="{ backgroundColor: timeline.color }">{{ timeline.year }}</dt>
+            <dd
+              v-for="({ id, color, number, month }, index) of timeline.worklogs"
+              :key="id"
+              :class="{ active: timeline.activeIndex === index }"
+              :style="[ timeline.activeIndex === index ? { color: color, backgroundColor: color, borderColor: color } : '' ]"
+              class="timeline-month"
+              @mouseover="handleToggleTimelineMonth(timeline, index)">
+              <router-link
+                :to="`${number}`"
+                :style="{ color: timeline.activeIndex === index ? '#fff' : timeline.color }"
+                class="timeline-month-link"
+                append>
+                {{ month }}
+              </router-link>
+            </dd>
+        </dl>
+        <article class="timeline-article">
+          <transition-group
+            :enter-active-class="`animated ${timeline.enterActiveClass}`"
+            :leave-active-class="`animated ${timeline.leaveActiveClass}`"
+            name="fade"
+            mode="out-in">
+            <blockquote
+              v-for="(worklog, index) of timeline.worklogs"
+              v-show="timeline.activeIndex === index"
+              v-html="worklog.summary"
+              :key="worklog.id"
+              class="timeline-quote">
+            </blockquote>
+          </transition-group>
+        </article>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
+import WorklogsPlaceholder from './WorklogsPlaceholder'
 import { getWorklogs } from '../api'
 import { convertWorklog } from '../assets/js/app'
 
@@ -73,6 +77,8 @@ const addTimelineInfo = function (worklogs) {
 
 export default {
   name: 'worklogs',
+
+  components: { WorklogsPlaceholder },
 
   data () {
     return {
@@ -109,11 +115,16 @@ export default {
 
 <style scoped>
 #worklogs {
+  padding: 2em;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.timelines {
   display: flex;
   flex-direction: column-reverse;
-  padding: 2em;
+  padding: 0;
+  margin: 0;
   list-style: none;
-  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .timeline-bar {

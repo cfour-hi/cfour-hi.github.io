@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from './store'
 import { repository } from './config'
 
 axios.defaults.baseURL = 'https://api.github.com'
