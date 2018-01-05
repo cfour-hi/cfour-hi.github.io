@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { repository } from './config'
 
 axios.defaults.baseURL = 'https://api.github.com'
 const OWNER = 'monine'
@@ -18,16 +17,11 @@ axios.interceptors.response.use(response => {
   return Promise.reject(error)
 })
 
-export const getBlogArticles = function ({ page = 1, size = 5 }) {
+export const getGithubIssuesByRepoName = function (name, page = 1, size = 5) {
   const params = { page, per_page: size, filter: 'created' }
-  return axios.get(`/repos/${OWNER}/${repository.blog}/issues`, { params })
+  return axios.get(`/repos/${OWNER}/${name}/issues`, { params })
 }
 
 export const getArticleByNumber = function (repo, number) {
   return axios.get(`/repos/${OWNER}/${repo}/issues/${number}`)
-}
-
-export const getWorklogs = function ({ page = 1, size = 36 }) {
-  const params = { page, per_page: size, filter: 'created' }
-  return axios.get(`/repos/${OWNER}/${repository.worklog}/issues`, { params })
 }

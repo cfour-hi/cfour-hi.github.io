@@ -2,7 +2,13 @@
   <div id="blog-articles">
     <blog-articles-placeholder v-if="!articles.length"></blog-articles-placeholder>
     <ul v-else class="blog-articles">
-      <router-link  v-for="article of articles" :key="article.id" :to="`/article/${article.number}`" tag="li" class="article-item">
+      <router-link
+        v-for="article of articles"
+        :key="article.id"
+        :to="`${article.number}`"
+        tag="li"
+        class="article-item"
+        append>
         <div class="article-thumb-wrap">
           <img :src="article.banner" alt="" class="article-thumb">
         </div>
@@ -23,7 +29,7 @@
 
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
-import { getBlogArticles } from '../api'
+import { getGithubIssuesByRepoName } from '../api'
 import { convertBlogArticle } from '../assets/js/app'
 
 const ArticleMeta = () => import('./ArticleMeta')
@@ -55,15 +61,16 @@ export default {
     handleLoadArticles () {
       this.isLoading = true
 
-      getBlogArticles(paging).then(articles => {
-        articles.forEach(convertBlogArticle)
+      getGithubIssuesByRepoName(this.$route.meta.repository, paging.page, paging.size)
+        .then(articles => {
+          articles.forEach(convertBlogArticle)
 
-        this.articles = [...this.articles, ...articles]
-        this.isLoading = false
-        paging.page += 1
+          this.articles = [...this.articles, ...articles]
+          this.isLoading = false
+          paging.page += 1
 
-        this.$store.commit('updateBlogArticles', { articles: this.articles })
-      })
+          this.$store.commit('updateBlogArticles', { articles: this.articles })
+        })
     }
   }
 }
@@ -148,7 +155,7 @@ export default {
   line-height: 2.5;
   text-align: center;
   color: #919191;
-  background-color: rgba(255, 255, 255, .8);
+  background-color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
 }
 

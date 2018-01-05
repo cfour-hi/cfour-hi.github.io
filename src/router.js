@@ -8,6 +8,7 @@ const MainContainer = () => import('./components/MainContainer')
 const BlogArticles = () => import('./components/BlogArticles')
 const Article = () => import('./components/Article')
 const Worklogs = () => import('./components/Worklogs')
+const StudyArticles = () => import('./components/StudyArticles')
 
 Vue.use(Router)
 
@@ -30,7 +31,10 @@ const routes = [
       {
         path: '',
         name: BlogArticles.name,
-        component: BlogArticles
+        component: BlogArticles,
+        meta: {
+          repository: repository.blog
+        }
       },
       {
         path: ':number',
@@ -57,7 +61,10 @@ const routes = [
       {
         path: '',
         name: Worklogs.name,
-        component: Worklogs
+        component: Worklogs,
+        meta: {
+          repository: repository.worklog
+        }
       },
       {
         path: ':number',
@@ -67,6 +74,26 @@ const routes = [
           repository: repository.worklog,
           store: WORKLOGS,
           convert: convertWorklog
+        }
+      }
+    ]
+  },
+  {
+    path: '/study',
+    component: MainContainer,
+    meta: {
+      nav: {
+        name: 'STUDY',
+        icon: 'fa-firefox'
+      }
+    },
+    children: [
+      {
+        path: '',
+        name: StudyArticles.name,
+        component: StudyArticles,
+        meta: {
+          repository: repository.study
         }
       }
     ]

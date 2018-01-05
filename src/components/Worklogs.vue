@@ -43,7 +43,7 @@
 
 <script>
 import WorklogsPlaceholder from './WorklogsPlaceholder'
-import { getWorklogs } from '../api'
+import { getGithubIssuesByRepoName } from '../api'
 import { convertWorklog } from '../assets/js/app'
 
 const FADE_IN_LEFT = 'fadeInLeft'
@@ -87,13 +87,14 @@ export default {
   },
 
   created () {
-    getWorklogs(paging).then(worklogs => {
-      worklogs.forEach(convertWorklog)
-      this.timelines = addTimelineInfo(worklogs)
-      this.$store.commit('updateWorklogs', { worklogs })
+    getGithubIssuesByRepoName(this.$route.meta.repository, paging.page, paging.size)
+      .then(worklogs => {
+        worklogs.forEach(convertWorklog)
+        this.timelines = addTimelineInfo(worklogs)
+        this.$store.commit('updateWorklogs', { worklogs })
 
-      paging.page += 1
-    })
+        paging.page += 1
+      })
   },
 
   methods: {

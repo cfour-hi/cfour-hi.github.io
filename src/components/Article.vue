@@ -5,8 +5,10 @@
       <div class="article-border-top" :style="{ 'background-color': '#' + article.labels[0].color }"></div>
       <h2 class="article-title">{{ article.title }}</h2>
       <article-meta :article="article"></article-meta>
-      <i class="fa fa-quote-left fa-3x fa-pull-left fa-border" aria-hidden="true"></i>
-      <blockquote class="article-summary" v-html="article.summary"></blockquote>
+      <template v-if="article.summary">
+        <i class="fa fa-quote-left fa-3x fa-pull-left fa-border" aria-hidden="true"></i>
+        <blockquote class="article-summary" v-html="article.summary"></blockquote>
+      </template>
       <img v-if="article.banner" :src="article.banner" class="article-banner" alt="banner">
       <div v-html="article.body" class="article-body"></div>
     </article>
