@@ -13,10 +13,6 @@ export default {
   props: {
     navs: { required: true, type: Array },
     height: { required: true, type: Number }
-  },
-
-  data () {
-    return {}
   }
 }
 </script>

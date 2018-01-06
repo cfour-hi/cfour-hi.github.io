@@ -15,10 +15,6 @@ export default {
 
   props: {
     article: { required: true, type: Object }
-  },
-
-  data () {
-    return {}
   }
 }
 </script>

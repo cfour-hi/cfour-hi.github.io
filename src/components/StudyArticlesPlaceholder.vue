@@ -19,10 +19,6 @@ import VueContentLoading from 'vue-content-loading'
 export default {
   name: 'study-articles-placeholder',
 
-  components: { VueContentLoading },
-
-  data () {
-    return {}
-  }
+  components: { VueContentLoading }
 }
 </script>

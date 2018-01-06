@@ -21,10 +21,6 @@ export default {
 
   props: {
     size: { type: Number, default: 5 }
-  },
-
-  data () {
-    return {}
   }
 }
 </script>

@@ -15,11 +15,7 @@ import VueContentLoading from 'vue-content-loading'
 export default {
   name: 'worklog-placeholder',
 
-  components: { VueContentLoading },
-
-  data () {
-    return {}
-  }
+  components: { VueContentLoading }
 }
 </script>
 

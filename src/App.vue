@@ -15,11 +15,7 @@ import AppNavContainer from './components/AppNavContainer'
 export default {
   name: 'app',
 
-  components: { AppHeader, AppNavContainer },
-
-  data () {
-    return {}
-  }
+  components: { AppHeader, AppNavContainer }
 }
 </script>
 
