@@ -29,7 +29,7 @@
 
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
-import { getGithubIssuesByRepoName } from '../api'
+import { getArticlesByRepoName } from '../api'
 import { convertBlogArticle } from '../assets/js/app'
 
 const ArticleMeta = () => import('./ArticleMeta')
@@ -61,7 +61,8 @@ export default {
     handleLoadArticles () {
       this.isLoading = true
 
-      getGithubIssuesByRepoName(this.$route.meta.repository, paging.page, paging.size)
+      const { key: repoKey, name: repoName } = this.$route.meta.repository
+      getArticlesByRepoName(repoName, paging.page, paging.size)
         .then(articles => {
           articles.forEach(convertBlogArticle)
 
@@ -69,7 +70,7 @@ export default {
           this.isLoading = false
           paging.page += 1
 
-          this.$store.commit('updateBlogArticles', { articles: this.articles })
+          this.$store.commit('updateSpecifyArticles', { key: repoKey, articles: this.articles })
         })
     }
   }

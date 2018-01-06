@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { repository } from './config'
-import { BLOG_ARTICLES, WORKLOGS, STUDY } from './store'
+import { articleRepos } from './config'
 import { convertBlogArticle, convertWorklog, convertStudyArticle } from './assets/js/app'
 
 const MainContainer = () => import('./components/MainContainer')
 const BlogArticles = () => import('./components/BlogArticles')
-const Article = () => import('./components/Article')
-const Worklogs = () => import('./components/Worklogs')
+const WorklogArticles = () => import('./components/WorklogArticles')
 const StudyArticles = () => import('./components/StudyArticles')
+const Article = () => import('./components/Article')
 
 Vue.use(Router)
 
@@ -33,16 +32,15 @@ const routes = [
         name: BlogArticles.name,
         component: BlogArticles,
         meta: {
-          repository: repository.blog
+          repository: articleRepos[0]
         }
       },
       {
         path: ':number',
-        name: `blog-${Article.name}`,
+        name: `${articleRepos[0].key}-${Article.name}`,
         component: Article,
         meta: {
-          repository: repository.blog,
-          store: BLOG_ARTICLES,
+          repository: articleRepos[0],
           convert: convertBlogArticle
         }
       }
@@ -60,19 +58,18 @@ const routes = [
     children: [
       {
         path: '',
-        name: Worklogs.name,
-        component: Worklogs,
+        name: WorklogArticles.name,
+        component: WorklogArticles,
         meta: {
-          repository: repository.worklog
+          repository: articleRepos[1]
         }
       },
       {
         path: ':number',
-        name: `worklog-${Article.name}`,
+        name: `${articleRepos[1].key}-${Article.name}`,
         component: Article,
         meta: {
-          repository: repository.worklog,
-          store: WORKLOGS,
+          repository: articleRepos[1],
           convert: convertWorklog
         }
       }
@@ -93,16 +90,15 @@ const routes = [
         name: StudyArticles.name,
         component: StudyArticles,
         meta: {
-          repository: repository.study
+          repository: articleRepos[2]
         }
       },
       {
         path: ':number',
-        name: `study-${Article.name}`,
+        name: `${articleRepos[2].key}-${Article.name}`,
         component: Article,
         meta: {
-          repository: repository.study,
-          store: STUDY,
+          repository: articleRepos[2],
           convert: convertStudyArticle
         }
       }

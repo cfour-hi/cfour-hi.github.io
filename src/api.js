@@ -17,7 +17,7 @@ axios.interceptors.response.use(response => {
   return Promise.reject(error)
 })
 
-export const getGithubIssuesByRepoName = function (name, page = 1, size = 5) {
+export const getArticlesByRepoName = function (name, page = 1, size = 5) {
   const params = { page, per_page: size, filter: 'created' }
   return axios.get(`/repos/${OWNER}/${name}/issues`, { params })
 }

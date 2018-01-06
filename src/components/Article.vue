@@ -27,7 +27,7 @@ const ArticleMeta = () => import('./ArticleMeta')
 
 const findArticleByNumber = function () {
   const num = parseInt(this.$route.params.number, 10)
-  return this.$store.state[this.$route.meta.store].find(({ number }) => number === num)
+  return this.$store.state.articles[this.$route.meta.repository.key].find(({ number }) => number === num)
 }
 
 export default {

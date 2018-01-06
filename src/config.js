@@ -1,15 +1,15 @@
 import BlogArticles from './components/BlogArticles'
-import Worklogs from './components/Worklogs'
+import WorklogArticles from './components/WorklogArticles'
 import StudyArticles from './components/StudyArticles'
 
 export const keepAliveComps = [
   BlogArticles.name,
-  Worklogs.name,
+  WorklogArticles.name,
   StudyArticles.name
 ]
 
-export const repository = {
-  blog: 'monine.github.io',
-  worklog: 'worklog',
-  study: 'study'
-}
+export const articleRepos = [
+  { key: 'blog', name: 'monine.github.io' },
+  { key: 'worklog', name: 'worklog' },
+  { key: 'study', name: 'study' }
+]

@@ -43,7 +43,7 @@
 
 <script>
 import WorklogsPlaceholder from './WorklogsPlaceholder'
-import { getGithubIssuesByRepoName } from '../api'
+import { getArticlesByRepoName } from '../api'
 import { convertWorklog } from '../assets/js/app'
 
 const FADE_IN_LEFT = 'fadeInLeft'
@@ -52,7 +52,7 @@ const FADE_OUT_LEFT = 'fadeOutLeft'
 const FADE_OUT_RIGHT = 'fadeOutRight'
 const paging = { page: 1, size: 36 }
 
-const addTimelineInfo = function (worklogs) {
+const convertTimeline = function (worklogs) {
   const timelines = {}
 
   worklogs.forEach(worklog => {
@@ -76,7 +76,7 @@ const addTimelineInfo = function (worklogs) {
 }
 
 export default {
-  name: 'worklogs',
+  name: 'worklog-articles',
 
   components: { WorklogsPlaceholder },
 
@@ -87,13 +87,15 @@ export default {
   },
 
   created () {
-    getGithubIssuesByRepoName(this.$route.meta.repository, paging.page, paging.size)
-      .then(worklogs => {
-        worklogs.forEach(convertWorklog)
-        this.timelines = addTimelineInfo(worklogs)
-        this.$store.commit('updateWorklogs', { worklogs })
+    const { key: repoKey, name: repoName } = this.$route.meta.repository
+    getArticlesByRepoName(repoName, paging.page, paging.size)
+      .then(articles => {
+        articles.forEach(convertWorklog)
 
+        this.timelines = convertTimeline(articles)
         paging.page += 1
+
+        this.$store.commit('updateSpecifyArticles', { articles, key: repoKey })
       })
   },
 
