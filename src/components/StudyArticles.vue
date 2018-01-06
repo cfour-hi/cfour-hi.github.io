@@ -1,28 +1,35 @@
 <template>
-  <ul id="study-articles">
-    <router-link
-      v-for="(article, index) of articles"
-      :key="article.id"
-      :to="`${article.number}`"
-      tag="li"
-      class="article-item"
-      @mouseenter.native="activeIndex = index"
-      append>
-      <transition name="fade" enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
-        <i v-show="index === activeIndex" class="fa fa-hand-o-right" aria-hidden="true"></i>
-      </transition>
-      {{ article.title }}
-    </router-link>
-  </ul>
+  <div>
+    <study-articles-placeholder v-if="!articles.length"></study-articles-placeholder>
+    <ul v-else class="articles">
+      <router-link
+        v-for="(article, index) of articles"
+        :key="article.id"
+        :to="`${article.number}`"
+        tag="li"
+        class="article-item"
+        @mouseenter.native="activeIndex = index"
+        append>
+        <transition name="fade" enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
+          <i v-show="index === activeIndex" class="fa fa-hand-o-right" aria-hidden="true"></i>
+        </transition>
+        {{ article.title }}
+      </router-link>
+    </ul>
+  </div>
 </template>
 
 <script>
+import StudyArticlesPlaceholder from './StudyArticlesPlaceholder'
 import { getGithubIssuesByRepoName } from '../api'
+import { convertStudyArticle } from '../assets/js/app'
 
 const paging = { page: 1, size: 99 }
 
 export default {
   name: 'stydy-articles',
+
+  components: { StudyArticlesPlaceholder },
 
   data () {
     return {
@@ -34,14 +41,17 @@ export default {
   created () {
     getGithubIssuesByRepoName(this.$route.meta.repository, paging.page, paging.size)
       .then(articles => {
+        articles.forEach(convertStudyArticle)
+
         this.articles = articles
+        this.$store.commit('updateStudyArticles', { articles })
       })
   }
 }
 </script>
 
 <style scoped>
-#study-articles {
+.articles {
   padding-left: 0;
   list-style: none;
 }

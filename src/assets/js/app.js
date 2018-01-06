@@ -17,16 +17,25 @@ export const convertBlogArticle = function (article) {
   })
 }
 
-export const convertWorklog = function (worklog) {
-  const color = `#${worklog.labels[0].color}`
-  const sections = marked(worklog.body).split(/<!--\s*summary\s*-->/g)
+export const convertWorklog = function (article) {
+  const color = `#${article.labels[0].color}`
+  const sections = marked(article.body).split(/<!--\s*summary\s*-->/g)
 
-  return Object.assign(worklog, {
+  return Object.assign(article, {
     color,
-    createdAt: worklog.created_at.split('T')[0],
-    year: worklog.labels[0].name,
-    month: parseInt(worklog.title, 10),
+    createdAt: article.created_at.split('T')[0],
+    year: article.labels[0].name,
+    month: parseInt(article.title, 10),
     summary: sections[1],
     body: sections[2]
+  })
+}
+
+export const convertStudyArticle = function (article) {
+  const body = marked(article.body)
+
+  return Object.assign(article, {
+    body,
+    createdAt: article.created_at.split('T')[0]
   })
 }

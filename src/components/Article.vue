@@ -2,7 +2,10 @@
   <div id="article">
     <article-placeholder v-if="!article.id"></article-placeholder>
     <article v-else class="article-container">
-      <div class="article-border-top" :style="{ 'background-color': '#' + article.labels[0].color }"></div>
+      <div
+      :style="{ backgroundColor: article.labels[0] ? `#${article.labels[0].color}` : '#00a0e9' }"
+      class="article-border-top">
+      </div>
       <h2 class="article-title">{{ article.title }}</h2>
       <article-meta :article="article"></article-meta>
       <template v-if="article.summary">
@@ -88,6 +91,8 @@ export default {
 }
 
 #article .article-container img {
+  display: block;
+  margin: 0 auto;
   border-radius: 5px;
 }
 

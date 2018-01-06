@@ -5,11 +5,13 @@ Vue.use(Vuex)
 
 export const BLOG_ARTICLES = 'blog-articles'
 export const WORKLOGS = 'worklogs'
+export const STUDY = 'study'
 
 export default new Vuex.Store({
   state: {
     [BLOG_ARTICLES]: [],
-    [WORKLOGS]: []
+    [WORKLOGS]: [],
+    [STUDY]: []
   },
   mutations: {
     updateBlogArticles (state, { articles }) {
@@ -18,6 +20,10 @@ export default new Vuex.Store({
 
     updateWorklogs (state, { worklogs }) {
       state[WORKLOGS] = worklogs
+    },
+
+    updateStudyArticles (state, { articles }) {
+      state[STUDY] = articles
     }
   }
 })

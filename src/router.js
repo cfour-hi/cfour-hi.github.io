@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { repository } from './config'
-import { BLOG_ARTICLES, WORKLOGS } from './store'
-import { convertBlogArticle, convertWorklog } from './assets/js/app'
+import { BLOG_ARTICLES, WORKLOGS, STUDY } from './store'
+import { convertBlogArticle, convertWorklog, convertStudyArticle } from './assets/js/app'
 
 const MainContainer = () => import('./components/MainContainer')
 const BlogArticles = () => import('./components/BlogArticles')
@@ -94,6 +94,16 @@ const routes = [
         component: StudyArticles,
         meta: {
           repository: repository.study
+        }
+      },
+      {
+        path: ':number',
+        name: `study-${Article.name}`,
+        component: Article,
+        meta: {
+          repository: repository.study,
+          store: STUDY,
+          convert: convertStudyArticle
         }
       }
     ]
