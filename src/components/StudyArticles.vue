@@ -22,7 +22,6 @@
 <script>
 import StudyArticlesPlaceholder from './StudyArticlesPlaceholder'
 import { getArticlesByRepoName } from '../api'
-import { convertStudyArticle } from '../assets/js/app'
 
 const paging = { page: 1, size: 99 }
 
@@ -39,10 +38,10 @@ export default {
   },
 
   created () {
-    const { key: repoKey, name: repoName } = this.$route.meta.repository
+    const { resolveArticle, key: repoKey, name: repoName } = this.$route.meta.repository
     getArticlesByRepoName(repoName, paging.page, paging.size)
       .then(articles => {
-        articles.forEach(convertStudyArticle)
+        articles.forEach(resolveArticle)
 
         this.articles = articles
         this.$store.commit('updateSpecifyArticles', { articles, key: repoKey })

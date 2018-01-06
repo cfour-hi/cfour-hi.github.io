@@ -1,6 +1,7 @@
 import BlogArticles from './components/BlogArticles'
 import WorklogArticles from './components/WorklogArticles'
 import StudyArticles from './components/StudyArticles'
+import { convertBlogArticle, convertWorklogArticle, convertStudyArticle } from './util'
 
 export const keepAliveComps = [
   BlogArticles.name,
@@ -9,7 +10,7 @@ export const keepAliveComps = [
 ]
 
 export const articleRepos = [
-  { key: 'blog', name: 'monine.github.io' },
-  { key: 'worklog', name: 'worklog' },
-  { key: 'study', name: 'study' }
+  { key: 'blog', name: 'monine.github.io', resolveArticle: convertBlogArticle },
+  { key: 'worklog', name: 'worklog', resolveArticle: convertWorklogArticle },
+  { key: 'study', name: 'study', resolveArticle: convertStudyArticle }
 ]

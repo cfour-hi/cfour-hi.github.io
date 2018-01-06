@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { articleRepos } from './config'
-import { convertBlogArticle, convertWorklog, convertStudyArticle } from './assets/js/app'
 
 const MainContainer = () => import('./components/MainContainer')
 const BlogArticles = () => import('./components/BlogArticles')
@@ -40,8 +39,7 @@ const routes = [
         name: `${articleRepos[0].key}-${Article.name}`,
         component: Article,
         meta: {
-          repository: articleRepos[0],
-          convert: convertBlogArticle
+          repository: articleRepos[0]
         }
       }
     ]
@@ -69,8 +67,7 @@ const routes = [
         name: `${articleRepos[1].key}-${Article.name}`,
         component: Article,
         meta: {
-          repository: articleRepos[1],
-          convert: convertWorklog
+          repository: articleRepos[1]
         }
       }
     ]
@@ -98,8 +95,7 @@ const routes = [
         name: `${articleRepos[2].key}-${Article.name}`,
         component: Article,
         meta: {
-          repository: articleRepos[2],
-          convert: convertStudyArticle
+          repository: articleRepos[2]
         }
       }
     ]

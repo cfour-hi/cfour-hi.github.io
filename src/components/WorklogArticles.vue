@@ -44,7 +44,6 @@
 <script>
 import WorklogsPlaceholder from './WorklogsPlaceholder'
 import { getArticlesByRepoName } from '../api'
-import { convertWorklog } from '../assets/js/app'
 
 const FADE_IN_LEFT = 'fadeInLeft'
 const FADE_IN_RIGHT = 'fadeInRight'
@@ -87,10 +86,10 @@ export default {
   },
 
   created () {
-    const { key: repoKey, name: repoName } = this.$route.meta.repository
+    const { resolveArticle, key: repoKey, name: repoName } = this.$route.meta.repository
     getArticlesByRepoName(repoName, paging.page, paging.size)
       .then(articles => {
-        articles.forEach(convertWorklog)
+        articles.forEach(resolveArticle)
 
         this.timelines = convertTimeline(articles)
         paging.page += 1

@@ -27,7 +27,8 @@ const ArticleMeta = () => import('./ArticleMeta')
 
 const findArticleByNumber = function () {
   const num = parseInt(this.$route.params.number, 10)
-  return this.$store.state.articles[this.$route.meta.repository.key].find(({ number }) => number === num)
+  return this.$store.state.articles[this.$route.meta.repository.key]
+    .find(({ number }) => number === num)
 }
 
 export default {
@@ -46,8 +47,9 @@ export default {
     if (article) return (this.article = article)
 
     const { params, meta } = this.$route
-    getArticleByNumber(meta.repository, params.number)
-      .then(article => (this.article = meta.convert(article)))
+    const { name, resolveArticle } = meta.repository
+    getArticleByNumber(name, params.number)
+      .then(article => (this.article = resolveArticle(article)))
   }
 }
 </script>
@@ -57,12 +59,12 @@ export default {
   padding: 2em;
   font-size: 14px;
   color: #404040;
-  background-color: rgba(255, 255, 255, .8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .article-border-top {
   height: 3px;
-  opacity: .3;
+  opacity: 0.3;
   margin: -2em -2em 0;
 }
 
@@ -98,14 +100,14 @@ export default {
 
 #article .article-body h3 {
   position: relative;
-   padding-left: 1em;
+  padding-left: 1em;
   line-height: 3;
 }
 
- #article .article-body h3::before {
-  content: '';
+#article .article-body h3::before {
+  content: "";
   position: absolute;
-  top: .8em;
+  top: 0.8em;
   left: 0;
   width: 5px;
   height: 1.4em;

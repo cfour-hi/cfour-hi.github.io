@@ -28,7 +28,7 @@ export default {
 
 
 <style>
-@import "./assets/css/base.css";
-@import "./assets/css/app.css";
-@import './assets/css/vs2015.css';
+@import "./base.css";
+@import "./app.css";
+@import './vs2015.css';
 </style>

@@ -17,7 +17,7 @@ export const convertBlogArticle = function (article) {
   })
 }
 
-export const convertWorklog = function (article) {
+export const convertWorklogArticle = function (article) {
   const color = `#${article.labels[0].color}`
   const sections = marked(article.body).split(/<!--\s*summary\s*-->/g)
 

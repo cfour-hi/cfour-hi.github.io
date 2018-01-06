@@ -30,7 +30,6 @@
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
 import { getArticlesByRepoName } from '../api'
-import { convertBlogArticle } from '../assets/js/app'
 
 const ArticleMeta = () => import('./ArticleMeta')
 const paging = { page: 1, size: 5 }
@@ -61,10 +60,10 @@ export default {
     handleLoadArticles () {
       this.isLoading = true
 
-      const { key: repoKey, name: repoName } = this.$route.meta.repository
+      const { resolveArticle, key: repoKey, name: repoName } = this.$route.meta.repository
       getArticlesByRepoName(repoName, paging.page, paging.size)
         .then(articles => {
-          articles.forEach(convertBlogArticle)
+          articles.forEach(resolveArticle)
 
           this.articles = [...this.articles, ...articles]
           this.isLoading = false
