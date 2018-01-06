@@ -39,3 +39,10 @@ export const convertStudyArticle = function (article) {
     createdAt: article.created_at.split('T')[0]
   })
 }
+
+export const convertComment = function (comment) {
+  return Object.assign(comment, {
+    createdAt: comment.created_at.replace(/T|Z/g, ' '),
+    body: marked(comment.body)
+  })
+}

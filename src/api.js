@@ -25,3 +25,8 @@ export const getArticlesByRepoName = function (name, page = 1, size = 5) {
 export const getArticleByNumber = function (repo, number) {
   return axios.get(`/repos/${OWNER}/${repo}/issues/${number}`)
 }
+
+export const getArticleComments = function (url, page = 1, size = 30) {
+  const params = { page, per_page: size }
+  return axios.get(url, { params })
+}

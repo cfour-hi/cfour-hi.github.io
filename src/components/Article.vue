@@ -15,12 +15,13 @@
       <img v-if="article.banner" :src="article.banner" class="article-banner" alt="banner">
       <div v-html="article.body" class="article-body"></div>
     </article>
-    <!-- <article-comment v-show="article.commentNum" :comment-url="article.commentUrl"></article-comment> -->
+    <article-comment :article="article"></article-comment>
   </div>
 </template>
 
 <script>
 import ArticlePlaceholder from './ArticlePlaceholder'
+import ArticleComment from './ArticleComment'
 import { getArticleByNumber } from '../api'
 
 const ArticleMeta = () => import('./ArticleMeta')
@@ -34,7 +35,7 @@ const findArticleByNumber = function () {
 export default {
   name: 'article',
 
-  components: { ArticlePlaceholder, ArticleMeta },
+  components: { ArticlePlaceholder, ArticleMeta, ArticleComment },
 
   data () {
     return {
@@ -50,6 +51,10 @@ export default {
     const { name, resolveArticle } = meta.repository
     getArticleByNumber(name, params.number)
       .then(article => (this.article = resolveArticle(article)))
+  },
+
+  mounted () {
+    document.scrollingElement.scrollTop = 0
   }
 }
 </script>

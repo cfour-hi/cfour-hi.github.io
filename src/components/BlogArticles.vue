@@ -56,6 +56,10 @@ export default {
     this.handleLoadArticles()
   },
 
+  beforeDestroyed () {
+    paging.page = 1
+  },
+
   methods: {
     handleLoadArticles () {
       this.isLoading = true
