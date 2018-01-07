@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!!article.comments">
-    <dl v-if="comments.length" class="comments">
+  <div>
+    <dl v-if="!!comments.length" class="comments">
       <dd v-for="comment of comments" :key="comment.id" class="comment-item">
         <a :href="comment.user.html_url" target="_blank" class="commenter-avatar-link">
           <img :src="comment.user.avatar_url" alt="avatar" class="commenter-avatar">
@@ -14,27 +14,26 @@
         <article v-html="comment.body" class="comment-body"></article>
       </dd>
     </dl>
+    <load-more
+      :visible="!!comments.length && hasMoreComment"
+      :loading="isLoading"
+      @load="handleLoadComments">
+    </load-more>
+    <div v-show="!!comments.length && !hasMoreComment" class="baseline" data-text="没有更多评论"></div>
   </div>
 </template>
 
 <script>
+import LoadMore from './LoadMore'
 import { getArticleComments } from '../api'
 import { convertComment } from '../util'
 
 const paging = { page: 1, size: 30 }
 
-const loadCommentsByPage = function () {
-  const { id, comments_url } = this.article
-  getArticleComments(comments_url, paging.page, paging.size)
-    .then(comments => {
-      this.comments = [...this.comments, ...comments.map(convertComment)]
-      paging.page += 1
-      this.$store.commit('updateCommentsByID', { id, comments: this.comments })
-    })
-}
-
 export default {
   name: 'article-comment',
+
+  components: { LoadMore },
 
   props: {
     article: { requires: true, type: Object }
@@ -42,13 +41,18 @@ export default {
 
   data () {
     return {
-      comments: []
+      comments: [],
+      isLoading: false
     }
   },
 
   computed: {
     storeComments () {
       return this.$store.state.comments
+    },
+
+    hasMoreComment () {
+      return this.comments % paging.size === 0
     }
   },
 
@@ -56,11 +60,26 @@ export default {
     const comments = this.storeComments[this.article.id]
     if (comments) return (this.comments = comments)
 
-    loadCommentsByPage.call(this)
+    this.handleLoadComments()
   },
 
   beforeDestroy () {
     paging.page = 1
+  },
+
+  methods: {
+    handleLoadComments () {
+      this.isLoading = true
+
+      const { id, comments_url } = this.article
+      getArticleComments(comments_url, paging.page, paging.size)
+        .then(comments => {
+          this.comments = [...this.comments, ...comments.map(convertComment)]
+          this.isLoading = false
+          paging.page += 1
+          this.$store.commit('updateCommentsByID', { id, comments: this.comments })
+        })
+    }
   }
 }
 </script>

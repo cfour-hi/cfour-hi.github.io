@@ -19,16 +19,18 @@
         </div>
       </router-link>
     </ul>
-    <div v-show="!!articles.length && hasMoreArticle" class="load-more-article" @click="handleLoadArticles">
-      <i v-show="isLoading" class="fa fa-spinner fa-spin fa-fw"></i>
-      <span v-show="!isLoading">加载更多</span>
-    </div>
+    <load-more
+      :visible="!!articles.length && hasMoreArticle"
+      :loading="isLoading"
+      @load="handleLoadArticles">
+    </load-more>
     <div v-show="!!articles.length && !hasMoreArticle" class="baseline" data-text="没有更多文章"></div>
   </div>
 </template>
 
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
+import LoadMore from './LoadMore'
 import { getArticlesByRepoName } from '../api'
 
 const ArticleMeta = () => import('./ArticleMeta')
@@ -37,7 +39,7 @@ const paging = { page: 1, size: 5 }
 export default {
   name: 'blog-articles',
 
-  components: { BlogArticlesPlaceholder, ArticleMeta },
+  components: { BlogArticlesPlaceholder, ArticleMeta, LoadMore },
 
   data () {
     return {
@@ -151,21 +153,6 @@ export default {
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-}
-
-.load-more-article {
-  margin-bottom: 1em;
-  font-size: 14px;
-  line-height: 2.5;
-  text-align: center;
-  color: #919191;
-  background-color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-}
-
-.load-more-article:hover {
-  color: #5a5a5a;
-  background-color: #e9e9e9;
 }
 </style>
 

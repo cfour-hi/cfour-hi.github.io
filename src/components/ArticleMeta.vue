@@ -4,8 +4,8 @@
     <span>{{ article.createdAt }}</span>
     <i class="fa fa-commenting" aria-hidden="true"></i>
     <span>{{ article.comments }}</span>
-    <i class="fa fa-tag" aria-hidden="true"></i>
-    <span v-for="label in article.labels" :key="label.id" :style="{ color: `#${label.color}`}">{{ label.name }}</span>
+    <i v-show="!!article.labels.length" class="fa fa-tag" aria-hidden="true"></i>
+    <span v-for="label of article.labels" :key="label.id" :style="{ color: `#${label.color}`}">{{ label.name }}</span>
   </div>
 </template>
 

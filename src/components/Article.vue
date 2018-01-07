@@ -15,7 +15,7 @@
       <img v-if="article.banner" :src="article.banner" class="article-banner" alt="banner">
       <div v-html="article.body" class="article-body"></div>
     </article>
-    <article-comment :article="article"></article-comment>
+    <article-comment v-if="!!article.comments" :article="article"></article-comment>
   </div>
 </template>
 
