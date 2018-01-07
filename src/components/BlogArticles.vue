@@ -10,7 +10,7 @@
         class="article-item"
         append>
         <div class="article-thumb-wrap">
-          <img :src="article.banner" alt="" class="article-thumb">
+          <img :src="article.thumb" alt="" class="article-thumb">
         </div>
         <div class="article-body">
           <h2 class="article-title">{{ article.title }}</h2>
@@ -34,7 +34,7 @@ import LoadMore from './LoadMore'
 import { getArticlesByRepoName } from '../api'
 
 const ArticleMeta = () => import('./ArticleMeta')
-const paging = { page: 1, size: 5 }
+const paging = { page: 1, size: 9 }
 
 export default {
   name: 'blog-articles',
@@ -44,13 +44,8 @@ export default {
   data () {
     return {
       articles: [],
-      isLoading: false
-    }
-  },
-
-  computed: {
-    hasMoreArticle () {
-      return this.articles.length % paging.size === 0
+      isLoading: false,
+      hasMoreArticle: false
     }
   },
 
@@ -69,13 +64,16 @@ export default {
       const { resolveArticle, key: repoKey, name: repoName } = this.$route.meta.repository
       getArticlesByRepoName(repoName, paging.page, paging.size)
         .then(articles => {
-          articles.forEach(resolveArticle)
-
-          this.articles = [...this.articles, ...articles]
           this.isLoading = false
-          paging.page += 1
 
+          const articlesLenth = articles.length
+          this.hasMoreArticle = !!articlesLenth && articlesLenth % paging.size === 0
+          if (!articlesLenth) return
+
+          this.articles = [...this.articles, ...articles.map(resolveArticle)]
           this.$store.commit('updateSpecifyArticles', { key: repoKey, articles: this.articles })
+
+          paging.page += 1
         })
     }
   }

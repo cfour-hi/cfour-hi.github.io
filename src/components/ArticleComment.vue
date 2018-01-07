@@ -42,17 +42,14 @@ export default {
   data () {
     return {
       comments: [],
-      isLoading: false
+      isLoading: false,
+      hasMoreComment: false
     }
   },
 
   computed: {
     storeComments () {
       return this.$store.state.comments
-    },
-
-    hasMoreComment () {
-      return this.comments % paging.size === 0
     }
   },
 
@@ -74,10 +71,16 @@ export default {
       const { id, comments_url } = this.article
       getArticleComments(comments_url, paging.page, paging.size)
         .then(comments => {
-          this.comments = [...this.comments, ...comments.map(convertComment)]
           this.isLoading = false
-          paging.page += 1
+
+          const commentsLength = comments.length
+          this.hasMoreComment = !!commentsLength && commentsLength % paging.size === 0
+          if (!commentsLength) return
+
+          this.comments = [...this.comments, ...comments.map(convertComment)]
           this.$store.commit('updateCommentsByID', { id, comments: this.comments })
+
+          paging.page += 1
         })
     }
   }
@@ -131,6 +134,10 @@ export default {
 
 .commenter-name-link {
   text-decoration: none;
+}
+
+.comment-created {
+  color: #919191;
 }
 
 .comment-body {
