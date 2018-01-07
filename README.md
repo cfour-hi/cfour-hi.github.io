@@ -1,8 +1,8 @@
 # monine.github.io
 
-> 记录我的前端生涯
+> 我的博客
 
-## 文章
+## 选文
 
 - [基于 webpack 的前端多页工程](https://monine.github.io/#/article/21)
 
@@ -14,8 +14,6 @@
 
 - [抛物线动画（仿饿了么APP添加到购物车动画）](https://monine.github.io/#/article/15)
 
+- [我的 2016](https://github.com/Monine/monine.github.io/issues/12)
+
 - [HTML5 跨域通信 API - window.postMessage()](https://monine.github.io/#/article/2)
-
-## [工作](https://monine.github.io/#/worklog)
-
-> 一份流水账
