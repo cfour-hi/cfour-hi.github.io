@@ -4,6 +4,10 @@
 
 ## 选文
 
+- [从简单的例子看 webpack 模块加载机制及思考原理](https://monine.github.io/#/article/25)
+
+- [webpack 源码探索之插件机制](https://monine.github.io/#/article/24)
+
 - [基于 webpack 的前端多页工程](https://monine.github.io/#/article/21)
 
 - [Vue SPA 工程三大优化](https://monine.github.io/#/article/20)
