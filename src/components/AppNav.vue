@@ -1,8 +1,8 @@
 <template>
   <nav id="app-nav" :style="{ lineHeight: height }">
-    <router-link v-for="{ path, meta } of navs" :key="path" :to="path" class="nav-item">
-      <i class="fa fa-fw" :class="meta.nav.icon"></i>
-      {{ meta.nav.name }}
+    <router-link v-for="nav of navs" :key="nav.key" :to="`/${nav.name}`" class="nav-item">
+      <i class="fa fa-fw" :class="nav.icon"></i>
+      {{ nav.name }}
     </router-link>
   </nav>
 </template>

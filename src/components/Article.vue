@@ -26,12 +26,6 @@ import { getArticleByNumber } from '@/api'
 
 const ArticleMeta = () => import('./ArticleMeta')
 
-const findArticleByNumber = function () {
-  const num = parseInt(this.$route.params.number, 10)
-  return this.$store.state.articles[this.$route.meta.name]
-    .find(({ number }) => number === num)
-}
-
 export default {
   name: 'article',
   components: { ArticlePlaceholder, ArticleMeta, ArticleComment },
@@ -43,12 +37,15 @@ export default {
   mounted () {
     document.scrollingElement.scrollTop = 0
 
-    const article = findArticleByNumber.call(this)
+    const { params, meta } = this.$route
+    const num = parseInt(params.number, 10)
+    const article = this.$store.state.articles[meta.nav.key]
+      .find(({ number }) => number === num)
+
     if (article) return (this.article = article)
 
-    const { params, meta } = this.$route
-    const { name, resolveArticle } = meta.repository
-    getArticleByNumber(name, params.number)
+    const { rrepo, resolveArticle } = meta.nav
+    getArticleByNumber(rrepo, num)
       .then(article => (this.article = resolveArticle(article)))
   },
 }

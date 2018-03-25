@@ -9,7 +9,8 @@
         tag="li"
         class="article-item"
         @mouseenter.native="activeIndex = index"
-        append>
+        append
+      >
         <transition name="fade" enter-active-class="animated fadeInLeft" leave-active-class="animated fadeOutLeft">
           <i v-show="index === activeIndex" class="fa fa-hand-o-right" aria-hidden="true"></i>
         </transition>
@@ -21,7 +22,6 @@
 
 <script>
 import StudyArticlesPlaceholder from './StudyArticlesPlaceholder'
-import { getArticlesByRepoName } from '../api'
 
 const paging = { page: 1, size: 99 }
 
@@ -30,19 +30,16 @@ export default {
   components: { StudyArticlesPlaceholder },
   data () {
     return {
-      articles: [],
       activeIndex: -1,
     }
   },
-  created () {
-    const { name: articleType, repository } = this.$route.meta
-    getArticlesByRepoName(repository.name, paging.page, paging.size)
-      .then(articles => {
-        articles.forEach(repository.resolveArticle)
-
-        this.articles = articles
-        this.$store.commit('updateSpecifyArticles', { articles, key: articleType })
-      })
+  computed: {
+    articles () {
+      return this.$store.state.articles[this.$route.meta.nav.key]
+    },
+  },
+  mounted () {
+    this.$store.dispatch('loadArticles', { paging, nav: this.$route.meta.nav })
   },
 }
 </script>

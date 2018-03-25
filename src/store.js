@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { navsRepo } from './config'
+import { navsRepo } from '@/config'
+import { getArticlesByRepoName } from '@/api'
 
 Vue.use(Vuex)
 
@@ -12,14 +13,23 @@ export default new Vuex.Store({
     articles,
     comments: {},
   },
-
   mutations: {
-    updateSpecifyArticles (state, { key, articles }) {
-      state.articles[key] = articles
+    updateArticles (state, { key, articles }) {
+      state.articles[key] = [...state.articles[key], ...articles]
     },
 
     updateCommentsByID (state, { id, comments }) {
       state.comments[id] = comments
+    },
+  },
+  actions: {
+    loadArticles ({ commit }, { paging, nav }) {
+      return getArticlesByRepoName(nav.repo, paging.page, paging.size)
+        .then(articles => {
+          articles = articles.map(nav.resolveArticle)
+          commit('updateArticles', { articles, key: nav.key })
+          return articles
+        })
     },
   },
 })

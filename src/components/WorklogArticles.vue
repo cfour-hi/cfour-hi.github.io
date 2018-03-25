@@ -49,36 +49,13 @@
 
 <script>
 import WorklogsPlaceholder from './WorklogsPlaceholder'
-import { getArticlesByRepoName } from '@/api'
+import { convertTimeline } from '@/helper'
 
 const FADE_IN_LEFT = 'fadeInLeft'
 const FADE_IN_RIGHT = 'fadeInRight'
 const FADE_OUT_LEFT = 'fadeOutLeft'
 const FADE_OUT_RIGHT = 'fadeOutRight'
 const paging = { page: 1, size: 36 }
-
-const convertTimeline = function (worklogs) {
-  const timelines = {}
-
-  worklogs.forEach(worklog => {
-    const { year, color } = worklog
-
-    if (timelines[year]) {
-      timelines[year].worklogs.unshift(worklog)
-    } else {
-      timelines[year] = {
-        activeIndex: 0,
-        enterActiveClass: FADE_IN_RIGHT,
-        leaveActiveClass: FADE_OUT_LEFT,
-        color: color,
-        year: year,
-        worklogs: [worklog],
-      }
-    }
-  })
-
-  return timelines
-}
 
 export default {
   name: 'worklog-articles',
@@ -89,15 +66,13 @@ export default {
     }
   },
   mounted () {
-    const { name: aritcleType, repository } = this.$route.meta
-    getArticlesByRepoName(repository.name, paging.page, paging.size)
+    this.$store.dispatch('loadArticles', { paging, nav: this.$route.meta.nav })
       .then(articles => {
-        articles.forEach(repository.resolveArticle)
-
-        this.timelines = convertTimeline(articles)
-        paging.page += 1
-
-        this.$store.commit('updateSpecifyArticles', { articles, key: aritcleType })
+        this.timelines = convertTimeline({
+          worklogs: articles,
+          enterActiveClass: FADE_IN_RIGHT,
+          leaveActiveClass: FADE_OUT_LEFT,
+        })
       })
   },
   methods: {

@@ -7,6 +7,7 @@
 
 <script>
 import AppNav from './AppNav'
+import { navsRepo } from '@/config'
 
 export default {
   name: 'app-nav-container',
@@ -14,13 +15,13 @@ export default {
   data () {
     return {
       height: 2.5,
-      navs: this.$router.options.routes.filter(({ meta }) => meta && meta.nav),
+      navs: Object.values(navsRepo),
     }
   },
   computed: {
     sliderTranslate () {
-      const path = this.$route.path.match(/\/\w*/)[0]
-      return `${this.navs.findIndex(nav => nav.path === path) * this.height}em`
+      const path = this.$route.path.match(/[^/]\w*/)[0]
+      return `${this.navs.findIndex(nav => nav.name === path) * this.height}em`
     },
   },
 }

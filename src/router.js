@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { navsRepo } from './config'
 
+const Home = () => import('@comp/Home')
 const MainContainer = () => import('@comp/MainContainer')
 const BlogArticles = () => import('@comp/BlogArticles')
 const WorklogArticles = () => import('@comp/WorklogArticles')
@@ -13,26 +14,19 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'app',
-    redirect: '/article',
+    name: 'app-home',
+    component: Home,
   },
   {
     path: '/article',
     component: MainContainer,
-    meta: {
-      nav: {
-        name: 'article',
-        icon: 'fa-chrome',
-      },
-    },
     children: [
       {
         path: '',
         name: BlogArticles.name,
         component: BlogArticles,
         meta: {
-          name: 'blog',
-          repository: navsRepo.blog,
+          nav: navsRepo.blog,
         },
       },
       {
@@ -40,8 +34,7 @@ const routes = [
         name: `blog-${Article.name}`,
         component: Article,
         meta: {
-          name: 'blog',
-          repository: navsRepo.blog,
+          nav: navsRepo.blog,
         },
       },
     ],
@@ -49,20 +42,13 @@ const routes = [
   {
     path: '/worklog',
     component: MainContainer,
-    meta: {
-      nav: {
-        name: 'worklog',
-        icon: 'fa-internet-explorer',
-      },
-    },
     children: [
       {
         path: '',
         name: WorklogArticles.name,
         component: WorklogArticles,
         meta: {
-          name: 'worklog',
-          repository: navsRepo.worklog,
+          nav: navsRepo.worklog,
         },
       },
       {
@@ -70,8 +56,7 @@ const routes = [
         name: `worklog-${Article.name}`,
         component: Article,
         meta: {
-          name: 'worklog',
-          repository: navsRepo.worklog,
+          nav: navsRepo.worklog,
         },
       },
     ],
@@ -79,20 +64,13 @@ const routes = [
   {
     path: '/study',
     component: MainContainer,
-    meta: {
-      nav: {
-        name: 'study',
-        icon: 'fa-firefox',
-      },
-    },
     children: [
       {
         path: '',
         name: StudyArticles.name,
         component: StudyArticles,
         meta: {
-          name: 'study',
-          repository: navsRepo.study,
+          nav: navsRepo.study,
         },
       },
       {
@@ -100,8 +78,7 @@ const routes = [
         name: `study-${Article.name}`,
         component: Article,
         meta: {
-          name: 'study',
-          repository: navsRepo.study,
+          nav: navsRepo.study,
         },
       },
     ],

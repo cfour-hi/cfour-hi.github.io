@@ -11,7 +11,7 @@
         append
       >
         <div class="article-thumb-wrap">
-          <img :src="article.thumb" alt="" class="article-thumb">
+          <img :src="article.thumb" alt="thumb" class="article-thumb">
         </div>
         <div class="article-body">
           <h2 class="article-title">{{ article.title }}</h2>
@@ -33,7 +33,6 @@
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
 import LoadMore from './LoadMore'
-import { getArticlesByRepoName } from '@/api'
 
 const ArticleMeta = () => import('./ArticleMeta')
 const paging = { page: 1, size: 9 }
@@ -43,35 +42,33 @@ export default {
   components: { BlogArticlesPlaceholder, ArticleMeta, LoadMore },
   data () {
     return {
-      articles: [],
       isLoading: false,
       hasMoreArticle: false,
     }
   },
+  computed: {
+    articles () {
+      return this.$store.state.articles[this.$route.meta.nav.key]
+    },
+  },
   mounted () {
     this.handleLoadArticles()
   },
-  beforeDestroyed () {
+  beforeDestroy () {
     paging.page = 1
   },
   methods: {
     handleLoadArticles () {
       this.isLoading = true
 
-      const { name: articleType, repository } = this.$route.meta
-      getArticlesByRepoName(repository.name, paging.page, paging.size)
+      this.$store.dispatch('loadArticles', { paging, nav: this.$route.meta.nav })
         .then(articles => {
           this.isLoading = false
 
           const articlesLength = articles.length
           this.hasMoreArticle = articlesLength && articlesLength % paging.size === 0
 
-          if (!articlesLength) return
-
-          this.articles = [...this.articles, ...articles.map(repository.resolveArticle)]
-          this.$store.commit('updateSpecifyArticles', { key: articleType, articles: this.articles })
-
-          paging.page += 1
+          if (this.hasMoreArticle) paging.page += 1
         })
     },
   },

@@ -1,10 +1,15 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <main id="app-main">
-      <app-nav-container></app-nav-container>
+    <template v-if="$route.path === '/'">
       <router-view></router-view>
-    </main>
+    </template>
+    <template v-else>
+      <app-header></app-header>
+      <main id="app-main">
+        <app-nav-container></app-nav-container>
+        <router-view></router-view>
+      </main>
+    </template>
   </div>
 </template>
 
