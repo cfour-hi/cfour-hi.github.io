@@ -1,7 +1,7 @@
 <template>
   <vue-content-loading :width="784" :height="900">
     <rect
-      v-for="(r, index) of 19"
+      v-for="(r, index) of size"
       :key="r"
       x="35"
       :y="50 * index + 12"
@@ -18,7 +18,9 @@ import VueContentLoading from 'vue-content-loading'
 
 export default {
   name: 'study-articles-placeholder',
-
-  components: { VueContentLoading }
+  components: { VueContentLoading },
+  props: {
+    size: { type: Number, default: 19 },
+  },
 }
 </script>

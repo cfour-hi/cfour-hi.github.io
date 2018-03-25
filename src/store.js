@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { articleRepos } from './config'
+import { navsRepo } from './config'
 
 Vue.use(Vuex)
 
 const articles = {}
-articleRepos.forEach(({ key }) => (articles[key] = []))
+Object.keys(navsRepo).forEach(key => (articles[key] = []))
 
 export default new Vuex.Store({
   state: {
     articles,
-    comments: {}
+    comments: {},
   },
 
   mutations: {
@@ -20,6 +20,6 @@ export default new Vuex.Store({
 
     updateCommentsByID (state, { id, comments }) {
       state.comments[id] = comments
-    }
-  }
+    },
+  },
 })

@@ -8,11 +8,10 @@
 <script>
 export default {
   name: 'load-more',
-
   props: {
-    visible: { required: true, type: Boolean },
-    loading: { required: true, type: Boolean }
-  }
+    visible: { type: Boolean, required: true },
+    loading: { type: Boolean, required: true },
+  },
 }
 </script>
 

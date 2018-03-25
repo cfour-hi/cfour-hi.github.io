@@ -25,45 +25,38 @@
 
 <script>
 import LoadMore from './LoadMore'
-import { getArticleComments } from '../api'
-import { convertComment } from '../util'
+import { getArticleComments } from '@/api'
+import { convertComment } from '@/helper'
 
 const paging = { page: 1, size: 30 }
 
 export default {
   name: 'article-comment',
-
   components: { LoadMore },
-
   props: {
-    article: { requires: true, type: Object }
+    article: { requires: true, type: Object },
   },
-
   data () {
     return {
       comments: [],
       isLoading: false,
-      hasMoreComment: false
+      hasMoreComment: false,
     }
   },
-
   computed: {
     storeComments () {
       return this.$store.state.comments
-    }
+    },
   },
-
-  created () {
+  mounted () {
     const comments = this.storeComments[this.article.id]
     if (comments) return (this.comments = comments)
 
     this.handleLoadComments()
   },
-
   beforeDestroy () {
     paging.page = 1
   },
-
   methods: {
     handleLoadComments () {
       this.isLoading = true
@@ -74,7 +67,7 @@ export default {
           this.isLoading = false
 
           const commentsLength = comments.length
-          this.hasMoreComment = !!commentsLength && commentsLength % paging.size === 0
+          this.hasMoreComment = commentsLength && commentsLength % paging.size === 0
           if (!commentsLength) return
 
           this.comments = [...this.comments, ...comments.map(convertComment)]
@@ -82,8 +75,8 @@ export default {
 
           paging.page += 1
         })
-    }
-  }
+    },
+  },
 }
 </script>
 

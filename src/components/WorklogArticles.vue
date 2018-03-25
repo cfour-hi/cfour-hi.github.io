@@ -16,23 +16,29 @@
                 :to="`${number}`"
                 :style="{ color: timeline.activeIndex === index ? '#fff' : timeline.color }"
                 class="timeline-month-link"
-                append>
+                append
+              >
                 {{ month }}
               </router-link>
             </dd>
         </dl>
-        <article class="timeline-article">
+        <article class="timeline-article" :style="{ color: timeline.color }">
+          <router-link :to="`${timeline.worklogs[timeline.activeIndex].number}`" class="mask" append>
+            <div :style="{ backgroundColor: timeline.color }" class="mask-text">View</div>
+          </router-link>
           <transition-group
             :enter-active-class="`animated ${timeline.enterActiveClass}`"
             :leave-active-class="`animated ${timeline.leaveActiveClass}`"
             name="fade"
-            mode="out-in">
+            mode="out-in"
+          >
             <blockquote
               v-for="(worklog, index) of timeline.worklogs"
               v-show="timeline.activeIndex === index"
               v-html="worklog.summary"
               :key="worklog.id"
-              class="timeline-quote">
+              class="timeline-quote"
+            >
             </blockquote>
           </transition-group>
         </article>
@@ -43,7 +49,7 @@
 
 <script>
 import WorklogsPlaceholder from './WorklogsPlaceholder'
-import { getArticlesByRepoName } from '../api'
+import { getArticlesByRepoName } from '@/api'
 
 const FADE_IN_LEFT = 'fadeInLeft'
 const FADE_IN_RIGHT = 'fadeInRight'
@@ -66,7 +72,7 @@ const convertTimeline = function (worklogs) {
         leaveActiveClass: FADE_OUT_LEFT,
         color: color,
         year: year,
-        worklogs: [worklog]
+        worklogs: [worklog],
       }
     }
   })
@@ -76,28 +82,24 @@ const convertTimeline = function (worklogs) {
 
 export default {
   name: 'worklog-articles',
-
   components: { WorklogsPlaceholder },
-
   data () {
     return {
-      timelines: {}
+      timelines: {},
     }
   },
-
-  created () {
-    const { resolveArticle, key: repoKey, name: repoName } = this.$route.meta.repository
-    getArticlesByRepoName(repoName, paging.page, paging.size)
+  mounted () {
+    const { name: aritcleType, repository } = this.$route.meta
+    getArticlesByRepoName(repository.name, paging.page, paging.size)
       .then(articles => {
-        articles.forEach(resolveArticle)
+        articles.forEach(repository.resolveArticle)
 
         this.timelines = convertTimeline(articles)
         paging.page += 1
 
-        this.$store.commit('updateSpecifyArticles', { articles, key: repoKey })
+        this.$store.commit('updateSpecifyArticles', { articles, key: aritcleType })
       })
   },
-
   methods: {
     handleToggleTimelineMonth (timeline, index) {
       if (index > timeline.activeIndex) {
@@ -109,8 +111,8 @@ export default {
       }
 
       timeline.activeIndex = index
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -202,6 +204,10 @@ export default {
   border-radius: 0.5em;
 }
 
+.timeline-article:hover {
+  border-color: transparent;
+}
+
 .timeline-quote {
   overflow: hidden;
   display: -webkit-box;
@@ -213,5 +219,38 @@ export default {
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
   color: #404040;
+}
+
+.mask {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5em;
+  text-align: center;
+  color: inherit;
+  cursor: pointer;
+}
+
+.timeline-article:hover .mask {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.mask-text {
+  visibility: hidden;
+  vertical-align: top;
+  display: inline-block;
+  padding: 0 0.5em;
+  border-radius: 0 0 6px 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.timeline-article:hover .mask-text {
+  visibility: visible;
 }
 </style>

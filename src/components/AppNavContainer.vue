@@ -10,22 +10,19 @@ import AppNav from './AppNav'
 
 export default {
   name: 'app-nav-container',
-
   components: { AppNav },
-
   data () {
     return {
       height: 2.5,
-      navs: this.$router.options.routes.filter(({ meta }) => meta && meta.nav)
+      navs: this.$router.options.routes.filter(({ meta }) => meta && meta.nav),
     }
   },
-
   computed: {
     sliderTranslate () {
       const path = this.$route.path.match(/\/\w*/)[0]
       return `${this.navs.findIndex(nav => nav.path === path) * this.height}em`
-    }
-  }
+    },
+  },
 }
 </script>
 

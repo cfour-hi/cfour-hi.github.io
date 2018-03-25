@@ -12,10 +12,9 @@
 <script>
 export default {
   name: 'blog-article-meta',
-
   props: {
-    article: { required: true, type: Object }
-  }
+    article: { type: Object, required: true },
+  },
 }
 </script>
 

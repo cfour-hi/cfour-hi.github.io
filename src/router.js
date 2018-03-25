@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { articleRepos } from './config'
+import { navsRepo } from './config'
 
-const MainContainer = () => import('./components/MainContainer')
-const BlogArticles = () => import('./components/BlogArticles')
-const WorklogArticles = () => import('./components/WorklogArticles')
-const StudyArticles = () => import('./components/StudyArticles')
-const Article = () => import('./components/Article')
+const MainContainer = () => import('@comp/MainContainer')
+const BlogArticles = () => import('@comp/BlogArticles')
+const WorklogArticles = () => import('@comp/WorklogArticles')
+const StudyArticles = () => import('@comp/StudyArticles')
+const Article = () => import('@comp/Article')
 
 Vue.use(Router)
 
@@ -14,16 +14,16 @@ const routes = [
   {
     path: '/',
     name: 'app',
-    redirect: '/article'
+    redirect: '/article',
   },
   {
     path: '/article',
     component: MainContainer,
     meta: {
       nav: {
-        name: 'ARTICLE',
-        icon: 'fa-chrome'
-      }
+        name: 'article',
+        icon: 'fa-chrome',
+      },
     },
     children: [
       {
@@ -31,27 +31,29 @@ const routes = [
         name: BlogArticles.name,
         component: BlogArticles,
         meta: {
-          repository: articleRepos[0]
-        }
+          name: 'blog',
+          repository: navsRepo.blog,
+        },
       },
       {
         path: ':number',
-        name: `${articleRepos[0].key}-${Article.name}`,
+        name: `blog-${Article.name}`,
         component: Article,
         meta: {
-          repository: articleRepos[0]
-        }
-      }
-    ]
+          name: 'blog',
+          repository: navsRepo.blog,
+        },
+      },
+    ],
   },
   {
     path: '/worklog',
     component: MainContainer,
     meta: {
       nav: {
-        name: 'WORKLOG',
-        icon: 'fa-internet-explorer'
-      }
+        name: 'worklog',
+        icon: 'fa-internet-explorer',
+      },
     },
     children: [
       {
@@ -59,27 +61,29 @@ const routes = [
         name: WorklogArticles.name,
         component: WorklogArticles,
         meta: {
-          repository: articleRepos[1]
-        }
+          name: 'worklog',
+          repository: navsRepo.worklog,
+        },
       },
       {
         path: ':number',
-        name: `${articleRepos[1].key}-${Article.name}`,
+        name: `worklog-${Article.name}`,
         component: Article,
         meta: {
-          repository: articleRepos[1]
-        }
-      }
-    ]
+          name: 'worklog',
+          repository: navsRepo.worklog,
+        },
+      },
+    ],
   },
   {
     path: '/study',
     component: MainContainer,
     meta: {
       nav: {
-        name: 'STUDY',
-        icon: 'fa-firefox'
-      }
+        name: 'study',
+        icon: 'fa-firefox',
+      },
     },
     children: [
       {
@@ -87,19 +91,21 @@ const routes = [
         name: StudyArticles.name,
         component: StudyArticles,
         meta: {
-          repository: articleRepos[2]
-        }
+          name: 'study',
+          repository: navsRepo.study,
+        },
       },
       {
         path: ':number',
-        name: `${articleRepos[2].key}-${Article.name}`,
+        name: `study-${Article.name}`,
         component: Article,
         meta: {
-          repository: articleRepos[2]
-        }
-      }
-    ]
-  }
+          name: 'study',
+          repository: navsRepo.study,
+        },
+      },
+    ],
+  },
 ]
 
 export default new Router({ routes })

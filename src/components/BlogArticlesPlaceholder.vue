@@ -16,12 +16,10 @@ import VueContentLoading from 'vue-content-loading'
 
 export default {
   name: 'blog-articles-placeholder',
-
   components: { VueContentLoading },
-
   props: {
-    size: { type: Number, default: 5 }
-  }
+    size: { type: Number, default: 9 },
+  },
 }
 </script>
 

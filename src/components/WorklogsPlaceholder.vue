@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-content-loading v-for="l of 2" :key="l" :width="720" :height="178">
+    <vue-content-loading v-for="l of size" :key="l" :width="720" :height="178">
       <rect x="32" y="40" width="720" height="1"></rect>
       <circle cx="24" cy="40" r="24"></circle>
       <circle v-for="(c, index) of 12" :key="c" :cx="48 + c * 42 + index * 12" cy="40" r="11"></circle>
@@ -14,8 +14,10 @@ import VueContentLoading from 'vue-content-loading'
 
 export default {
   name: 'worklog-placeholder',
-
-  components: { VueContentLoading }
+  components: { VueContentLoading },
+  props: {
+    size: { type: Number, default: 3 },
+  },
 }
 </script>
 

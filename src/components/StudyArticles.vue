@@ -27,26 +27,23 @@ const paging = { page: 1, size: 99 }
 
 export default {
   name: 'stydy-articles',
-
   components: { StudyArticlesPlaceholder },
-
   data () {
     return {
       articles: [],
-      activeIndex: -1
+      activeIndex: -1,
     }
   },
-
   created () {
-    const { resolveArticle, key: repoKey, name: repoName } = this.$route.meta.repository
-    getArticlesByRepoName(repoName, paging.page, paging.size)
+    const { name: articleType, repository } = this.$route.meta
+    getArticlesByRepoName(repository.name, paging.page, paging.size)
       .then(articles => {
-        articles.forEach(resolveArticle)
+        articles.forEach(repository.resolveArticle)
 
         this.articles = articles
-        this.$store.commit('updateSpecifyArticles', { articles, key: repoKey })
+        this.$store.commit('updateSpecifyArticles', { articles, key: articleType })
       })
-  }
+  },
 }
 </script>
 

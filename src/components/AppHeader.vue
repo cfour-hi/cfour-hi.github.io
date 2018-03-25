@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'app-header'
+  name: 'app-header',
 }
 </script>
 
@@ -46,6 +46,11 @@ export default {
   right: 0;
   color: #fff;
   fill: rgba(0, 0, 0, 0.25);
+  transition: fill 0.3s;
+}
+
+.octocat:hover {
+  fill: rgba(0, 0, 0, 0.2);
 }
 
 .octocat-arm {

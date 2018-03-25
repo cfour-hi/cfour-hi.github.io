@@ -8,7 +8,8 @@
         :to="`${article.number}`"
         tag="li"
         class="article-item"
-        append>
+        append
+      >
         <div class="article-thumb-wrap">
           <img :src="article.thumb" alt="" class="article-thumb">
         </div>
@@ -22,61 +23,58 @@
     <load-more
       :visible="!!articles.length && hasMoreArticle"
       :loading="isLoading"
-      @load="handleLoadArticles">
+      @load="handleLoadArticles"
+    >
     </load-more>
-    <div v-show="!!articles.length && !hasMoreArticle" class="baseline" data-text="没有更多文章"></div>
+    <div v-show="articles.length && !hasMoreArticle" class="baseline" data-text="没有更多文章"></div>
   </div>
 </template>
 
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
 import LoadMore from './LoadMore'
-import { getArticlesByRepoName } from '../api'
+import { getArticlesByRepoName } from '@/api'
 
 const ArticleMeta = () => import('./ArticleMeta')
 const paging = { page: 1, size: 9 }
 
 export default {
   name: 'blog-articles',
-
   components: { BlogArticlesPlaceholder, ArticleMeta, LoadMore },
-
   data () {
     return {
       articles: [],
       isLoading: false,
-      hasMoreArticle: false
+      hasMoreArticle: false,
     }
   },
-
-  created () {
+  mounted () {
     this.handleLoadArticles()
   },
-
   beforeDestroyed () {
     paging.page = 1
   },
-
   methods: {
     handleLoadArticles () {
       this.isLoading = true
 
-      const { resolveArticle, key: repoKey, name: repoName } = this.$route.meta.repository
-      getArticlesByRepoName(repoName, paging.page, paging.size)
+      const { name: articleType, repository } = this.$route.meta
+      getArticlesByRepoName(repository.name, paging.page, paging.size)
         .then(articles => {
           this.isLoading = false
 
-          const articlesLenth = articles.length
-          this.hasMoreArticle = !!articlesLenth && articlesLenth % paging.size === 0
-          if (!articlesLenth) return
+          const articlesLength = articles.length
+          this.hasMoreArticle = articlesLength && articlesLength % paging.size === 0
 
-          this.articles = [...this.articles, ...articles.map(resolveArticle)]
-          this.$store.commit('updateSpecifyArticles', { key: repoKey, articles: this.articles })
+          if (!articlesLength) return
+
+          this.articles = [...this.articles, ...articles.map(repository.resolveArticle)]
+          this.$store.commit('updateSpecifyArticles', { key: articleType, articles: this.articles })
 
           paging.page += 1
         })
-    }
-  }
+    },
+  },
 }
 </script>
 

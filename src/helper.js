@@ -13,7 +13,7 @@ export const convertBlogArticle = function (article) {
     summary,
     thumb,
     banner,
-    createdAt: article.created_at.split('T')[0]
+    createdAt: article.created_at.split('T')[0],
   })
 }
 
@@ -27,7 +27,7 @@ export const convertWorklogArticle = function (article) {
     year: article.labels[0].name,
     month: parseInt(article.title, 10),
     summary: sections[1],
-    body: sections[2]
+    body: sections[2],
   })
 }
 
@@ -36,13 +36,13 @@ export const convertStudyArticle = function (article) {
 
   return Object.assign(article, {
     body,
-    createdAt: article.created_at.split('T')[0]
+    createdAt: article.created_at.split('T')[0],
   })
 }
 
 export const convertComment = function (comment) {
   return Object.assign(comment, {
     createdAt: comment.created_at.replace(/T|Z/g, ' '),
-    body: marked(comment.body)
+    body: marked(comment.body),
   })
 }

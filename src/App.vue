@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <app-header/>
+    <app-header></app-header>
     <main id="app-main">
-      <app-nav-container/>
-      <router-view/>
+      <app-nav-container></app-nav-container>
+      <router-view></router-view>
     </main>
   </div>
 </template>
@@ -14,8 +14,7 @@ import AppNavContainer from './components/AppNavContainer'
 
 export default {
   name: 'app',
-
-  components: { AppHeader, AppNavContainer }
+  components: { AppHeader, AppNavContainer },
 }
 </script>
 

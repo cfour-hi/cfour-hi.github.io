@@ -27,7 +27,6 @@ import VueContentLoading from 'vue-content-loading'
 
 export default {
   name: 'article-placeholder',
-
-  components: { VueContentLoading }
+  components: { VueContentLoading },
 }
 </script>

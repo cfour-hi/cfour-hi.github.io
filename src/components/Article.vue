@@ -3,14 +3,14 @@
     <article-placeholder v-if="!article.id"></article-placeholder>
     <article v-else class="article-container">
       <div
-      :style="{ backgroundColor: article.labels[0] ? `#${article.labels[0].color}` : '#00a0e9' }"
-      class="article-border-top">
+        :style="{ backgroundColor: article.labels[0] ? `#${article.labels[0].color}` : '#00a0e9' }"
+        class="article-border-top">
       </div>
       <h2 class="article-title">{{ article.title }}</h2>
       <article-meta :article="article"></article-meta>
       <template v-if="article.summary">
         <i class="fa fa-quote-left fa-3x fa-pull-left fa-border" aria-hidden="true"></i>
-        <blockquote class="article-summary" v-html="article.summary"></blockquote>
+        <blockquote v-html="article.summary" class="article-summary"></blockquote>
       </template>
       <img v-if="article.banner" :src="article.banner" class="article-banner" alt="banner">
       <div v-html="article.body" class="article-body"></div>
@@ -22,28 +22,27 @@
 <script>
 import ArticlePlaceholder from './ArticlePlaceholder'
 import ArticleComment from './ArticleComment'
-import { getArticleByNumber } from '../api'
+import { getArticleByNumber } from '@/api'
 
 const ArticleMeta = () => import('./ArticleMeta')
 
 const findArticleByNumber = function () {
   const num = parseInt(this.$route.params.number, 10)
-  return this.$store.state.articles[this.$route.meta.repository.key]
+  return this.$store.state.articles[this.$route.meta.name]
     .find(({ number }) => number === num)
 }
 
 export default {
   name: 'article',
-
   components: { ArticlePlaceholder, ArticleMeta, ArticleComment },
-
   data () {
     return {
-      article: {}
+      article: {},
     }
   },
+  mounted () {
+    document.scrollingElement.scrollTop = 0
 
-  created () {
     const article = findArticleByNumber.call(this)
     if (article) return (this.article = article)
 
@@ -52,10 +51,6 @@ export default {
     getArticleByNumber(name, params.number)
       .then(article => (this.article = resolveArticle(article)))
   },
-
-  mounted () {
-    document.scrollingElement.scrollTop = 0
-  }
 }
 </script>
 
