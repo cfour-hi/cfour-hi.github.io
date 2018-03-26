@@ -13,7 +13,7 @@
         <blockquote v-html="article.summary" class="article-summary"></blockquote>
       </template>
       <img v-if="article.banner" :src="article.banner" class="article-banner" alt="banner">
-      <div v-html="article.body" class="article-body"></div>
+      <div v-html="article.body" ref="article" class="article-body"></div>
     </article>
     <article-comment v-if="!!article.comments" :article="article"></article-comment>
   </div>
@@ -44,9 +44,17 @@ export default {
 
     if (article) return (this.article = article)
 
-    const { rrepo, resolveArticle } = meta.nav
-    getArticleByNumber(rrepo, num)
+    const { repo, resolveArticle } = meta.nav
+    getArticleByNumber(repo, num)
       .then(article => (this.article = resolveArticle(article)))
+  },
+  watch: {
+    article (newValue) {
+      this.article.body = newValue.body.replace(
+        /(<pre><code.+>)(<span\sclass="hljs-comment">.+?([\w-.]*\.\w*).*<\/span>)/g,
+        '$1<span class="code-header">$3</span>'
+      )
+    },
   },
 }
 </script>
@@ -65,25 +73,31 @@ export default {
 }
 
 .article-title {
-  font-size: 20px;
+  margin: 1em 0 0.5em;
+  font-size: 22px;
   text-align: center;
 }
 
 .article-summary {
   min-height: 6em;
   margin: 0;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   border-bottom: 3px solid #f5f5f5;
 }
 </style>
 
 <style>
+#article p {
+  margin: 1em 0 1.5em;
+}
+
 #article .article-meta {
   margin-bottom: 1.2em;
   text-align: center;
 }
 
-#article .article-summary ol {
+#article .article-summary ol,
+#article .article-summary ul {
   padding-left: 7em;
   margin: 0;
 }
@@ -91,53 +105,84 @@ export default {
 #article .article-container img {
   display: block;
   width: 95%;
-  margin: 0 auto;
+  margin: 2em auto;
   border-radius: 5px;
   box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
 }
 
 #article .article-body h3 {
   position: relative;
-  line-height: 3;
+  margin: 2em 0 1em;
+  font-size: 18px;
 }
 
 #article .article-body h3::before {
   content: "";
   position: absolute;
-  top: 0.8em;
+  top: 0.35em;
   left: -0.8em;
   width: 5px;
-  height: 1.4em;
-  background-color: #f56a00;
+  height: 1.05em;
+  background-color: #f66;
+}
+
+#article .article-body h4 {
+  margin: 1.5em 0 1em;
+  font-size: 16px;
+}
+
+#article .article-body ul,
+#article .article-body ol {
+  position: relative;
+  padding-left: 1em;
+  margin: 1em 0 1.5em;
+  list-style-type: none;
+}
+
+#article .article-body li::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  margin: 0;
+  font-weight: 600;
+}
+
+#article .article-body li > p {
+  margin-bottom: 1em;
 }
 
 #article .article-body blockquote {
   padding-left: 2em;
-  margin-left: 0;
+  margin: 2em 0;
   border-left: 5px solid #e6e6e6;
   color: #999;
 }
 
 #article .article-body a {
+  color: #f66;
   padding-bottom: 2px;
-  border-bottom: 1px solid #919191;
   text-decoration: none;
 }
 
 #article .article-body a:hover {
+  color: #f33;
   border-color: currentColor;
 }
 
 #article .article-body em {
   padding: 0 3px;
   border-bottom: 1px dashed #aaa;
+  color: #666;
 }
 
 #article .article-body pre {
   overflow: auto;
+  position: relative;
+  display: block;
   padding: 1em;
   margin: 0 auto 2em;
   border-radius: 5px;
+  font-size: 12px;
   background-color: #282c34;
   box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
   -webkit-overflow-scrolling: touch;
@@ -160,7 +205,17 @@ export default {
 
 #article .article-body pre code {
   padding: 0;
+  margin: 0;
   color: #e6e6e6;
   background-color: transparent;
+}
+
+#article .article-body pre code .code-header {
+  display: block;
+  margin: -1em;
+  text-align: center;
+  line-height: 30px;
+  color: #ccc;
+  background-color: #444;
 }
 </style>

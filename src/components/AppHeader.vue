@@ -27,7 +27,7 @@ export default {
   right: 0;
   left: 0;
   height: 4.5em;
-  border-bottom: 1px solid #f5f5f5;
+  /* border-bottom: 1px solid #ccc; */
   padding-left: calc(100vw - 100%);
   background-color: rgba(255, 255, 255, 0.8);
 }

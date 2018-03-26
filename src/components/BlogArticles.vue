@@ -130,7 +130,7 @@ export default {
 
 .article-title {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   transition: all 0.3s;
 }
 

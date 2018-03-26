@@ -56,27 +56,6 @@ export default {
 </style>
 
 <style>
-#home a {
-  position: relative;
-  padding: 2px 5px;
-  text-decoration: none;
-}
-
-#home a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  border-top: 1px solid currentColor;
-  transform: scaleX(0);
-  transition: transform 0.15s ease-out;
-}
-
-#home a:hover::after {
-  transform: scale(1);
-}
-
 #home p {
   margin: 0.2em;
   font-size: 14px;
