@@ -55,7 +55,6 @@ export default {
 .article-container {
   padding: 2em;
   font-size: 14px;
-  color: #404040;
   background-color: rgba(255, 255, 255, 0.8);
 }
 
@@ -91,13 +90,14 @@ export default {
 
 #article .article-container img {
   display: block;
+  width: 95%;
   margin: 0 auto;
   border-radius: 5px;
+  box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
 }
 
 #article .article-body h3 {
   position: relative;
-  padding-left: 1em;
   line-height: 3;
 }
 
@@ -105,21 +105,17 @@ export default {
   content: "";
   position: absolute;
   top: 0.8em;
-  left: 0;
+  left: -0.8em;
   width: 5px;
   height: 1.4em;
-  border-radius: 5px;
   background-color: #f56a00;
 }
 
 #article .article-body blockquote {
-  padding: 1px 1em;
+  padding-left: 2em;
   margin-left: 0;
-  margin-right: 0;
-  border-left: 3px solid #7ec2f3;
-  border-radius: 3px;
-  font-size: 12px;
-  background-color: #ecf6fd;
+  border-left: 5px solid #e6e6e6;
+  color: #999;
 }
 
 #article .article-body a {
@@ -133,16 +129,17 @@ export default {
 }
 
 #article .article-body em {
-  font-size: 12px;
+  padding: 0 3px;
+  border-bottom: 1px dashed #aaa;
 }
 
 #article .article-body pre {
-  max-height: 50em;
-  padding: 1em;
-  border-radius: 5px;
-  font-size: 12px;
-  background-color: #404040;
   overflow: auto;
+  padding: 1em;
+  margin: 0 auto 2em;
+  border-radius: 5px;
+  background-color: #282c34;
+  box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
   -webkit-overflow-scrolling: touch;
 }
 
@@ -163,8 +160,7 @@ export default {
 
 #article .article-body pre code {
   padding: 0;
-  font-size: 12px;
-  color: #fff;
+  color: #e6e6e6;
   background-color: transparent;
 }
 </style>

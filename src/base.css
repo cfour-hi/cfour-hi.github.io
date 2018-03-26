@@ -40,7 +40,6 @@ button {
 
 table {
   overflow: auto;
-  display: block;
   font-size: 12px;
   border-collapse: collapse;
 }
@@ -51,12 +50,18 @@ table td {
   border: 1px solid #e9e9e9;
 }
 
+article table code {
+  background-color: transparent;
+}
+
 article code {
-  padding: 2px .5em;
-  font-size: inherit;
-  color: #666;
-  border-radius: 3px;
-  background-color: rgba(0, 0, 0, .05);
+  padding: 3px 10px;
+  margin: 0 5px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-family: Consolas, Monaco, monospace;
+  color: #444;
+  background-color: #eee;
 }
 
 .clearfix::before,

@@ -34,5 +34,5 @@ export default {
 <style>
 @import "./base.css";
 @import "./app.css";
-@import './vs2015.css';
+@import './atom-one-dark.css';
 </style>
