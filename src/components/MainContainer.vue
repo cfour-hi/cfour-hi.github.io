@@ -1,9 +1,9 @@
 <template>
   <div id="main-container">
-    <transition name="fade" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-      <keep-alive :include="keepAliveComps">
+    <transition enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight" mode="out-in">
+      <!-- <keep-alive :include="keepAliveComps"> -->
         <router-view></router-view>
-      </keep-alive>
+      <!-- </keep-alive> -->
     </transition>
   </div>
 </template>

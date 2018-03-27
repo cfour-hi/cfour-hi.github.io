@@ -1,26 +1,26 @@
 <template>
   <div id="worklogs">
-    <worklogs-placeholder v-if="!Object.keys(timelines).length"></worklogs-placeholder>
+    <worklogs-placeholder v-if="!worklogs.length"></worklogs-placeholder>
     <ul v-else class="timelines">
       <li v-for="timeline in timelines" :key="timeline.year">
         <dl class="timeline-bar" :style="{ color: timeline.color }">
           <dt class="timeline-year" :style="{ backgroundColor: timeline.color }">{{ timeline.year }}</dt>
-            <dd
-              v-for="({ id, color, number, month }, index) of timeline.worklogs"
-              :key="id"
-              :class="{ active: timeline.activeIndex === index }"
-              :style="[ timeline.activeIndex === index ? { color: color, backgroundColor: color, borderColor: color } : '' ]"
-              class="timeline-month"
-              @mouseover="handleToggleTimelineMonth(timeline, index)">
-              <router-link
-                :to="`${number}`"
-                :style="{ color: timeline.activeIndex === index ? '#fff' : timeline.color }"
-                class="timeline-month-link"
-                append
-              >
-                {{ month }}
-              </router-link>
-            </dd>
+          <dd
+            v-for="({ id, color, number, month }, index) of timeline.worklogs"
+            :key="id"
+            :class="{ active: timeline.activeIndex === index }"
+            :style="[ timeline.activeIndex === index ? { color: color, backgroundColor: color, borderColor: color } : '' ]"
+            class="timeline-month"
+            @mouseenter="handleToggleTimelineMonth(timeline, index)">
+            <router-link
+              :to="`${number}`"
+              :style="{ color: timeline.activeIndex === index ? '#fff' : timeline.color }"
+              class="timeline-month-link"
+              append
+            >
+              {{ month }}
+            </router-link>
+          </dd>
         </dl>
         <article class="timeline-article" :style="{ color: timeline.color }">
           <router-link :to="`${timeline.worklogs[timeline.activeIndex].number}`" class="mask" append>
@@ -65,15 +65,29 @@ export default {
       timelines: {},
     }
   },
+  computed: {
+    worklogs () {
+      return this.$store.state.articles[this.$route.meta.nav.key]
+    },
+  },
   mounted () {
+    if (this.worklogs.length) {
+      return (this.timelines = convertTimeline({
+        worklogs: this.worklogs,
+        enterActiveClass: FADE_IN_RIGHT,
+        leaveActiveClass: FADE_OUT_LEFT,
+      }))
+    }
     this.$store.dispatch('loadArticles', { paging, nav: this.$route.meta.nav })
-      .then(articles => {
-        this.timelines = convertTimeline({
-          worklogs: articles,
-          enterActiveClass: FADE_IN_RIGHT,
-          leaveActiveClass: FADE_OUT_LEFT,
-        })
+  },
+  watch: {
+    worklogs (newValue) {
+      this.timelines = convertTimeline({
+        worklogs: newValue,
+        enterActiveClass: FADE_IN_RIGHT,
+        leaveActiveClass: FADE_OUT_LEFT,
       })
+    },
   },
   methods: {
     handleToggleTimelineMonth (timeline, index) {

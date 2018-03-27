@@ -44,12 +44,12 @@ export default {
   top: 0;
   right: 0;
   color: #fff;
-  fill: rgba(0, 0, 0, 0.25);
+  fill: #f66;
   transition: fill 0.3s;
 }
 
 .octocat:hover {
-  fill: rgba(0, 0, 0, 0.2);
+  fill: #f33;
 }
 
 .octocat-arm {

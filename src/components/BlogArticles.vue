@@ -52,6 +52,7 @@ export default {
     },
   },
   mounted () {
+    if (this.articles.length) return
     this.handleLoadArticles()
   },
   beforeDestroy () {

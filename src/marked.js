@@ -2,7 +2,7 @@ import marked from 'marked'
 import hljs from 'highlight.js'
 
 const renderer = new marked.Renderer()
-renderer.link = (href, title, text) => `<a href="${href}" title="${title || ''}" target="_blank" rel="noopener noreferrer" class="hover-underline-animation">${text}</a>`
+renderer.link = (href, title, text) => `<a href="${href}" title="${title || ''}" target="_blank" rel="noopener noreferrer">${text}</a>`
 
 hljs.configure({ languages: ['base', 'html', 'css', 'js'] })
 

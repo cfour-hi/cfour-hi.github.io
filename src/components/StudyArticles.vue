@@ -39,6 +39,7 @@ export default {
     },
   },
   mounted () {
+    if (this.articles.length) return
     this.$store.dispatch('loadArticles', { paging, nav: this.$route.meta.nav })
   },
 }

@@ -98,7 +98,7 @@ export default {
 #article .article-container img,
 #article .article-container .article-body .pre-code {
   margin: 1.5em auto 3em;
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
 }
 
@@ -129,6 +129,7 @@ export default {
 
 #article .article-container blockquote {
   padding-left: 2em;
+  padding-right: 2em;
   margin: 2em 0;
   border-left: 5px solid #e6e6e6;
   color: #999;
@@ -160,14 +161,20 @@ export default {
 }
 
 #article .article-container a {
-  color: #f66;
   padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
   text-decoration: none;
+  color: #f66;
+  transition: all .15s;
 }
 
 #article .article-container a:hover {
   color: #f33;
   border-color: currentColor;
+}
+
+#article .article-container a code {
+  color: #f66;
 }
 
 #article .article-container em {
@@ -178,15 +185,15 @@ export default {
   overflow: auto;
   padding: 1.5em;
   margin-top: 0;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 6px 6px;
   font-size: 12px;
   background-color: #282c34;
   -webkit-overflow-scrolling: touch;
 }
 
 #article .article-container pre::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: transparent;
 }
 
@@ -207,7 +214,7 @@ export default {
 }
 
 #article .article-body .pre-code {
-  border-radius: 8px;
+  border-radius: 6px;
   box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
 }
 
@@ -215,7 +222,7 @@ export default {
   position: relative;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #999;
-  border-radius: 8px 8px 0 0;
+  border-radius: 6px 6px 0 0;
   height: 2em;
   font-weight: 500;
   text-align: center;
@@ -231,21 +238,21 @@ export default {
   height: 0.8em;
   border-radius: 50%;
   top: 0.55em;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 #article .pre-code .header i:nth-child(1) {
-  left: 1em;
-  background-color: #f55;
+  left: 0.8em;
+  background-color: #fb4847;
 }
 
 #article .pre-code .header i:nth-child(2) {
-  left: 2.5em;
-  background-color: #fb4;
+  left: 2.1em;
+  background-color: #fdb225;
 }
 
 #article .pre-code .header i:nth-child(3) {
-  left: 4em;
-  background-color: #3c4;
+  left: 3.4em;
+  background-color: #2ac933;
 }
 </style>
