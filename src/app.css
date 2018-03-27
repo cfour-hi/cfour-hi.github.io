@@ -31,7 +31,7 @@
   animation-duration: .3s !important;
 }
 
-.article-summary a {
+/* .article-summary a {
   padding-bottom: 2px;
   border-bottom: 1px solid #919191;
   text-decoration: none;
@@ -39,28 +39,4 @@
 
 .article-summary a:hover {
   border-color: currentColor;
-}
-
-#home a,
-#article a {
-  position: relative;
-  padding: 2px 0;
-  text-decoration: none;
-}
-
-#home a::after,
-#article a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  border-top: 1px solid currentColor;
-  transform: scaleX(0);
-  transition: transform 0.15s ease-out;
-}
-
-#home a:hover::after,
-#article a:hover::after {
-  transform: scale(1);
-}
+} */

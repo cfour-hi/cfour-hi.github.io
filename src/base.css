@@ -60,8 +60,13 @@ article code {
   border-radius: 2px;
   font-size: 12px;
   font-family: Consolas, Monaco, monospace;
-  color: #444;
-  background-color: #eee;
+  color: #666;
+  background-color: #f3f3f3;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid #e9e9e9;
 }
 
 .clearfix::before,
@@ -72,4 +77,25 @@ article code {
 
 .clearfix::after {
   clear: both;
+}
+
+.hover-underline-animation {
+  position: relative;
+  padding-bottom: 2px;
+  text-decoration: none;
+}
+
+.hover-underline-animation::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 2px solid currentColor;
+  transform: scaleX(0);
+  transition: transform 0.15s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
 }

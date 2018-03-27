@@ -28,16 +28,16 @@ export default {
   text-transform: uppercase;
   text-decoration: none;
   font-family: "HoangYen11acb2198d6177d1";
-  color: #5a5a5a;
+  color: #555;
 }
 
 .nav-item:hover,
 .nav-item.router-link-active {
-  color: #108ee9;
+  color: #29f;
 }
 
 .nav-item .fa {
   margin-left: 1em;
-  margin-right: 0.5em;
+  margin-right: 0.2em;
 }
 </style>

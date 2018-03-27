@@ -21,13 +21,13 @@ export default {
   font-size: 14px;
   line-height: 2.5;
   text-align: center;
-  color: #919191;
-  background-color: rgba(255, 255, 255, 0.8);
+  color: #999;
+  background-color: #fff;
   cursor: pointer;
 }
 
 .load-more:hover {
-  color: #5a5a5a;
+  color: #666;
   background-color: #e9e9e9;
 }
 </style>

@@ -87,12 +87,14 @@ export default {
   display: flex;
   padding: 0.5em;
   margin-bottom: 1em;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #fff;
   cursor: pointer;
+  transition: all 0.15s ease-out;
 }
 
 .article-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.5);
 }
 
 .article-thumb-wrap {
@@ -105,7 +107,7 @@ export default {
 }
 
 .article-item:hover .article-thumb-wrap {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #fff;
 }
 
 .article-thumb {
@@ -132,10 +134,6 @@ export default {
   margin: 0;
   font-size: 18px;
   transition: all 0.3s;
-}
-
-.article-item:hover .article-title {
-  transform: translateX(0.5em);
 }
 
 .article-summary {

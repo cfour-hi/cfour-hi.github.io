@@ -1,7 +1,16 @@
 import marked from 'marked'
 
+const convertArticleBody = body => replaceArticleCode(marked(body))
+
+const replaceArticleCode = (body) => {
+  return body.replace(
+    /(<pre><code.*?>)(<span\sclass="hljs-comment">\S*\s(\S*).*<\/span>)?\n?((.|\n)*?<\/pre>)/g,
+    '<figure class="pre-code"><figcaption class="header"><i></i><i></i><i></i>$3</figcaption>$1$4</figure>'
+  )
+}
+
 export const convertBlogArticle = (article) => {
-  const articleBody = marked(article.body)
+  const articleBody = convertArticleBody(article.body)
   const summary = articleBody.split(/<!--\s*summary\s*-->/g)[1]
   const splitBanner = articleBody.split(/<!--\s*banner\s*-->/g)
   const banner = splitBanner[1].match(/http[^"]+/)[0]
@@ -19,7 +28,7 @@ export const convertBlogArticle = (article) => {
 
 export const convertWorklogArticle = (article) => {
   const color = `#${article.labels[0].color}`
-  const sections = marked(article.body).split(/<!--\s*summary\s*-->/g)
+  const sections = convertArticleBody(article.body).split(/<!--\s*summary\s*-->/g)
 
   return Object.assign({}, article, {
     color,
@@ -55,7 +64,7 @@ export const convertTimeline = ({ worklogs, enterActiveClass, leaveActiveClass }
 }
 
 export const convertStudyArticle = (article) => {
-  const body = marked(article.body)
+  const body = convertArticleBody(article.body)
 
   return Object.assign(article, {
     body,

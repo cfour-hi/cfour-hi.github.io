@@ -3,8 +3,10 @@
     <img src="https://avatars2.githubusercontent.com/u/8335856?s=460&v=4" alt="avator" class="avator">
     <h1 class="bloger-name">MONINE</h1>
     <div class="desc">Front-End Developer & JavaScript</div>
-    <p><router-link to="/article">Blog</router-link></p>
-    <p><a href="https://monine.github.io" target="_blank" rel="noopener noreferrer">Github</a></p>
+    <div class="links">
+      <router-link to="/article" class="hover-underline-animation">Blog</router-link>
+      <a href="https://monine.github.io" target="_blank" rel="noopener noreferrer" class="hover-underline-animation">Github</a>
+    </div>
   </div>
 </template>
 
@@ -53,11 +55,17 @@ export default {
   margin-bottom: 1.2em;
   text-shadow: 0 2px #fff;
 }
+
+.links {
+  width: 6em;
+  margin: 0 auto;
+}
 </style>
 
 <style>
-#home p {
-  margin: 0.2em;
+#home .links a {
+  display: inline-block;
+  margin: 0.2em 0;
   font-size: 14px;
   letter-spacing: 0.2em;
 }
