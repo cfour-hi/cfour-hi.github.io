@@ -17,7 +17,6 @@ export default new Vuex.Store({
     updateArticles (state, { key, articles }) {
       state.articles[key] = [...state.articles[key], ...articles]
     },
-
     updateCommentsByID (state, { id, comments }) {
       state.comments[id] = comments
     },

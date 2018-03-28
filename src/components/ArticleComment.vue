@@ -2,11 +2,11 @@
   <div>
     <dl v-if="!!comments.length" class="comments">
       <dd v-for="comment of comments" :key="comment.id" class="comment-item">
-        <a :href="comment.user.html_url" target="_blank" class="commenter-avatar-link">
+        <a :href="comment.user.html_url" target="_blank" rel="noopener noreferrer" class="commenter-avatar-link">
           <img :src="comment.user.avatar_url" alt="avatar" class="commenter-avatar">
         </a>
         <div class="comment-header">
-          <a :href="comment.user.html_url" target="_blank" class="commenter-name-link">
+          <a :href="comment.user.html_url" target="_blank" rel="noopener noreferrer" class="commenter-name-link">
             <strong>{{ comment.user.login }}</strong>
           </a>
           <span class="comment-created">{{ comment.createdAt }}</span>

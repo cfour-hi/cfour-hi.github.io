@@ -13,7 +13,7 @@
         <div class="article-thumb-wrap">
           <img :src="article.thumb" alt="thumb" class="article-thumb">
         </div>
-        <div class="article-body">
+        <div class="article-container">
           <h2 class="article-title">{{ article.title }}</h2>
           <blockquote v-html="article.summary" class="article-summary"></blockquote>
           <article-meta :article="article"></article-meta>
@@ -36,14 +36,16 @@ import LoadMore from './LoadMore'
 
 const ArticleMeta = () => import('./ArticleMeta')
 const paging = { page: 1, size: 9 }
+let hasMoreArticle = false
+let scrollTop = 0
 
 export default {
   name: 'blog-articles',
   components: { BlogArticlesPlaceholder, ArticleMeta, LoadMore },
   data () {
     return {
+      hasMoreArticle,
       isLoading: false,
-      hasMoreArticle: false,
     }
   },
   computed: {
@@ -51,12 +53,20 @@ export default {
       return this.$store.state.articles[this.$route.meta.nav.key]
     },
   },
+  // TODO：beforeRouteEnter & beforeRouteLeave 抽象到 mixin
+  beforeRouteEnter (to, from, next) {
+    next()
+    setTimeout(() => {
+      document.scrollingElement.scrollTop = scrollTop
+    }, 700) // 页面切换动画时间是 500ms
+  },
+  beforeRouteLeave (to, from, next) {
+    scrollTop = document.scrollingElement.scrollTop
+    next()
+  },
   mounted () {
     if (this.articles.length) return
     this.handleLoadArticles()
-  },
-  beforeDestroy () {
-    paging.page = 1
   },
   methods: {
     handleLoadArticles () {
@@ -67,9 +77,9 @@ export default {
           this.isLoading = false
 
           const articlesLength = articles.length
-          this.hasMoreArticle = articlesLength && articlesLength % paging.size === 0
+          this.hasMoreArticle = hasMoreArticle = articlesLength && articlesLength % paging.size === 0
 
-          if (this.hasMoreArticle) paging.page += 1
+          if (hasMoreArticle) paging.page += 1
         })
     },
   },
@@ -126,9 +136,10 @@ export default {
   transform: scale(1.05) rotate(3deg);
 }
 
-.article-body {
+.article-container {
   display: flex;
   flex-direction: column;
+  flex: auto;
 }
 
 .article-title {
@@ -141,6 +152,8 @@ export default {
   overflow: hidden;
   display: -webkit-box;
   flex: 0 0 6em;
+  padding: 0;
+  border-left: none;
   margin: 0 0 0.5em;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
