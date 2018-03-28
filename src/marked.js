@@ -4,7 +4,7 @@ import hljs from 'highlight.js'
 const renderer = new marked.Renderer()
 renderer.link = (href, title, text) => `<a href="${href}" title="${title || ''}" target="_blank" rel="noopener noreferrer">${text}</a>`
 
-hljs.configure({ languages: ['base', 'html', 'css', 'js'] })
+hljs.configure({ languages: ['html', 'css', 'js', 'json', 'bash', 'shell'] })
 
 marked.setOptions({
   renderer,
