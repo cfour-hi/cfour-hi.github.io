@@ -190,10 +190,10 @@
 
 .article-container .pre-code .header i {
   position: absolute;
-  width: 0.8em;
-  height: 0.8em;
-  border-radius: 50%;
   top: 0.55em;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
