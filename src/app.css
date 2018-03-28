@@ -104,6 +104,10 @@
   color: #999;
 }
 
+.article-container li + li > p:first-child {
+  margin: 0;
+}
+
 .article-container li p {
   margin-bottom: 1em;
 }
@@ -121,12 +125,12 @@
   border-color: currentColor;
 }
 
-.article-container a code {
-  color: #f66;
-}
-
 .article-container em {
   color: #666;
+}
+
+.article-container a em {
+  color: #f66;
 }
 
 .article-container pre {
@@ -159,6 +163,10 @@
   margin: 0;
   color: #e6e6e6;
   background-color: transparent;
+}
+
+.article-container a code {
+  color: #f66;
 }
 
 .article-container .pre-code {
