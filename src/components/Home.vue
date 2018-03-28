@@ -5,7 +5,7 @@
     <div class="desc">Front-End Developer & JavaScript</div>
     <div class="links">
       <router-link to="/article" class="hover-underline-animation">Blog</router-link>
-      <a href="https://monine.github.io" target="_blank" rel="noopener noreferrer" class="hover-underline-animation">Github</a>
+      <a href="https://github.com/Monine" target="_blank" rel="noopener noreferrer" class="hover-underline-animation">Github</a>
     </div>
   </div>
 </template>
