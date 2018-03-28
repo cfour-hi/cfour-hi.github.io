@@ -33,15 +33,16 @@
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
 import LoadMore from './LoadMore'
+import positionScroll from '@mixin/positionScroll'
 
 const ArticleMeta = () => import('./ArticleMeta')
 const paging = { page: 1, size: 9 }
 let hasMoreArticle = false
-let scrollTop = 0
 
 export default {
   name: 'blog-articles',
   components: { BlogArticlesPlaceholder, ArticleMeta, LoadMore },
+  mixins: [positionScroll],
   data () {
     return {
       hasMoreArticle,
@@ -52,17 +53,6 @@ export default {
     articles () {
       return this.$store.state.articles[this.$route.meta.nav.key]
     },
-  },
-  // TODO：beforeRouteEnter & beforeRouteLeave 抽象到 mixin
-  beforeRouteEnter (to, from, next) {
-    next()
-    setTimeout(() => {
-      document.scrollingElement.scrollTop = scrollTop
-    }, 700) // 页面切换动画时间是 500ms
-  },
-  beforeRouteLeave (to, from, next) {
-    scrollTop = document.scrollingElement.scrollTop
-    next()
   },
   mounted () {
     if (this.articles.length) return

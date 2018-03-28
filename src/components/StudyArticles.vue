@@ -22,12 +22,14 @@
 
 <script>
 import StudyArticlesPlaceholder from './StudyArticlesPlaceholder'
+import positionScroll from '@mixin/positionScroll'
 
 const paging = { page: 1, size: 99 }
 
 export default {
   name: 'stydy-articles',
   components: { StudyArticlesPlaceholder },
+  mixins: [positionScroll],
   data () {
     return {
       activeIndex: -1,

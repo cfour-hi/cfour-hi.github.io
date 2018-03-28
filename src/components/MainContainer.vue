@@ -1,6 +1,6 @@
 <template>
   <div id="main-container">
-    <transition enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight" mode="out-in">
+    <transition :duration="500" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight" mode="out-in">
       <!-- <keep-alive :include="keepAliveComps"> -->
         <router-view></router-view>
       <!-- </keep-alive> -->
