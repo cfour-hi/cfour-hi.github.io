@@ -22,14 +22,14 @@
 
 <script>
 import StudyArticlesPlaceholder from './StudyArticlesPlaceholder'
-import positionScroll from '@mixin/positionScroll'
+import scrollFallback from '@mixin/scroll-fallback'
 
 const paging = { page: 1, size: 99 }
 
 export default {
   name: 'stydy-articles',
   components: { StudyArticlesPlaceholder },
-  mixins: [positionScroll],
+  mixins: [scrollFallback],
   data () {
     return {
       activeIndex: -1,

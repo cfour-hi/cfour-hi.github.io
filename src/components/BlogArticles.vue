@@ -33,7 +33,7 @@
 <script>
 import BlogArticlesPlaceholder from './BlogArticlesPlaceholder'
 import LoadMore from './LoadMore'
-import positionScroll from '@mixin/positionScroll'
+import scrollFallback from '@mixin/scroll-fallback'
 
 const ArticleMeta = () => import('./ArticleMeta')
 const paging = { page: 1, size: 9 }
@@ -42,7 +42,7 @@ let hasMoreArticle = false
 export default {
   name: 'blog-articles',
   components: { BlogArticlesPlaceholder, ArticleMeta, LoadMore },
-  mixins: [positionScroll],
+  mixins: [scrollFallback],
   data () {
     return {
       hasMoreArticle,
