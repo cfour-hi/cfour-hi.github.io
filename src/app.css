@@ -63,7 +63,7 @@
 }
 
 .article-container img,
-.article-container .article-body .pre-code {
+.article-container .pre-code {
   margin: 1.5em auto 3em;
   border-radius: 6px;
   box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
@@ -171,7 +171,6 @@
 
 .article-container .pre-code {
   border-radius: 6px;
-  box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.9);
 }
 
 .article-container .pre-code .header {
