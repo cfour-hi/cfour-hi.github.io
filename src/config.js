@@ -14,7 +14,8 @@ export const keepAliveComps = [
 ]
 
 export const navsRepo = {
-  blog: { key: 'blog', name: 'article', icon: 'fa-chrome', repo: 'monine.github.io', resolveArticle: convertBlogArticle },
-  worklog: { key: 'worklog', name: 'worklog', icon: 'fa-internet-explorer', repo: 'worklog', resolveArticle: convertWorklogArticle },
-  study: { key: 'study', name: 'study', icon: 'fa-firefox', repo: 'study', resolveArticle: convertStudyArticle },
+  blog: { key: 'blog', name: 'article', route: '/article', icon: 'fa-chrome', repo: 'monine.github.io', resolveArticle: convertBlogArticle },
+  worklog: { key: 'worklog', name: 'worklog', route: '/worklog', icon: 'fa-internet-explorer', repo: 'worklog', resolveArticle: convertWorklogArticle },
+  study: { key: 'study', name: 'study', route: '/study', icon: 'fa-firefox', repo: 'study', resolveArticle: convertStudyArticle },
+  home: { name: 'about me', route: '/', icon: 'fa-github', exact: true },
 }

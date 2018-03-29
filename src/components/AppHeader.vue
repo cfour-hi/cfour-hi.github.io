@@ -1,7 +1,7 @@
 <template>
   <header id="app-header">
     <div class="header-container">
-      <router-link to="/" tag="h1" class="bloger-name">MONINE</router-link>
+      <router-link to="/" tag="h1" class="bloger-name">Monine</router-link>
     </div>
     <a href="https://github.com/Monine" target="_blank">
       <svg width="72" height="72" viewBox="0 0 250 250" aria-hidden="true" class="octocat">
@@ -35,7 +35,8 @@ export default {
   display: inline-block;
   margin: 0;
   line-height: 2.25;
-  font-family: "Agnes-Boldacb25b88f177d1";
+  font-family: "Lucida_Handwriting";
+  color: #46bc99;
   cursor: pointer;
 }
 
@@ -44,12 +45,12 @@ export default {
   top: 0;
   right: 0;
   color: #fff;
-  fill: #f66;
+  fill: #46bc99;
   transition: fill 0.3s;
 }
 
 .octocat:hover {
-  fill: #f33;
+  fill: #46b390;
 }
 
 .octocat-arm {

@@ -1,6 +1,6 @@
 <template>
   <nav id="app-nav" :style="{ lineHeight: height }">
-    <router-link v-for="nav of navs" :key="nav.key" :to="`/${nav.name}`" class="nav-item">
+    <router-link v-for="nav of navs" :key="nav.name" :to="nav.route" :exact="nav.exact" class="nav-item">
       <i class="fa fa-fw" :class="nav.icon"></i>
       {{ nav.name }}
     </router-link>
@@ -25,15 +25,15 @@ export default {
 }
 
 .nav-item {
-  text-transform: uppercase;
+  text-transform: capitalize;
   text-decoration: none;
-  font-family: "HoangYen11acb2198d6177d1";
+  font-family: "Lucida_Handwriting";
   color: #555;
 }
 
 .nav-item:hover,
 .nav-item.router-link-active {
-  color: #29f;
+  color: #46bc99;
 }
 
 .nav-item .fa {

@@ -3,7 +3,7 @@
     <article-placeholder v-if="!article.id"></article-placeholder>
     <article v-else class="article-container">
       <div
-        :style="{ backgroundColor: article.labels[0] ? `#${article.labels[0].color}` : '#00a0e9' }"
+        :style="{ backgroundColor: article.labels[0] ? `#${article.labels[0].color}` : '#46bc99' }"
         class="article-border-top">
       </div>
       <h2 class="article-title">{{ article.title }}</h2>

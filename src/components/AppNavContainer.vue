@@ -20,8 +20,8 @@ export default {
   },
   computed: {
     sliderTranslate () {
-      const path = this.$route.path.match(/[^/]\w*/)[0]
-      return `${this.navs.findIndex(nav => nav.name === path) * this.height}em`
+      const path = this.$route.path.match(/\/[^/]*/)[0]
+      return `${this.navs.findIndex(nav => nav.route === path) * this.height}em`
     },
   },
 }
@@ -36,7 +36,7 @@ export default {
 .slider {
   position: absolute;
   width: 100%;
-  border-left: 5px solid #29f;
+  border-left: 5px solid #46bc99;;
   background-color: #fff;
   transition: transform 0.15s ease-out;
   box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.5);
