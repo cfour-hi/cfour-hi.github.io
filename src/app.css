@@ -28,7 +28,7 @@
 }
 
 .animated {
-  animation-duration: 0.5s !important;
+  animation-duration: 0.3s !important;
 }
 
 .article-container h2,
@@ -45,10 +45,10 @@
 .article-container h3::before {
   content: "";
   position: absolute;
-  top: 0.4em;
-  left: -0.8em;
+  top: 8px;
+  left: -28px;
   width: 5px;
-  height: 1.05em;
+  height: 19px;
   background-color: #f66;
 }
 

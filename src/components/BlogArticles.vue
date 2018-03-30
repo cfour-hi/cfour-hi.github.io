@@ -130,21 +130,21 @@ export default {
   display: flex;
   flex-direction: column;
   flex: auto;
+  line-height: 1.8
 }
 
 .article-title {
   margin: 0;
   font-size: 18px;
-  transition: all 0.3s;
 }
 
 .article-summary {
   overflow: hidden;
   display: -webkit-box;
-  flex: 0 0 6em;
+  flex: 0 0 5.8em;
   padding: 0;
   border-left: none;
-  margin: 0 0 0.5em;
+  margin: 0;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -153,6 +153,6 @@ export default {
 
 <style>
 .blog-articles .article-summary > :first-child {
-  margin: 0.5em 0;
+  margin: 0;
 }
 </style>

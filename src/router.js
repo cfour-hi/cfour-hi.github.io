@@ -11,78 +11,32 @@ const Article = () => import('@comp/Article')
 
 Vue.use(Router)
 
-const routes = [
-  {
-    path: '/',
-    name: 'app-home',
-    component: Home,
-  },
-  {
-    path: '/article',
-    component: MainContainer,
-    children: [
-      {
-        path: '',
-        name: BlogArticles.name,
-        component: BlogArticles,
-        meta: {
-          nav: navsRepo.blog,
-        },
-      },
-      {
-        path: ':number',
-        name: `blog-${Article.name}`,
-        component: Article,
-        meta: {
-          nav: navsRepo.blog,
-        },
-      },
-    ],
-  },
-  {
-    path: '/worklog',
-    component: MainContainer,
-    children: [
-      {
-        path: '',
-        name: WorklogArticles.name,
-        component: WorklogArticles,
-        meta: {
-          nav: navsRepo.worklog,
-        },
-      },
-      {
-        path: ':number',
-        name: `worklog-${Article.name}`,
-        component: Article,
-        meta: {
-          nav: navsRepo.worklog,
-        },
-      },
-    ],
-  },
-  {
-    path: '/study',
-    component: MainContainer,
-    children: [
-      {
-        path: '',
-        name: StudyArticles.name,
-        component: StudyArticles,
-        meta: {
-          nav: navsRepo.study,
-        },
-      },
-      {
-        path: ':number',
-        name: `study-${Article.name}`,
-        component: Article,
-        meta: {
-          nav: navsRepo.study,
-        },
-      },
-    ],
-  },
-]
+const home = { path: '/', name: 'app-home', component: Home }
+const article = {
+  path: '/article',
+  component: MainContainer,
+  children: [
+    { path: '', name: BlogArticles.name, component: BlogArticles, meta: { nav: navsRepo.blog } },
+    { path: ':number', name: `blog-${Article.name}`, component: Article, meta: { nav: navsRepo.blog } },
+  ],
+}
+const worklog = {
+  path: '/worklog',
+  component: MainContainer,
+  children: [
+    { path: '', name: WorklogArticles.name, component: WorklogArticles, meta: { nav: navsRepo.worklog } },
+    { path: ':number', name: `worklog-${Article.name}`, component: Article, meta: { nav: navsRepo.worklog } },
+  ],
+}
+const study = {
+  path: '/study',
+  component: MainContainer,
+  children: [
+    { path: '', name: StudyArticles.name, component: StudyArticles, meta: { nav: navsRepo.study } },
+    { path: ':number', name: `study-${Article.name}`, component: Article, meta: { nav: navsRepo.study } },
+  ],
+}
 
-export default new Router({ routes })
+export default new Router({
+  routes: [home, article, worklog, study],
+})

@@ -69,6 +69,6 @@ export default {
 .fa-hand-o-right {
   position: absolute;
   left: 1em;
-  line-height: 1.9;
+  line-height: 2;
 }
 </style>

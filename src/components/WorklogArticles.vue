@@ -153,7 +153,7 @@ export default {
   margin-left: 2.5em;
   margin-top: 1em;
   font-size: 12px;
-  line-height: 1.9em;
+  line-height: 1.9;
   text-align: center;
   border: 1px solid currentColor;
   border-radius: 50%;
@@ -233,7 +233,7 @@ export default {
   vertical-align: top;
   display: inline-block;
   padding: 0 0.5em;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 4px 4px;
   font-size: 12px;
   line-height: 1.5;
   color: #fff;

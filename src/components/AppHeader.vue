@@ -1,7 +1,7 @@
 <template>
   <header id="app-header">
     <div class="header-container">
-      <router-link to="/" tag="h1" class="bloger-name">Monine</router-link>
+      <router-link to="/" tag="h1" class="font-awesome-h1 bloger-name">Monine</router-link>
     </div>
     <a href="https://github.com/Monine" target="_blank">
       <svg width="72" height="72" viewBox="0 0 250 250" aria-hidden="true" class="octocat">
