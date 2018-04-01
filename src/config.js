@@ -3,9 +3,8 @@
 // import StudyArticles from './components/StudyArticles'
 import { convertBlogArticle, convertWorklogArticle, convertStudyArticle } from './helper'
 
-const access = '654f89e6030e8356063e'
-const token = '98c2782e58ac3ba53c3a'
-export const accessToken = `${access}${token}`
+const t = ['654f89e6030e8356063e', '98c2782e58ac3ba53c3a']
+export const accessToken = `${t[0]}${t[1]}`
 
 export const keepAliveComps = [
   // BlogArticles.name,
