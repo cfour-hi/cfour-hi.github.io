@@ -4,8 +4,8 @@ const convertArticleBody = body => replaceArticleCode(marked(body))
 
 const replaceArticleCode = (body) => {
   return body.replace(
-    /(<pre><code.*?>)(<span\sclass="hljs-comment">\S*\s(\S*).*<\/span>)?\n?((.|\n)*?<\/pre>)/g,
-    '<figure class="pre-code"><figcaption class="header"><i></i><i></i><i></i>$3</figcaption>$1$4</figure>'
+    /(<pre><code.*?>)((.|\n)*?\*{3}(.*)\*{3}.*)?\n?((.|\n)*?<\/pre>)/g,
+    '<figure class="pre-code"><figcaption class="header"><i></i><i></i><i></i>$4</figcaption>$1$5</figure>'
   )
 }
 
