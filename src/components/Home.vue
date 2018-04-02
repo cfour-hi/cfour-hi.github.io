@@ -94,8 +94,8 @@ export default {
 
 <style>
 #home .links a {
-  display: inline-block;
-  margin-bottom: 0.8em;
+  padding-bottom: 3px;
+  line-height: 2.2;
   letter-spacing: 0.2em;
 }
 </style>
