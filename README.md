@@ -4,6 +4,10 @@
 
 ## 选文
 
+- [SPA 遇到 bfcache 所引发的无解闪现](https://monine.github.io/#/article/27)
+
+- [我对 babel 的理解和疑惑](https://monine.github.io/#/article/26)
+
 - [从简单的例子看 webpack 模块加载机制及思考原理](https://monine.github.io/#/article/25)
 
 - [webpack 源码探索之插件机制](https://monine.github.io/#/article/24)
