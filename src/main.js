@@ -8,9 +8,9 @@ import router from '@/router'
 import store from '@/store'
 
 if (process.env.NODE_ENV !== 'production') {
-  require('normalize.css')
-  require('font-awesome/css/font-awesome.css')
-  require('animate.css')
+  require('normalize.css');
+  require('font-awesome/css/font-awesome.css');
+  require('animate.css');
 }
 
 Vue.config.productionTip = false
