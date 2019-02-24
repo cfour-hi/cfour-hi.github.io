@@ -1,0 +1,31 @@
+#motto {
+  margin-left: 0;
+  font-size: 12px;
+  .from {
+    color: $gray;
+  }
+}
+
+body > .post-list {
+  padding-left: 1em;
+  list-style: none;
+  li {
+    display: flex;
+    line-height: 2;
+    time {
+      flex: 0 0 88px;
+      margin-right: 1em;
+      color: $gray;
+    }
+    h2 {
+      margin: 0;
+      font: {
+        size: 1em;
+        weight: 400;
+      }
+      a:hover {
+        border-bottom: none;
+      }
+    }
+  }
+}

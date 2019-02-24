@@ -1,0 +1,9 @@
+<nav>
+  <ul>
+  {% for nav in site.data.navigation %}
+    <li>
+      <a href="{{ nav.link }}" class="hover-underline-animation{% if page.url == nav.link %} active{% endif %}">{{ nav.name }}</a>
+    </li>
+  {% endfor %}
+  </ul>
+</nav>

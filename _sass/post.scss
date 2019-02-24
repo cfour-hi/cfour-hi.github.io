@@ -1,0 +1,43 @@
+#post-header {
+  margin-bottom: 0.24rem;
+  h1 {
+    margin: 0;
+    color: $green;
+  }
+  .meta {
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+#post-body {
+  line-height: 2;
+  h2 {
+    position: relative;
+    margin-top: 2em;
+    color: $post-h2;
+    &::before {
+      content: '#';
+      position: absolute;
+      left: -1em;
+      color: $green;
+    }
+  }
+  ul {
+    padding-left: 1em;
+    list-style: none;
+    > li {
+      position: relative;
+      &::before {
+        content: "\B7";
+        position: absolute;
+        top: -0.5em;
+        left: -0.5em;
+        margin: 0;
+        font-size: 1.8em;
+        font-weight: 600;
+        color: $gray;
+      }
+    }
+  }
+}

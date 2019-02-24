@@ -1,0 +1,33 @@
+#header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.24rem;
+  h1 {
+    margin: 0;
+    text-shadow: 3px 2px 0 #{$green}b3, 6px 5px 0 #{$white}4d;
+  }
+  nav {
+    margin-top: 0.08rem;
+    ul {
+      display: flex;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      li {
+        border-right: 1px dotted $green;
+        margin-right: 1em;
+        line-height: 1;
+        a {
+          margin-right: 1em;
+          color: $green;
+          &.active::after {
+            transform: scaleX(1);
+          }
+        }
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+}

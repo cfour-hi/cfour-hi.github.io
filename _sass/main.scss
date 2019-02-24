@@ -1,0 +1,102 @@
+html {
+  height: 100%;
+  font-size: 100px;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  min-height: 100%;
+  max-width: 7.68rem;
+  padding: 0.64rem 0;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif,
+ "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-variant-numeric: tabular-nums;
+  font-size: 0.14rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  color: $white;
+  background-color: #1d1f21;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: $a;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  &:hover {
+    color: $a-hover;
+    border-bottom: 2px solid currentColor;
+  }
+}
+
+article code {
+  padding: 3px 9px;
+  margin: 0 5px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-family: Consolas, Monaco, monospace;
+  color: $white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hover-underline-animation {
+  position: relative;
+  padding-bottom: 2px;
+  border-bottom: none;
+  &:hover {
+    border-bottom: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    border-top: 2px solid currentColor;
+    transform: scaleX(0);
+    transition: transform 0.15s ease-out;
+  }
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.highlighter-rouge {
+  position: relative;
+  margin-top: 3em;
+  font-size: 12px;
+  div.highlight {
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2em;
+      width: 100%;
+      height: 2em;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #999;
+      border-radius: 0.5em 0.5em 0 0;
+      background-color: #ccc;
+      background-image: linear-gradient(#eee, #ccc);
+    }
+    pre.highlight {
+      overflow: auto;
+      padding: 1.5em;
+      margin-top: 0;
+      border-radius: 0 0 0.5em 0.5em;
+      background-color: #282c34;
+      -webkit-overflow-scrolling: touch;
+      code {
+        padding: 0;
+        margin: 0;
+        color: #e6e6e6;
+        background-color: transparent;
+      }
+    }
+  }
+}

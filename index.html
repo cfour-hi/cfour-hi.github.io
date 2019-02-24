@@ -1,55 +1,18 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Monine</title><meta name=description content="Monine's blog create by github. base on github pages and github api v3."><style>@-webkit-keyframes bouncing-loader {
-      from {
-        opacity: 1;
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-      }
-      to {
-        opacity: 0.1;
-        -webkit-transform: translateY(-1rem);
-        transform: translateY(-1rem);
-      }
-    }
+---
+layout: home
+title: Home
+---
 
-    @keyframes bouncing-loader {
-      from {
-        opacity: 1;
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-      }
-      to {
-        opacity: 0.1;
-        -webkit-transform: translateY(-1rem);
-        transform: translateY(-1rem);
-      }
-    }
+<blockquote id="motto">
+  <p><i> 我知道我只是这浩瀚宇宙的一粒尘埃，但却是不可或缺的一份子。</i></p>
+  <p class="from">--<cite>《南国野兽》</cite></p>
+</blockquote>
 
-    .bouncing-loader {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      margin-top: 300px;
-    }
-
-    .bouncing-loader>div {
-      width: 1rem;
-      height: 1rem;
-      margin: 3rem 0.2rem;
-      background: #469b66;
-      border-radius: 50%;
-      -webkit-animation: bouncing-loader 0.6s infinite alternate;
-      animation: bouncing-loader 0.6s infinite alternate;
-    }
-
-    .bouncing-loader>div:nth-child(2) {
-      -webkit-animation-delay: 0.2s;
-      animation-delay: 0.2s;
-    }
-
-    .bouncing-loader>div:nth-child(3) {
-      -webkit-animation-delay: 0.4s;
-      animation-delay: 0.4s;
-    }</style><link href=//cdn.webfont.youziku.com/webfonts/nomal/96209/47284/5abc7feef629d811e06ec364.css rel=stylesheet type=text/css><link href=//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet><link href=//cdn.bootcss.com/animate.css/3.5.2/animate.min.css rel=stylesheet><link href=/dist/css/app.8994f68ea1cea8bb0d5c60796b3ed16c.css rel=stylesheet></head><body><div id=app><div class=bouncing-loader><div></div><div></div><div></div></div></div><script>var _hmt = _hmt || []; (function () { var b = document.createElement("script"); b.src = "https://hm.baidu.com/hm.js?4ffff5bdbf3c9645c02b2c092835acd7"; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(b, a) })();</script><script src=//cdn.bootcss.com/babel-polyfill/6.26.0/polyfill.min.js></script><script src=//cdn.bootcss.com/vue/2.5.2/vue.min.js></script><script src=//cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js></script><script src=//cdn.bootcss.com/vuex/3.0.1/vuex.min.js></script><script src=//cdn.bootcss.com/axios/0.17.1/axios.min.js></script><script src=//cdn.bootcss.com/marked/0.3.7/marked.min.js></script><script src=//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js></script><script type=text/javascript src=/dist/js/manifest.df1e62650e15fcb7f784.js></script><script type=text/javascript src=/dist/js/vendor.32f99cf57c810a493684.js></script><script type=text/javascript src=/dist/js/app.c28840c63dbe150da33e.js></script></body></html>
+<ul class="post-list">
+  {% for post in site.posts %}
+  <li>
+    <time datetime="{{ post.date }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+    <h2><a href="{{ post.url }}" class="hover-underline-animation">{{ post.title }}</a></h2>
+  </li>
+  {% endfor %}
+</ul>
