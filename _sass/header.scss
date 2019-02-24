@@ -1,11 +1,17 @@
 #header {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.32rem;
+  align-items: center;
+  position: relative;
+  margin-bottom: 0.4rem;
   h1 {
+    position: absolute;
+    left: 0;
+    top: -1em;
     margin: 0;
     font-size: 0.36rem;
-    text-shadow: 3px 2px 0 #{$green}b3, 6px 5px 0 #{$white}4d;
+    color: #f0d17a;
+    text-shadow: 3px 2px 0 #{$a}b3, 6px 5px 0 #{$green}4d;
   }
   nav {
     margin-top: 0.08rem;
@@ -15,18 +21,29 @@
       margin: 0;
       list-style: none;
       li {
-        border-right: 1px dotted $green;
-        margin-right: 1em;
         line-height: 1;
+        &:first-child a::before {
+          content: '';
+          border: none;
+        }
         a {
-          margin-right: 1em;
+          margin: 0 1em;
+          line-height: 1;
           color: $green;
+          &::before {
+            content: '';
+            position: absolute;
+            left: -1em;
+            height: 1em;
+            border-left: 1px dotted currentColor;
+          }
           &.active::after {
             transform: scaleX(1);
           }
         }
-        &:last-child {
-          border-right: none;
+        &::before {
+          content: '';
+          font-size: 0;
         }
       }
     }
