@@ -35,6 +35,37 @@ a {
   }
 }
 
+ul {
+  padding-left: 1em;
+  list-style: none;
+  > li {
+    position: relative;
+    &::before {
+      content: "\B7";
+      position: absolute;
+      top: -0.5em;
+      left: -0.5em;
+      margin: 0;
+      font-size: 1.8em;
+      font-weight: 600;
+      color: $gray;
+    }
+  }
+}
+
+ol {
+  padding-left: 1.2em;
+}
+
+blockquote {
+  border-left: 1px dotted currentColor;
+  padding-left: 1.2em;
+  margin-left: 0;
+  font-size: 13px;
+  font-style: italic;
+  color: #999;
+}
+
 article code {
   padding: 3px 9px;
   margin: 0 5px;

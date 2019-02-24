@@ -1,9 +1,10 @@
 #header {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.24rem;
+  margin-bottom: 0.32rem;
   h1 {
     margin: 0;
+    font-size: 0.36rem;
     text-shadow: 3px 2px 0 #{$green}b3, 6px 5px 0 #{$white}4d;
   }
   nav {

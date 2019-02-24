@@ -10,6 +10,12 @@
   }
 }
 
+#post-header {
+  .meta {
+    color: $gray;
+  }
+}
+
 #post-body {
   line-height: 2;
   h2 {
@@ -23,21 +29,7 @@
       color: $green;
     }
   }
-  ul {
-    padding-left: 1em;
-    list-style: none;
-    > li {
-      position: relative;
-      &::before {
-        content: "\B7";
-        position: absolute;
-        top: -0.5em;
-        left: -0.5em;
-        margin: 0;
-        font-size: 1.8em;
-        font-weight: 600;
-        color: $gray;
-      }
-    }
+  h3 {
+    color: $post-h2;
   }
 }
