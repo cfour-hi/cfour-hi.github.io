@@ -24,8 +24,9 @@ Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('htt
 ```
 
 - PageA: http://192.168.198.157:8000
-- PageB: http://192.168.198.157:3000  
-PageA  页面内嵌入 iframe PageB
+- PageB: http://192.168.198.157:3000
+
+PageA 页面内嵌入 iframe PageB
 
 ## 思考思考
 
@@ -34,7 +35,7 @@ PageA  页面内嵌入 iframe PageB
 - 解决问题要从问题源头出发，我现在遇到的问题归根究底就是两个不同域名的页面如何进行通信？
 - 浏览器的同源政策不允许跨域，然而 HTML5 API window.postMessage() 就是用来实现跨域通信的。
 - 那么通信的原理是怎样的了？
-- 如果有两个页面 PageA 和 PageB，PageA  页面内嵌入 iframe PageB，那么理论上是应该可以实现双向通信的。
+- 如果有两个页面 PageA 和 PageB，PageA 页面内嵌入 iframe PageB，那么理论上是应该可以实现双向通信的。
 
 其实非常简单，就是 PageA 通过 `window.postMessage()` 发送一个信息给 PageB，PageB 在 window 上添加一个事件监听绑定 message 事件可以接收到来自任何不同域名通过 postMessage 方法发送过来的信息，当 PageB 接收到 PageA 发送过来的信息时执行监听事件就 OK，在监听事件的 event 参数中包含了所有 message 事件接收到的相关数据。包括发送信息的内容 `event.data`，发送信息的域名 `event.origin` 等等。
 
@@ -45,102 +46,114 @@ PageA  页面内嵌入 iframe PageB
 ## 干货代码
 
 PageA
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Page A</title>
-</head>
-<body>
-  <h1>This is Page A</h1>
-  <button id="openNewWindowBtn" type="button">Open New Window</button>
-  <button id="postMessageBtn" type="button">Post Message</button>
-  <p id="message"></p>
-  <iframe id="receiverIframe" src="http://192.168.198.157:3000/pageB.html" frameborder="1" width="800" height="500"></iframe>
-  <script>
-    window.onload = function() {
-      var receiver = document.getElementById('receiverIframe').contentWindow;
-      var postBtn = document.getElementById('postMessageBtn');
-      var openBtn = document.getElementById('openNewWindowBtn');
-      var messageEle = document.getElementById('message');
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page A</title>
+  </head>
+  <body>
+    <h1>This is Page A</h1>
+    <button id="openNewWindowBtn" type="button">Open New Window</button>
+    <button id="postMessageBtn" type="button">Post Message</button>
+    <p id="message"></p>
+    <iframe
+      id="receiverIframe"
+      src="http://192.168.198.157:3000/pageB.html"
+      frameborder="1"
+      width="800"
+      height="500"
+    ></iframe>
+    <script>
+      window.onload = function() {
+        var receiver = document.getElementById('receiverIframe').contentWindow;
+        var postBtn = document.getElementById('postMessageBtn');
+        var openBtn = document.getElementById('openNewWindowBtn');
+        var messageEle = document.getElementById('message');
 
-      function sendMessage() {
-        receiver.postMessage('Hello Page B.. This is page A.. You are my iframe', 'http://192.168.198.157:3000');
-      }
+        function sendMessage() {
+          receiver.postMessage(
+            'Hello Page B.. This is page A.. You are my iframe',
+            'http://192.168.198.157:3000'
+          );
+        }
 
-      function openNewWindow() {
-        var pageB = window.open('http://192.168.198.157:3000/pageB.html');
+        function openNewWindow() {
+          var pageB = window.open('http://192.168.198.157:3000/pageB.html');
+          setTimeout(function() {
+            pageB.postMessage(
+              'Hello Page B.. This is Page A.. (form PageA window.open())',
+              'http://192.168.198.157:3000'
+            );
+          }, 500);
+        }
 
-        setTimeout(function() {
-          pageB.postMessage('Hello Page B.. This is Page A.. (form PageA window.open())', 'http://192.168.198.157:3000');
-        }, 500)
-      }
+        function receiveMessage(event) {
+          console.log(event);
+          if (event.origin !== 'http://192.168.198.157:3000') return;
+          messageEle.innerHTML = 'Message Received: ' + event.data;
+        }
 
-      function receiveMessage(event) {
-        console.log(event);
-
-        if (event.origin !== 'http://192.168.198.157:3000') return;
-
-        messageEle.innerHTML = "Message Received: " + event.data;
-      }
-
-      postBtn.addEventListener('click', sendMessage, false);
-
-      openBtn.addEventListener('click', openNewWindow, false);
-
-      window.addEventListener('message', receiveMessage, false);
-    }
-  </script>
-</body>
+        postBtn.addEventListener('click', sendMessage, false);
+        openBtn.addEventListener('click', openNewWindow, false);
+        window.addEventListener('message', receiveMessage, false);
+      };
+    </script>
+  </body>
 </html>
 ```
 
 PageB
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Page B</title>
-</head>
-<body>
-  <h1>This is Page B</h1>
-  <button id="postMessageBtn" type="button">Post Message</button>
-  <p id="message"></p>
-  <script>
-    window.onload = function() {
-      var postBtn = document.getElementById('postMessageBtn')
-      var messageEle = document.getElementById('message');
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page B</title>
+  </head>
+  <body>
+    <h1>This is Page B</h1>
+    <button id="postMessageBtn" type="button">Post Message</button>
+    <p id="message"></p>
+    <script>
+      window.onload = function() {
+        var postBtn = document.getElementById('postMessageBtn');
+        var messageEle = document.getElementById('message');
 
-      function receiveMessage(event) {
-        console.log(event);
+        function receiveMessage(event) {
+          console.log(event);
+          if (event.origin !== 'http://192.168.198.157:8000') return;
+          messageEle.innerHTML = 'Message Received: ' + event.data;
+          // 接收 PageA 的任何消息都自动回复并加上时间戳
+          event.source.postMessage(
+            'Hello Page A.. This is page B.. (from PageB autoreply) timestamp = ' +
+              new Date().getTime(),
+            event.origin
+          );
+        }
 
-        if (event.origin !== 'http://192.168.198.157:8000') return;
+        function sendMessage() {
+          // 这里需要特别注意！！！
+          // 直接打开 PageB (当前页面) 是无法向 PageA 发送跨域信息的！！！
+          // 只有当 PageB (当前页面) 处于 PageA 页面内的 iframe 中的时候才能发送跨域信息
+          // 而且此处不能使用 window.postMessage()
+          // 因为 PageB (当前页面) 是 PageA 页面内嵌入的 iframe
+          // 此时 PageB 的 window 指向的是 PageA 内 iframe 框架内的 window
+          // 而当前情况需要指向父级 window (即 top 或者 parent) 才能进行 postMessage
+          top.postMessage(
+            'Hello Page A.. This is page B..',
+            'http://192.168.198.157:8000'
+          );
+        }
 
-        messageEle.innerHTML = "Message Received: " + event.data;
-
-        // 接收 PageA 的任何消息都自动回复并加上时间戳
-        event.source.postMessage('Hello Page A.. This is page B.. (from PageB autoreply) timestamp = ' + new Date().getTime(), event.origin);
-      }
-
-      function sendMessage() {
-        // 这里需要特别注意！！！
-        // 直接打开 PageB (当前页面) 是无法向 PageA 发送跨域信息的！！！
-        // 只有当 PageB (当前页面) 处于 PageA 页面内的 iframe 中的时候才能发送跨域信息 
-        // 而且此处不能使用 window.postMessage()
-        // 因为 PageB (当前页面) 是 PageA 页面内嵌入的 iframe
-        // 此时 PageB 的 window 指向的是 PageA 内 iframe 框架内的 window
-        // 而当前情况需要指向父级 window (即 top 或者 parent) 才能进行 postMessage
-        top.postMessage('Hello Page A.. This is page B..', 'http://192.168.198.157:8000');
-      }
-
-      postBtn.addEventListener('click', sendMessage, false);
-
-      window.addEventListener('message', receiveMessage, false);
-    }
-  </script>
-</body>
+        postBtn.addEventListener('click', sendMessage, false);
+        window.addEventListener('message', receiveMessage, false);
+      };
+    </script>
+  </body>
 </html>
 ```
 

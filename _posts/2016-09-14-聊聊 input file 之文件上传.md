@@ -2,8 +2,8 @@
 
 首先推荐张鑫旭大神的以下这两篇文章
 
-- [HTML input type=file文件选择表单元素二三事](http://www.zhangxinxu.com/wordpress/?p=5071)
-- [基于HTML5的可预览多图片Ajax上传](http://www.zhangxinxu.com/wordpress/?p=1923)
+- [HTML input type=file 文件选择表单元素二三事](http://www.zhangxinxu.com/wordpress/?p=5071)
+- [基于 HTML5 的可预览多图片 Ajax 上传](http://www.zhangxinxu.com/wordpress/?p=1923)
 
 不得不感叹一句 “前人栽树，后人乘凉”，真心要感谢这些前辈对行业发展作出的贡献，没有他们的付出，就没有咱这些后人的便捷。
 
@@ -19,7 +19,7 @@
 
 前端做久了，深刻的感受到用户的行为是不可控的。拿上传图片来说，我们希望用户上传的是图片资源，可尼玛有些用户就是不听指挥，上传一些种子资源，这尼玛情何以堪。
 
-*用户的操作我们不能控制，但是我们可以做到限制。*
+_用户的操作我们不能控制，但是我们可以做到限制。_
 
 so... accept 这个属性就要隆重登场啦，它指定浏览器接受的文件类型。例如我们限制用户只能上传图片，只要在 input 元素上添加属性 `accept="image/*"`，打开系统选择文件弹框的时候右下角文件类型选项显示的就是 “图片文件” 啦。
 
@@ -27,7 +27,7 @@ so... accept 这个属性就要隆重登场啦，它指定浏览器接受的文�
 
 ```html
 <label for="uploadFileBtn"></label>
-<input id="uploadFileBtn" type="file" accept="image/*" multiple>
+<input id="uploadFileBtn" type="file" accept="image/*" multiple />
 ```
 
 ## 事件监听
@@ -40,7 +40,7 @@ so... accept 这个属性就要隆重登场啦，它指定浏览器接受的文�
 
 实际情况下，我们不可能让用户随意上传太大的文件，所以这里我们也需要对文件大小做一些限制。
 
-在获取到的文件信息中有个 size 的属性就是文件的大小，单位是 B。也就是说，如果我们限制用户上传的单个文件最大为 3M，那么 size 属性的值就应该不大于 3 * 1024 * 1024 = 3145728。
+在获取到的文件信息中有个 size 的属性就是文件的大小，单位是 B。也就是说，如果我们限制用户上传的单个文件最大为 3M，那么 size 属性的值就应该不大于 3 x 1024 x 1024 = 3145728。
 
 ## 图片预览
 
@@ -62,12 +62,14 @@ function previewImgFile(event, files, index) {
     document.body.appendChild(eImg);
 
     if ((_index += 1) < _files.length) previewFiles(event, _files, _index);
-  }
+  };
 
   reader.readAsDataURL(_files[_index]);
 }
 
-document.querySelector('#uploadFileBtn').addEventListener('change', previewImgFile, false);
+document
+  .querySelector('#uploadFileBtn')
+  .addEventListener('change', previewImgFile, false);
 ```
 
 ## 图片上传
@@ -76,7 +78,7 @@ document.querySelector('#uploadFileBtn').addEventListener('change', previewImgFi
 
 普通表单数据的编码类型为 `application/x-www-form-urlencoded`，而对于文件上传，编码类型应该使用 `multipart/form-data`。
 
-也就是说，如果使用 form 表单上传文件（比如图片），那么 form 元素需要添加属性 `enctype="multipart/form-data"`。  
+也就是说，如果使用 form 表单上传文件（比如图片），那么 form 元素需要添加属性 `enctype="multipart/form-data"`。
 
 还有一种方式是在 js 中使用 FormData 和 XMLHttpRequest 实现上传
 
@@ -99,8 +101,10 @@ function uploadUserFile(event) {
   request.onload = function(event) {
     var oResponse = JSON.parse(event.target.response);
     // do something
-  }
+  };
 }
 
-document.querySelector('#uploadFileBtn').addEventListener('change', uploadUserFile, false);
+document
+  .querySelector('#uploadFileBtn')
+  .addEventListener('change', uploadUserFile, false);
 ```

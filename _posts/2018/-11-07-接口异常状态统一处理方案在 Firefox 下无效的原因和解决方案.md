@@ -1,0 +1,135 @@
+没想到会是在双十一这么忙的时间段把这篇文章写完 😂，公司很忙很紧张，可我还有时间在公司做分享，写博文，惭愧惭愧... 做后台系统在双十一期间不如 2c 端的小伙伴有参与感呀。
+
+## 问题根源
+
+上文 [接口异常状态统一处理方案：优先业务端处理，再按需统一处理。](https://monine.github.io/#/article/29) 最后提出可能存在的问题：  
+如果项目是由 vue-cli 搭建的 webpack 模板项目，在没有修改 .babelrc 文件配置的情况下，此方案在 Firefox 浏览器下是无效的。接口状态异常的情况下，总是会执行统一处理，不会先交由业务端处理异常，再判定是否执行统一处理。
+
+通过 debug 发现，handleAPIStatusError 函数总是在 catch 函数之前先执行，导致每次都能在 handleAPIStatusError 函数内找到未处理的异常接口的 apiUid。这就奇怪了，Promise 是 micro-task，setTimeout 是 macro-task，总不可能是 EvenLoop 的问题吧 🙄，不可能不可能，想多了。💀  
+那到底是什么原因呢？只能走代码了，Go Go Go... 然后在 Firefox 开发者工具内，发现在 polyfill.js 内 Promise 的垫片函数 then 和 catch 内部，this 的属性中居然没有 apiUid！而且还有一堆莫名其妙不明所以的属性。😳  
+怎么肥四？🤔
+
+![promise-no-apiUid](http://phtkflyvc.bkt.clouddn.com/promise-no-apiUid.png)
+
+我表示看不懂，this 不应该是 Promise 的实例吗？现在这个是个什么鬼？💀
+
+经过一番挣扎，突然发现：  
+“咦，Promise 哪去了？”  
+“那个 `__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_promise___default` 是什么鬼？”  
+然后... 突然醒悟 😠
+
+babel_runtime_core_js_promise？  
+core_js？  
+babel-polyfill？  
+babel_runtime？  
+babel-transform-runtime？  
+难道 Firefox 内置的 Promise 是假的？  
+一脸惊悚... 😱
+
+带着疑惑的心态去查找 babel-polyfill` 的源码，找到 Promise 的垫片函数：
+
+```js
+// ...
+var USE_NATIVE = !!(function() {
+  try {
+    // correct subclassing with @@species support
+    var promise = $Promise.resolve(1);
+    var FakePromise = ((promise.constructor = {})[
+      require('./_wks')('species')
+    ] = function(exec) {
+      exec(empty, empty);
+    });
+    // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+    return (
+      (isNode || typeof PromiseRejectionEvent == 'function') &&
+      promise.then(empty) instanceof FakePromise
+    );
+  } catch (e) {
+    /* empty */
+  }
+})();
+// ...
+```
+
+这个 `USE_NATIVE` 就是判定是否使用浏览器内置 Promise 的关键变量，果不其然，在 Firefox 中，这个值为 false；再去 Chrome 查看，发现值为 true，我想，问题的根源已经找到了。
+
+## 究其根源
+
+为什么 Firefox 中 `USE_NATIVE` 的值为 false，通过跟踪代码发现，关键点在于 PromiseRejectionEvent 这个接口，Firefox 中并没有实现。
+
+![caniuse-PromiseRejectionEvent](http://phtkflyvc.bkt.clouddn.com/caniuse-PromiseRejectionEvent.png)
+
+梳理一下，由于 Firefox 没有实现 PromiseRejectionEvent 接口，导致 babel-polyfill 在判定是否使用 Promise 垫片函数时，认为当前运行环境是需要使用的，所以 Firefox 下的 Promise 被覆写。然后因为 babel-transform-runtime 插件的关系，为了避免全局污染，又将 Promise 做了模块化处理，也就是业务代码中的 Promise 全都使用的是被 babel-transform-runtime 模块化转换后的 Promise。
+
+虽说是做了模块化处理 Promise，那为什么接口层 Promise 实例的属性中会没有 apiUid？
+
+表象是缺失了 apiUid 属性，那就从接口请求的根源开始找原因，从最开始请求的调用函数开始调试。  
+就当进入到 axios 源码调试时发现：
+
+![Axios.prototype.request](http://phtkflyvc.bkt.clouddn.com/Axios.prototype.request%20.png)
+
+axios 源码里面使用的 Promise 是全局的，也就是说我们业务代码内的 Promise 与 axios 使用的 Promise 不是同一个 Promise，呃... 😳
+
+为什么会这样？还是得从根源思考，webpack 打包构建我们的业务代码，`.js` 文件的处理都是通过 babel-loader 插件，wait...wait...wait... axios 是属于第三方依赖，文件位置处于 node_modules 目录下，babel-loader 肯定是做了 include 或 exclude 配置的，也就是说 axios 的源码并没有被 babel-transform-runtime 做处理，嗦嘎... 😤
+
+```js
+// ...
+{
+  test: /\.js$/,
+  loader: 'babel-loader?cacheDirectory',
+  include: [
+    resolve('src'),
+    resolve('test'),
+    resolve('node_modules/webpack-dev-server/client'),
+  ],
+},
+// ...
+```
+
+OK，为什么业务代码与 axios 源码使用的不是同一个 Promise 的原因已经找到了，那对我们的接口异常处理逻辑又有什么影响了？
+
+由于 axios 源码内的 Promise 没有被 babel-transform-runtime 模块化处理，接口调用底层使用的也就是全局的 Promise，也就是说被覆写的 axios.Axios.prototype.request 函数返回的是全局 Promise 的实例。  
+那其实接口调用时使用的 then 方法和 catch 方法都是全局 Promise 的实例方法，与我们在 polyfill.js 内覆写 Promise.prototype.then 方法和 Promise.prototype.catch 方法毫无瓜葛。理所当然，我们的异常状态统一处理方案肯定就无法生效。
+
+## 解决方案
+
+问题的原因已经找到，那思考如何解决吧。
+
+既然是 babel-polyfill 代码造成的问题，那移除 babel-polyfill？  
+肯定不行，ES6+ 的实例方法怎么办？
+
+那既然是 babel-transform-runtime 插件将 Promise 做了模块化处理，那移除 babel-transform-runtime？  
+也不行，这样 babel 就会在每个打包后的文件内插入重复相同的 helper 函数。
+
+这样不行，那也不行，到底咋整？🤔  
+还是得从问题根源出发，我们需要 babel-transform-runtime 模块化 helper 代码，也需要 babel-polyfill 提供实例方法兼容浏览器。这其中就有一个挺矛盾的问题，babel-transform-runtime 会模块化代码，而 babel-polyfill 又污染全局环境，应该怎么解开这其中的纠葛？  
+其实这时候就需要我们弄清 babel-transform-runtime 和 babel-polyfill 它们的使用场景，它们是为了解决什么问题而产生的。
+
+- [babel-plugin-transform-runtime](https://babeljs.io/docs/en/6.26.3/babel-plugin-transform-runtime)
+- [babel-polyfill](https://babeljs.io/docs/en/6.26.3/babel-polyfill)
+
+babel-transform-runtime 的产生主要是为了解决 library 代码需要转换成 ES5，但又不确定宿主环境，无法直接使用 babel-polyfill；代码转化过程中会产生一些 helper 函数，在多文件的情况下就会在多个文件内都添加 helper 函数，导致不必要的重复，所以进行模块化 helper 函数处理；为了不污染全局环境，会将 polyfill 和 regenerator 函数也进行模块化处理。  
+所以 babel-transform-runtime 主要解决 library 不确定宿主和 helper 代码模块化等相关的问题。
+
+babel-polyfill 提供的就是完整的垫片函数（API、静态方法、实例方法），以兼容目前各家浏览器规范不统一的问题。
+
+以上，就是 babel-transform-runtime 和 babel-polyfill 应用场景和产生背景。那针对我们系统而言，肯定是必须使用 babel-polyfill 的，因为 **babel 无法转译实例方法**，所以我们需要拿 babel-transform-runtime 开刀。  
+稍作思考，屡屡其中的关系就会发现，针对我们系统应用程序而言，需要 babel-transform-runtime 对 polyfill 进行模块化吗？而且我们还必须使用 babel-polyfill。
+
+所以，解决方案就很清晰了，将 babel-transform-runtime 的 polyfill 配置设置为 false 即可。
+
+```js
+*** .babelrc ***
+// ...
+"plugins": [
+  "transform-vue-jsx",
+  ["transform-runtime", {
+    "polyfill": false
+  }]
+]
+// ...
+```
+
+_貌似 regenerator 函数也没必要模块化，不过我们暂时不管它吧。_
+
+Over
