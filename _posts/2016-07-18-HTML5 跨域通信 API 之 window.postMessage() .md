@@ -1,3 +1,7 @@
+---
+title: HTML5 跨域通信 API 之 window.postMessage()
+---
+
 最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 内使用 `window.parent.wx.xxx()` 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 不在同一域名**（跨域）**情况下，这尼玛简直就是坑爹的需求！
 
 ## 遇到问题
