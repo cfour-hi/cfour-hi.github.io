@@ -1,0 +1,72 @@
+$burger--thickness: 4px;
+$navigation__transition: width 0.5s ease-in-out;
+
+#header.burger {
+  position: fixed;
+  top: 0.3rem;
+  right: 0.3rem;
+
+  #burger-check {
+    display: none;
+
+    &:checked ~ .navigation {
+      width: 150px;
+      transition: $navigation__transition;
+    }
+  }
+
+  > label {
+    width: 0.28rem;
+    border-bottom: $burger--thickness solid currentColor;
+    cursor: pointer;
+    // transition: border-bottom 1s ease-in-out;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      border-bottom: $burger--thickness solid currentColor;
+      margin-bottom: 5px;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      border-bottom: $burger--thickness solid currentColor;
+      margin-bottom: 5px;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    // Fix for extra space in Firefox
+    &::-moz-focus-inner {
+      border: 0;
+      padding: 0;
+    }
+  }
+
+  #burger-check:checked ~ label {
+    border-bottom: $burger--thickness solid transparent;
+    transition: border-bottom 0.8s ease-in-out;
+
+    &::before {
+      transform: rotate(-405deg) translateY(1px) translateX(-3px);
+      transition: transform 0.5s ease-in-out;
+    }
+
+    &::after {
+      transform: rotate(405deg) translateY(-4px) translateX(-5px);
+      transition: transform 0.5s ease-in-out;
+    }
+  }
+
+  .navigation {
+    position: absolute;
+    top: -0.09rem;
+    right: 0.3rem;
+    overflow: hidden;
+    width: 0;
+    transition: $navigation__transition;
+  }
+}
