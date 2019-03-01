@@ -1,3 +1,7 @@
+---
+title: CSSTransition 组件实现 display 属性过渡
+---
+
 众所周知，CSS transition 对 display 属性是没有效果的，那带有 display 属性的元素 transition 该如何实现？Vue 有内置的 transition 组件配合 v-show 实现，React 该如何实现？
 
 ## 前言
