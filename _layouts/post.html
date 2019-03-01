@@ -28,8 +28,18 @@ id: post
 <script>
   (function() {
     var gitalk = new Gitalk({
-      clientID: 'dad4d61fbe92c540768a',
-      clientSecret: 'fccefdb2815c02d65ad505d6ea77343694a74123',
+      clientID:
+        {% if jekyll.environment == "development" %}
+        'dad4d61fbe92c540768a'
+        {% else %}
+        'ab8c9d86415c5cbea15a'
+        {% endif %},
+      clientSecret:
+        {% if jekyll.environment == "development" %}
+        'fccefdb2815c02d65ad505d6ea77343694a74123'
+        {% else %}
+        '0a89805d9c3a9d091fc02e65bd038838451608f8'
+        {% endif %},
       repo: 'monine.github.io',
       owner: 'Monine',
       admin: 'Monine',
