@@ -9,14 +9,30 @@
     <link rel="stylesheet" href="/assets/css/normalize.css" />
     <link rel="stylesheet" href="/assets/css/styles.css" />
     <link rel="stylesheet" href="/assets/css/syntax.css" />
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?4ffff5bdbf3c9645c02b2c092835acd7';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
   </head>
   <body>
     {{ content }}
+
     <footer id="footer">
-      <a href="https://github.com/Monine">
+      <a href="https://github.com/Monine" target="_blank">
         <img src="/assets/svg/logo.svg" alt="logo" />
         &copy; {{ 'now' | date: '%Y' }} Monine
       </a>
     </footer>
+
+    <script>
+      if (window.navigator.userAgent.match(/mobile/i)) {
+        document.documentElement.classList.add('mobile');
+      }
+    </script>
   </body>
 </html>

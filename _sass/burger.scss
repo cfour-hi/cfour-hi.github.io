@@ -1,24 +1,28 @@
-$burger--thickness: 4px;
-$navigation__transition: width 0.5s ease-in-out;
+$burder-width: 0.24rem;
+$burger--thickness: 3px;
+$navigation__transition: width 0.3s ease-in-out;
 
 #header.burger {
   position: fixed;
-  top: 0.3rem;
-  right: 0.3rem;
+  z-index: 1;
+  top: $burder-width;
+  right: $burder-width;
+  margin-bottom: 0;
 
   #burger-check {
     display: none;
 
     &:checked ~ .navigation {
-      width: 150px;
+      width: 1.3rem;
       transition: $navigation__transition;
     }
   }
 
   > label {
-    width: 0.28rem;
+    width: $burder-width;
     border-bottom: $burger--thickness solid currentColor;
     cursor: pointer;
+    // FIXME: 为什么初始化进入页面也会有动画？
     // transition: border-bottom 1s ease-in-out;
 
     &::before {
@@ -27,7 +31,7 @@ $navigation__transition: width 0.5s ease-in-out;
       width: 100%;
       border-bottom: $burger--thickness solid currentColor;
       margin-bottom: 5px;
-      transition: transform 0.5s ease-in-out;
+      transition: transform 0.3s ease-in-out;
     }
 
     &::after {
@@ -36,7 +40,7 @@ $navigation__transition: width 0.5s ease-in-out;
       width: 100%;
       border-bottom: $burger--thickness solid currentColor;
       margin-bottom: 5px;
-      transition: transform 0.5s ease-in-out;
+      transition: transform 0.3s ease-in-out;
     }
 
     // Fix for extra space in Firefox
@@ -48,16 +52,16 @@ $navigation__transition: width 0.5s ease-in-out;
 
   #burger-check:checked ~ label {
     border-bottom: $burger--thickness solid transparent;
-    transition: border-bottom 0.8s ease-in-out;
+    transition: border-bottom 0.5s ease-in-out;
 
     &::before {
-      transform: rotate(-405deg) translateY(1px) translateX(-3px);
-      transition: transform 0.5s ease-in-out;
+      transform: rotate(-405deg) translateY(2.5px) translateX(-3px);
+      transition: transform 0.3s ease-in-out;
     }
 
     &::after {
-      transform: rotate(405deg) translateY(-4px) translateX(-5px);
-      transition: transform 0.5s ease-in-out;
+      transform: rotate(405deg) translateY(-3px) translateX(-3px);
+      transition: transform 0.3s ease-in-out;
     }
   }
 
@@ -67,6 +71,7 @@ $navigation__transition: width 0.5s ease-in-out;
     right: 0.3rem;
     overflow: hidden;
     width: 0;
+    height: 1.5em;
     transition: $navigation__transition;
   }
 }

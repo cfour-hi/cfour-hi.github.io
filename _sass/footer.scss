@@ -1,24 +1,30 @@
-#footer a {
-  position: relative;
-  top: 0.48rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.12rem;
-  color: $gray;
+#footer {
+  flex: 0 0 0.32rem;
+  margin-top: 0.32rem;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.12rem;
+    color: $gray;
 
-  &:hover {
-    border-bottom: none;
+    &:hover {
+      border-bottom: none;
+
+      img {
+        filter: none;
+      }
+    }
 
     img {
-      filter: none;
+      width: 0.32rem;
+      height: 0.32rem;
+      margin-right: 0.08rem;
+      filter: grayscale(100%);
     }
   }
+}
 
-  img {
-    width: 0.32rem;
-    height: 0.32rem;
-    margin-right: 0.08rem;
-    filter: grayscale(100%);
-  }
+html.mobile #footer a img {
+  filter: none;
 }

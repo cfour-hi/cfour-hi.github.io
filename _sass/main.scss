@@ -11,9 +11,11 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
   max-width: 7.68rem;
-  padding: 0.64rem 0;
+  padding: 0.64rem 0.24rem 0.16rem;
   margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
     'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
@@ -26,12 +28,17 @@ body {
   background-color: #1d1f21;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  > * {
+    flex: auto;
+  }
 }
 
 a {
   color: $a;
   text-decoration: none;
   transition: color 0.2s ease, border-color 0.2s ease;
+
   &:hover {
     color: $a-hover;
     border-bottom: 2px solid currentColor;
@@ -41,8 +48,10 @@ a {
 ul {
   padding-left: 1em;
   list-style: none;
+
   > li {
     position: relative;
+
     &::before {
       content: '\B7';
       position: absolute;
@@ -62,8 +71,8 @@ ol {
 
 blockquote {
   border-left: 1px dotted currentColor;
-  padding-left: 1.2em;
-  margin-left: 0;
+  padding: 0 1.2em;
+  margin: 1em 0;
   font-size: 13px;
   font-style: italic;
   color: #999;
@@ -82,12 +91,15 @@ article code {
   position: relative;
   padding-bottom: 2px;
   border-bottom: none;
+
   &:hover {
     border-bottom: none;
   }
+
   &::after {
     content: '';
     position: absolute;
+    z-index: 1;
     left: 0;
     bottom: -1px;
     width: 100%;
@@ -95,6 +107,7 @@ article code {
     transform: scaleX(0);
     transition: transform 0.15s ease-out;
   }
+
   &:hover::after {
     transform: scaleX(1);
   }
@@ -103,6 +116,7 @@ article code {
 .highlighter-rouge {
   position: relative;
   margin-top: 3em;
+
   div.highlight {
     &::before {
       content: '';
@@ -116,6 +130,23 @@ article code {
       background-color: #ccc;
       background-image: linear-gradient(#eee, #ccc);
     }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -2em;
+      width: 6em;
+      height: 2em;
+      background: radial-gradient(
+          1em 1em at 25% 50%,
+          #ff5f56 50%,
+          transparent 50%
+        ),
+        radial-gradient(1em 1em at 50% 50%, #ffbd2e 50%, transparent 50%),
+        radial-gradient(1em 1em at 75% 50%, #27c93f 50%, transparent 50%);
+      background-repeat: no-repeat;
+    }
+
     pre.highlight {
       overflow: auto;
       padding: 1.5em;
@@ -123,6 +154,7 @@ article code {
       border-radius: 0 0 0.5em 0.5em;
       background-color: #282c34;
       -webkit-overflow-scrolling: touch;
+
       code {
         padding: 0;
         margin: 0;

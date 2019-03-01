@@ -11,8 +11,12 @@ title: Home
 <ul class="post-list">
   {% for post in site.posts %}
   <li>
-    <time datetime="{{ post.date }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-    <h2><a href="{{ post.url }}" class="hover-underline-animation">{{ post.title }}</a></h2>
+    <time datetime="{{ post.date }}">{{ post.date | date: '%Y-%m-%d' }}</time>
+    <h2>
+      <a href="{{ post.url }}" class="hover-underline-animation">{{
+        post.title
+      }}</a>
+    </h2>
   </li>
   {% endfor %}
 </ul>
