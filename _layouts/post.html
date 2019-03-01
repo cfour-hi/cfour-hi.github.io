@@ -1,5 +1,6 @@
 ---
 layout: base
+id: post
 ---
 
 <header id="header" class="burger">
@@ -11,7 +12,6 @@ layout: base
 <article>
   <header id="post-header">
     <h1>{{ page.title }}</h1>
-
     <p class="meta">
       <time datetime="{{ page.date }}">{{ page.date | date: '%Y-%m-%d' }}</time>
     </p>
@@ -21,3 +21,23 @@ layout: base
     {{ content }}
   </section>
 </article>
+
+<div id="gitalk-container"></div>
+
+<script src="https://unpkg.com/gitalk/dist/gitalk{% if jekyll.environment != 'development' %}min{% endif %}.js"></script>
+<script>
+  (function() {
+    var gitalk = new Gitalk({
+      clientID: 'dad4d61fbe92c540768a',
+      clientSecret: 'fccefdb2815c02d65ad505d6ea77343694a74123',
+      repo: 'monine.github.io',
+      owner: 'Monine',
+      admin: 'Monine',
+      id: '{{ page.title }}',
+      title: '{{ page.title }}',
+      body: '[{{page.title}}](' + window.location.href + ')',
+    });
+
+    gitalk.render('gitalk-container');
+  })();
+</script>
