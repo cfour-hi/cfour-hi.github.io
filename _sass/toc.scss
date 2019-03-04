@@ -1,0 +1,52 @@
+$toc__transition: transform 0.3s ease-in-out;
+$toc__bg: rgba(29, 31, 33, 0.8);
+
+#toc-check {
+  display: none;
+
+  &:checked ~ #post-toc {
+    transform: translateX(0);
+    transition: $toc__transition;
+  }
+}
+
+#post-toc {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  line-height: 2;
+  transform: translateX(-100%);
+  transition: $toc__transition;
+
+  label {
+    position: absolute;
+    top: 0;
+    right: -2em;
+    width: 2em;
+    height: 4em;
+    border: 1px solid $gray;
+    border-left: none;
+    border-top: none;
+    border-top: none;
+    border-bottom-right-radius: 0.3em;
+    text-align: center;
+    background-color: $toc__bg;
+    cursor: pointer;
+    transform: translateX(-1px);
+  }
+
+  nav {
+    max-width: 20em;
+    min-height: 4em;
+    padding: 0.5em 1em;
+    border: 1px solid $gray;
+    border-left: none;
+    border-top: none;
+    background-color: $toc__bg;
+
+    ul {
+      margin: 0;
+    }
+  }
+}

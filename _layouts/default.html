@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{ page.title }} | {{ site.data.base.author }}</title>
+    {% seo %}
+
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/assets/css/normalize.css" />
     <link rel="stylesheet" href="/assets/css/styles.css" />
+
     {% if layout.id == "post" %}
     <link rel="stylesheet" href="/assets/css/syntax.css" />
     <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
     {% endif %}
+
     <script>
       if (window.navigator.userAgent.match(/mobile/i)) {
         document.documentElement.classList.add('mobile');
       }
     </script>
+
     {% if jekyll.environment != "development" %}
     <script>
       var _hmt = _hmt || [];
@@ -29,6 +33,7 @@
     </script>
     {% endif %}
   </head>
+
   <body>
     {{ content }}
 

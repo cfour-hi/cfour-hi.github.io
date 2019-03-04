@@ -1,12 +1,20 @@
 host: 0.0.0.0
+description: Monine 的个人博客
+url: 'https://monine.github.io'
+author: Monine
+lang: zh-cmn-Hans
 
 defaults:
   - scope:
       path: ''
-      type: 'posts'
+      type: posts
     values:
-      layout: 'post'
+      layout: post
   - scope:
       path: ''
     values:
-      layout: 'base'
+      layout: default
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag

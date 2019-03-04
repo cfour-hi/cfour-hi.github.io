@@ -37,4 +37,20 @@
     border-radius: 1em;
     background-color: $white;
   }
+
+  table {
+    overflow: auto;
+    font-size: 12px;
+    border-collapse: collapse;
+  }
+
+  table td,
+  table th {
+    padding: 0.5em 1em;
+    border: 1px solid $gray;
+  }
+
+  table code {
+    background-color: transparent;
+  }
 }

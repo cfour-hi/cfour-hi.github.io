@@ -1,28 +1,39 @@
 ---
-layout: base
+layout: default
 id: post
 ---
 
 <header id="header" class="burger">
   <input id="burger-check" type="checkbox" />
   <label for="burger-check"></label>
+
   {% include navigation.html %}
 </header>
 
-<article>
-  <header id="post-header">
-    <h1>{{ page.title }}</h1>
-    <p class="meta">
-      <time datetime="{{ page.date }}">{{ page.date | date: '%Y-%m-%d' }}</time>
-    </p>
-  </header>
+<input id="toc-check" type="checkbox" />
+<aside id="post-toc">
+  <label for="toc-check">目录</label>
+  <nav>
+    {% include toc.html html=content %}
+  </nav>
+</aside>
 
-  <section id="post-body">
+<main id="post-body">
+  <article>
+    <header id="post-header">
+      <h1>{{ page.title }}</h1>
+      <p class="meta">
+        <time datetime="{{ page.date }}">{{
+          page.date | date: '%Y-%m-%d'
+        }}</time>
+      </p>
+    </header>
+
     {{ content }}
-  </section>
-</article>
+  </article>
+</main>
 
-<div id="gitalk-container"></div>
+<section id="gitalk-container"></section>
 
 <script src="https://unpkg.com/gitalk/dist/gitalk{% if jekyll.environment != 'development' %}.min{% endif %}.js"></script>
 <script>

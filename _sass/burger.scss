@@ -12,7 +12,7 @@ $navigation__transition: width 0.3s ease-in-out;
   #burger-check {
     display: none;
 
-    &:checked ~ .navigation {
+    &:checked ~ #navigation {
       width: 1.3rem;
       transition: $navigation__transition;
     }
@@ -65,11 +65,11 @@ $navigation__transition: width 0.3s ease-in-out;
     }
   }
 
-  .navigation {
+  #navigation {
+    overflow: hidden;
     position: absolute;
     top: -0.09rem;
     right: 0.3rem;
-    overflow: hidden;
     width: 0;
     height: 1.5em;
     transition: $navigation__transition;
