@@ -24,14 +24,17 @@ body {
   font-size: 0.14rem;
   line-height: 1.5;
   word-wrap: break-word;
-  color: $white;
-  background-color: $bg;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  > * {
+  > main {
     flex: auto;
   }
+}
+
+.darkmode {
+  color: $white;
+  background-color: $bg;
 }
 
 a {
@@ -84,7 +87,6 @@ article code {
   font-size: 85%;
   font-family: Consolas, Monaco, monospace;
   color: $white;
-  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .hover-underline-animation {
@@ -116,6 +118,9 @@ article code {
 .highlighter-rouge {
   position: relative;
   margin-top: 3em;
+  background-color: #eee;
+  border-radius: 4px;
+  color: $gray;
 
   div.highlight {
     &::before {

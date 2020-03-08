@@ -12,12 +12,14 @@
 
     {% if layout.id == "post" %}
     <link rel="stylesheet" href="/assets/css/syntax.css" />
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
     {% endif %}
 
     <script>
       if (window.navigator.userAgent.match(/mobile/i)) {
         document.documentElement.classList.add('mobile');
+      }
+      if (new Date().getHours() >= 18) {
+        document.documentElement.classList.add('darkmode');
       }
     </script>
 
@@ -33,15 +35,7 @@
     </script>
     {% endif %}
   </head>
-
   <body>
-    {{ content }}
-
-    <footer id="footer">
-      <a href="https://github.com/Monine" target="_blank">
-        <img src="/assets/svg/logo.svg" alt="logo" />
-        &copy; {{ 'now' | date: '%Y' }} Monine
-      </a>
-    </footer>
+    {{ content }} {% include footer.html %}
   </body>
 </html>

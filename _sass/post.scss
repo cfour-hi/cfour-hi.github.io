@@ -21,16 +21,12 @@
   h2 {
     position: relative;
     margin-top: 2em;
-    color: $post-h2;
     &::before {
       content: '#';
       position: absolute;
       left: -1em;
       color: $green;
     }
-  }
-  h3 {
-    color: $post-h2;
   }
   img {
     max-width: 100%;

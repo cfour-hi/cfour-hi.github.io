@@ -1,6 +1,5 @@
 ---
 layout: default
-id: post
 ---
 
 <header id="header" class="burger">
@@ -10,22 +9,14 @@ id: post
   {% include navigation.html %}
 </header>
 
-<input id="toc-check" type="checkbox" />
-<aside id="post-toc">
-  <label for="toc-check">目录</label>
-  <nav>
-    {% include toc.html html=content %}
-  </nav>
-</aside>
-
 <main id="post-body">
   <article>
     <header id="post-header">
       <h1>{{ page.title }}</h1>
       <p class="meta">
-        <time datetime="{{ page.date }}">{{
-          page.date | date: '%Y-%m-%d'
-        }}</time>
+        <time datetime="{{ page.date | date: '%Y-%m-%d' }}"
+          >{{ page.date | date: '%Y-%m-%d' }}</time
+        >
       </p>
     </header>
 
@@ -35,7 +26,11 @@ id: post
 
 <section id="gitalk-container"></section>
 
-<script src="https://unpkg.com/gitalk/dist/gitalk{% if jekyll.environment != 'development' %}.min{% endif %}.js"></script>
+<link
+  href="https://cdn.bootcss.com/gitalk/1.6.2/gitalk.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.bootcss.com/gitalk/1.6.2/gitalk.min.js"></script>
 <script>
   (function() {
     var gitalk = new Gitalk({

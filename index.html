@@ -13,9 +13,9 @@ title: Home
   <li>
     <time datetime="{{ post.date }}">{{ post.date | date: '%Y-%m-%d' }}</time>
     <h2>
-      <a href="{{ post.url }}" class="hover-underline-animation">{{
-        post.title
-      }}</a>
+      <a href="{{ post.url }}" class="hover-underline-animation">
+        {{ post.title }}
+      </a>
     </h2>
   </li>
   {% endfor %}
