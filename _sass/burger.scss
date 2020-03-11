@@ -1,6 +1,6 @@
 $burder-width: 0.24rem;
 $burger--thickness: 3px;
-$navigation__transition: width 0.3s ease-in-out;
+$navigation__transition: transform 0.3s ease-in-out;
 
 #header.burger {
   position: fixed;
@@ -13,7 +13,7 @@ $navigation__transition: width 0.3s ease-in-out;
     display: none;
 
     &:checked ~ #navigation {
-      width: 1.3rem;
+      transform: scale(0);
       transition: $navigation__transition;
     }
   }
@@ -68,10 +68,12 @@ $navigation__transition: width 0.3s ease-in-out;
   #navigation {
     overflow: hidden;
     position: absolute;
-    top: -0.09rem;
+    top: -0.05rem;
     right: 0.3rem;
-    width: 0;
+    width: 1.3rem;
     height: 1.5em;
     transition: $navigation__transition;
+    transform: scale(1);
+    transform-origin: center right;
   }
 }

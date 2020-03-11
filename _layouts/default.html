@@ -18,7 +18,8 @@
       if (window.navigator.userAgent.match(/mobile/i)) {
         document.documentElement.classList.add('mobile');
       }
-      if (new Date().getHours() >= 18) {
+      var hour = new Date().getHours();
+      if (hour < 6 || hour >= 18) {
         document.documentElement.classList.add('darkmode');
       }
     </script>
