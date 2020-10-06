@@ -1,17 +1,17 @@
 host: 0.0.0.0
 description: Monine 的个人博客
-url: 'https://monine.github.io'
-author: Monine
+url: "https://znlbwo.github.io"
+author: Enihvup.Znlbwo
 lang: zh-cmn-Hans
 
 defaults:
   - scope:
-      path: ''
+      path: ""
       type: posts
     values:
       layout: post
   - scope:
-      path: ''
+      path: ""
     values:
       layout: default
 
