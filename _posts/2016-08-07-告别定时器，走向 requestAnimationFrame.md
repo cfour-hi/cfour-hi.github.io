@@ -17,11 +17,11 @@ title: 告别定时器，走向 requestAnimationFrame
 
 ```js
 if (!Date.now)
-  Date.now = function() {
+  Date.now = function () {
     return new Date().getTime();
   };
 
-(function() {
+(function () {
   'use strict';
 
   var vendors = ['webkit', 'moz'];
@@ -38,10 +38,10 @@ if (!Date.now)
     !window.cancelAnimationFrame
   ) {
     var lastTime = 0;
-    window.requestAnimationFrame = function(callback) {
+    window.requestAnimationFrame = function (callback) {
       var now = Date.now();
       var nextTime = Math.max(lastTime + 16, now);
-      return setTimeout(function() {
+      return setTimeout(function () {
         callback((lastTime = nextTime));
       }, nextTime - now);
     };
@@ -75,7 +75,7 @@ if (!Date.now)
 
 另外，如果在一个浏览器标签页里运行一个动画，当这个标签页不可见时，浏览器会暂停它，这会减少 CPU，内存的压力，节省电池电量。
 
-[查看 Demo](http://monine.github.io/study/demo/requestAnimationFrame.html/)
+[查看 Demo](http://znlbwo.github.io/study/demo/requestAnimationFrame.html/)
 
 当然，requestAnimationFrame 并不能完全替代定时器，有所长也必有所短，如果我们的需求是类似视频的 快进/快退 之类需要不同的速率执行动画，那还是回到定时器的怀抱吧，requestAnimationFrame 貌似并不能做到。
 
