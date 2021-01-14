@@ -2,7 +2,8 @@
 title: 我想把网站 favicon 动态修改成 Emoji 表情
 ---
 
-网站的 favicon 由 `link[rel="icon"]` 提供，我们可以写一个函数动态改变 favicon。
+网站的 favicon 由 `link[rel="icon"]` 标签提供，修改 href 的 url 地址，即可更新网站标签的 favicon。  
+我们可以写一个函数动态改变 favicon。
 
 ```js
 const setFavicon = function (url) {
@@ -23,16 +24,19 @@ const setFavicon = function (url) {
 };
 ```
 
-提供 url 作为参数给到 setFavicon 即可，比如使用百度的 favicon。
+提供 url 作为参数给到 setFavicon 方法即可，比如使用百度的 favicon 地址。
 
 ```js
 setFavicon('https://www.baidu.com/favicon.ico');
 ```
 
+[![sU5vcV.gif](https://s3.ax1x.com/2021/01/14/sU5vcV.gif)](https://imgchr.com/i/sU5vcV)
+
 ## 使用 emoji 作为 favicon
 
-2010 年，Unicode 6.0 版开始收录 emoji，它会被渲染为图形。  
-`link[rel="icon"]` 只能使用 url，我们需要借助 canvas 获取 emoji 的 url。
+2010 年，Unicode 6.0 版开始收录 emoji，它会被渲染为图形，但本质上还是文字。  
+`link[rel="icon"]` 只能使用 url，文字如何生成 url？  
+我们需要借助 canvas 渲染文字内容，以获取 emoji 的 url。
 
 ```js
 const setEmojiFavicon = function (emoji) {
@@ -54,7 +58,7 @@ const setEmojiFavicon = function (emoji) {
 };
 ```
 
-将 emoji 作为参数传入 setEmojiFavicon 即可，比如 "❤️"。
+将 emoji 作为参数传入 setEmojiFavicon 方法即可，比如 "❤️"。
 
 ```js
 setEmojiFavicon('❤️');
@@ -62,7 +66,7 @@ setEmojiFavicon('❤️');
 
 [![sUFmZQ.gif](https://s3.ax1x.com/2021/01/13/sUFmZQ.gif)](https://imgchr.com/i/sUFmZQ)
 
-同样，我们也可以将 favicon 设置成任何文字，比如爷青回的 "爷"。
+同样，我们也可以将 favicon 设置成任何文字，比如 “爷青回” 的 "爷"。
 
 ```js
 setEmojiFavicon('爷');
@@ -70,9 +74,11 @@ setEmojiFavicon('爷');
 
 [![sUAAHg.gif](https://s3.ax1x.com/2021/01/13/sUAAHg.gif)](https://imgchr.com/i/sUAAHg)
 
-## 设置动态效果 favicon
+经过简单测试，浏览器标签的 favicon 区域最多能容纳一个中文文字或者两个英文字母。
 
-我们可以利用定时器，将一组图循环播放，将 favicon 做成动态效果。
+## 设置动画效果 favicon
+
+我们可以利用定时器，将一组图循环播放，将 favicon 做成动画效果。
 
 ```js
 const group = ['🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔'];
