@@ -2,7 +2,10 @@
 title: 我想把网站 favicon 动态修改成 Emoji 表情
 ---
 
-网站的 favicon 由 `link[rel="icon"]` 标签提供，修改 href 的 url 地址，即可更新网站标签的 favicon。  
+网站的 favicon 由 `link[rel="icon"]` 标签提供，修改 href 的 url 地址，即可更新网站标签的 favicon。
+
+![sr1iAe.jpg](https://s3.ax1x.com/2021/01/16/sr1iAe.jpg)
+
 我们可以写一个函数动态改变 favicon。
 
 ```js
