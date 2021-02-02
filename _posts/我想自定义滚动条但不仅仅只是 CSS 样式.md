@@ -1,0 +1,247 @@
+---
+title: 我想自定义滚动条但不仅仅只是 CSS 样式
+---
+
+业界有两大远近闻名的滚动条插件 [iscroll](https://github.com/cubiq/iscroll) 和 [better-scroll](https://github.com/ustbhuangyi/better-scroll)，这篇文章告诉你自定义滚动条背后的故事。
+
+![yu0FEj.png](https://s3.ax1x.com/2021/02/02/yu0FEj.png)
+
+## 非标准规范修改滚动条样式
+
+总所周知的自定义滚动条样式的方式是通过 CSS 属性，比如我们可以使用伪元素 `::-webkit-scrollbar` 在大多主流浏览器上修改滚动条样式。
+
+```css
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #fafafa;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 4px;
+}
+```
+
+另外，在火狐浏览器我们可以使用新的样式属性 `scrollbar-width` 和 `scrollbar-color`。
+
+```css
+body {
+  scrollbar-width: thin;
+  /* 滑条 和 轨道的颜色值 */
+  scrollbar-color: #c1c1c1 #fafafa;
+}
+```
+
+但是，`::-webkit-scrollbar` 并非标准规范，所以并不推荐在生产环境站点使用。
+
+> This feature is non-standard and is not on a standards track. Do not use it on production sites facing the Web: it will not work for every user. There may also be large incompatibilities between implementations and the behavior may change in the future.
+>
+> _来源： <https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar>_
+
+## 自定义滚动条的样式和行为
+
+### 隐藏默认滚动条
+
+创建一个容器元素，作为内容的可视区域，容器的高度就是滚动条的高度。  
+创建一个内容元素，放进容器元素，它只会展示出一部分内容，需要滚动查看全部内容。
+
+```html
+<div id="wrapper" class="wrapper">
+  <div id="content" class="content">...</div>
+</div>
+```
+
+容器元素不允许滚动，内容元素允许滚动。
+
+```css
+.wrapper {
+  height: 500px;
+  overflow: hidden;
+}
+
+.content {
+  height: 100%;
+  overflow: auto;
+}
+```
+
+使用 margin 负值隐藏滚动条，使用 padding 保留自定义滚动条空间。
+
+```css
+.content {
+  margin-right: 20px;
+  padding-right: 20px;
+}
+```
+
+### 滚动条位置
+
+为了不污染内容区域，滚动条的 DOM 元素不会被包裹在 wrapper 内，而是跟它同级。
+
+```html
+<div id="wrapper">...</div>
+
+<!-- 锚点 -->
+<div id="anchor" style="position: absolute; left: 0; top: 0"></div>
+
+<!-- 自定义滚动条 -->
+<div id="scrollbar" style="position: absolute; width: 12px;"></div>
+```
+
+wrapper 可能在任何其它 DOM 元素内，距离浏览器顶部和左侧的距离不是一个确定值，需要通过一个 “锚点” 作为介质计算出 wrapper 元素的左上角坐标位置，继而计算出自定义滚动条的位置，得到自定义滚动条在的 top 和 left 值。
+
+```js
+const wrapper = document.getElementById('wrapper');
+const content = document.getElementById('content');
+const anchor = document.getElementById('anchor');
+const scrollbar = document.getElementById('scrollbar');
+
+// 获取元素的尺寸和相对视图的位置信息
+const wrapperRect = wrapper.getBoundingClientRect();
+const anchorRect = anchor.getBoundingClientRect();
+
+// 获取并设置自定义滚动条的位置信息
+const top = wrapperRect.top - anchorRect.top;
+const left = wrapperRect.width + wrapperRect.left - anchorRect.left;
+scrollbar.style.top = `${top}px`;
+scrollbar.style.left = `${left}px`;
+
+// 自定义滚动条的高度与 wrapper 的高度一致
+scrollbar.style.height = `${wrapperRect.height}px`;
+```
+
+> The Element.getBoundingClientRect() method returns a DOMRect object providing information about the size of an element and its position relative to the viewport.
+>
+> _来源：<https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect>_
+
+### 滚动条轨道和滑条
+
+滚动条分为轨道和滑条，各司其职。
+
+- 轨道：占满滚动条区域，通过设置样式让人一眼能看出这是滚动条。
+- 滑条：可通过点击和拖动滚动滚动内容
+
+```html
+<div id="scrollbar">
+  <div id="track" class="track"></div>
+  <div id="thumb" class="thumb"></div>
+</div>
+```
+
+轨道和滑条的样式
+
+```css
+.track {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  /* 占满滚动条 */
+  height: 100%;
+  width: 100%;
+
+  /* 外观 */
+  border-left: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+  background-color: #fafafa;
+}
+
+.thumb {
+  position: absolute;
+  left: 0;
+
+  /* 占满宽度，高度通过计算得出 */
+  width: 100%;
+
+  /* 外观 */
+  background-color: #c1c1c1;
+}
+```
+
+滑条的高度通过内容的 可视高度 和 滚动高度 计算得出比例（滚动比）。
+
+```js
+const track = document.getElementById('track');
+const thumb = document.getElementById('thumb');
+
+// 滚动比
+const scrollRatio = content.clientHeight / content.scrollHeight;
+thumb.style.height = `${scrollRatio * 100}%`;
+```
+
+### 拖动滑条滚动
+
+需要使用到 mousedown、mousemove、mouseup 事件。
+
+```js
+let pos = { top: 0, y: 0 };
+
+function onMousedownThumb(e) {
+  pos = {
+    // 当前滚动距离
+    top: content.scrollTop,
+    // 鼠标位置
+    y: e.clientY,
+  };
+
+  document.addEventListener('mousemove', onMousemove);
+  document.addEventListener('mouseup', onMouseup);
+}
+
+function onMousemove(e) {
+  // 鼠标移动距离
+  const dy = e.clientY - pos.y;
+
+  // 计算滚动值
+  content.scrollTop = pos.top + dy / scrollRatio;
+}
+
+function onMouseup(e) {
+  document.removeEventListener('mousemove', onMousemove);
+  document.removeEventListener('mouseup', onMouseup);
+}
+
+// Attach the `mousedown` event handler
+thumb.addEventListener('mousedown', onMousedownThumb);
+```
+
+拖动滑条并滚动 content 元素时，需要同步更新滑条元素的位置。
+
+```js
+function onScrollContent() {
+  window.requestAnimationFrame(function () {
+    thumb.style.top = `${(content.scrollTop * 100) / content.scrollHeight}%`;
+  });
+}
+
+content.addEventListener('scroll', onScrollContent);
+```
+
+scroll 事件触发频率较高，使用 requestAnimationFrame 可以避免过度的性能消耗。
+
+> The window.requestAnimationFrame() method tells the browser that you wish to perform an animation and requests that the browser calls a specified function to update an animation before the next repaint. The method takes a callback as an argument to be invoked before the repaint.
+>
+> _来源：<https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame>_
+
+requestAnimationFrame 方法每帧执行一次，每秒 60 帧，每帧间隔是 1000 / 60 毫秒。
+
+### 点击轨道时滚动到点击位置
+
+点击轨道的任意位置，计算出 scrollTop 值。
+
+```js
+function onClickTrack(e) {
+  const trackRect = track.getBoundingClientRect();
+  // 点击位置（比例）
+  const percentage = (e.clientY - trackRect.top) / trackRect.height;
+
+  content.scrollTop = percentage * (content.scrollHeight - content.clientHeight);
+}
+
+track.addEventListener('click', onClickTrack);
+```
+
+![yuYbH1.gif](https://s3.ax1x.com/2021/02/02/yuYbH1.gif)
