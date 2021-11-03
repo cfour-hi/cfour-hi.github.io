@@ -1,5 +1,7 @@
 ---
 title: 聊聊 input file 之文件上传
+categories: [技术]
+tags: [浏览器, input, 文件上传]
 ---
 
 近期移动端项目用到了图片上传的功能，之前一直没有接触过，不知道原来在不需要后端的情况下前端就能够做那么多事情，再次感叹 HTML5 的强大。在近期移动端这个项目中用到的东西不多，不过应该是满足了平时的基本需求，包括按钮样式、文件多选、事件监听、文件类型、大小限制、图片预览和上传。
@@ -60,8 +62,8 @@ function previewImgFile(event, files, index) {
   var _index = index || 0;
   var reader = new FileReader();
 
-  reader.onload = function(event) {
-    var eImg = document.createElement('img');
+  reader.onload = function (event) {
+    var eImg = document.createElement("img");
     eImg.src = event.target.result;
     document.body.appendChild(eImg);
 
@@ -72,8 +74,8 @@ function previewImgFile(event, files, index) {
 }
 
 document
-  .querySelector('#uploadFileBtn')
-  .addEventListener('change', previewImgFile, false);
+  .querySelector("#uploadFileBtn")
+  .addEventListener("change", previewImgFile, false);
 ```
 
 ## 图片上传
@@ -96,19 +98,19 @@ function uploadUserFile(event) {
   var request = new XMLHttpRequest();
 
   for (var i = 0, len = files.length; i < len; i++) {
-    formData.append('userUploadFile', files[i]);
+    formData.append("userUploadFile", files[i]);
   }
 
-  request.open('POST', 'a/p/i');
+  request.open("POST", "a/p/i");
   request.send(formData);
 
-  request.onload = function(event) {
+  request.onload = function (event) {
     var oResponse = JSON.parse(event.target.response);
     // do something
   };
 }
 
 document
-  .querySelector('#uploadFileBtn')
-  .addEventListener('change', uploadUserFile, false);
+  .querySelector("#uploadFileBtn")
+  .addEventListener("change", uploadUserFile, false);
 ```

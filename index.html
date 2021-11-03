@@ -1,22 +1,4 @@
 ---
 layout: home
-title: Home
+# Index page
 ---
-
-<!-- <blockquote>
-  <p>我知道我只是这浩瀚宇宙的一粒尘埃，但却是不可或缺的一份子。</p>
-  <p>--<cite>《南国野兽》</cite></p>
-</blockquote> -->
-
-<ul class="post-list">
-  {% for post in site.posts %}
-  <li>
-    <time datetime="{{ post.date }}">{{ post.date | date: '%Y-%m-%d' }}</time>
-    <h2>
-      <a href="{{ post.url }}" class="hover-underline-animation">
-        {{ post.title }}
-      </a>
-    </h2>
-  </li>
-  {% endfor %}
-</ul>

@@ -1,5 +1,7 @@
 ---
 title: HTML5 跨域通信 API 之 window.postMessage()
+categories: [技术]
+tags: [浏览器, 跨域, iframe, postMessage]
 ---
 
 最近遇到一个可以说是非常头疼的问题，微信的 API 在 iframe 内无法调用，然后因为业务需求又必须解决这个问题。查阅相关资料发现在 iframe 内使用 `window.parent.wx.xxx()` 可以调用微信 API 方法，但是！如果当前页面与嵌入的 iframe 不在同一域名**（跨域）**情况下，这尼玛简直就是坑爹的需求！
@@ -71,38 +73,38 @@ PageA
       height="500"
     ></iframe>
     <script>
-      window.onload = function() {
-        var receiver = document.getElementById('receiverIframe').contentWindow;
-        var postBtn = document.getElementById('postMessageBtn');
-        var openBtn = document.getElementById('openNewWindowBtn');
-        var messageEle = document.getElementById('message');
+      window.onload = function () {
+        var receiver = document.getElementById("receiverIframe").contentWindow;
+        var postBtn = document.getElementById("postMessageBtn");
+        var openBtn = document.getElementById("openNewWindowBtn");
+        var messageEle = document.getElementById("message");
 
         function sendMessage() {
           receiver.postMessage(
-            'Hello Page B.. This is page A.. You are my iframe',
-            'http://192.168.198.157:3000'
+            "Hello Page B.. This is page A.. You are my iframe",
+            "http://192.168.198.157:3000"
           );
         }
 
         function openNewWindow() {
-          var pageB = window.open('http://192.168.198.157:3000/pageB.html');
-          setTimeout(function() {
+          var pageB = window.open("http://192.168.198.157:3000/pageB.html");
+          setTimeout(function () {
             pageB.postMessage(
-              'Hello Page B.. This is Page A.. (form PageA window.open())',
-              'http://192.168.198.157:3000'
+              "Hello Page B.. This is Page A.. (form PageA window.open())",
+              "http://192.168.198.157:3000"
             );
           }, 500);
         }
 
         function receiveMessage(event) {
           console.log(event);
-          if (event.origin !== 'http://192.168.198.157:3000') return;
-          messageEle.innerHTML = 'Message Received: ' + event.data;
+          if (event.origin !== "http://192.168.198.157:3000") return;
+          messageEle.innerHTML = "Message Received: " + event.data;
         }
 
-        postBtn.addEventListener('click', sendMessage, false);
-        openBtn.addEventListener('click', openNewWindow, false);
-        window.addEventListener('message', receiveMessage, false);
+        postBtn.addEventListener("click", sendMessage, false);
+        openBtn.addEventListener("click", openNewWindow, false);
+        window.addEventListener("message", receiveMessage, false);
       };
     </script>
   </body>
@@ -123,17 +125,17 @@ PageB
     <button id="postMessageBtn" type="button">Post Message</button>
     <p id="message"></p>
     <script>
-      window.onload = function() {
-        var postBtn = document.getElementById('postMessageBtn');
-        var messageEle = document.getElementById('message');
+      window.onload = function () {
+        var postBtn = document.getElementById("postMessageBtn");
+        var messageEle = document.getElementById("message");
 
         function receiveMessage(event) {
           console.log(event);
-          if (event.origin !== 'http://192.168.198.157:8000') return;
-          messageEle.innerHTML = 'Message Received: ' + event.data;
+          if (event.origin !== "http://192.168.198.157:8000") return;
+          messageEle.innerHTML = "Message Received: " + event.data;
           // 接收 PageA 的任何消息都自动回复并加上时间戳
           event.source.postMessage(
-            'Hello Page A.. This is page B.. (from PageB autoreply) timestamp = ' +
+            "Hello Page A.. This is page B.. (from PageB autoreply) timestamp = " +
               new Date().getTime(),
             event.origin
           );
@@ -148,13 +150,13 @@ PageB
           // 此时 PageB 的 window 指向的是 PageA 内 iframe 框架内的 window
           // 而当前情况需要指向父级 window (即 top 或者 parent) 才能进行 postMessage
           top.postMessage(
-            'Hello Page A.. This is page B..',
-            'http://192.168.198.157:8000'
+            "Hello Page A.. This is page B..",
+            "http://192.168.198.157:8000"
           );
         }
 
-        postBtn.addEventListener('click', sendMessage, false);
-        window.addEventListener('message', receiveMessage, false);
+        postBtn.addEventListener("click", sendMessage, false);
+        window.addEventListener("message", receiveMessage, false);
       };
     </script>
   </body>

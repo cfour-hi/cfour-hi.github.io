@@ -1,5 +1,7 @@
 ---
 title: 梳理 Javascript 各种宽高属性
+categories: [技术]
+tags: [浏览器, JavaScript, 盒模型]
 ---
 
 上周在掘金看到一篇关于 [JavaScript 中的各种宽高属性](https://segmentfault.com/a/1190000007515034) 的文章获益良多。之前脑海中对这些知识都是非常模糊的概念，看完这篇文章之后觉得有必要对其进行一些总结，梳理这些知识点。So... 一堆干货来袭。

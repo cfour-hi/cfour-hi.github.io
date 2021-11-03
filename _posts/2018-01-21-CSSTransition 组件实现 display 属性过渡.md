@@ -1,5 +1,7 @@
 ---
 title: CSSTransition 组件实现 display 属性过渡
+categories: [技术]
+tags: [React, transition]
 ---
 
 众所周知，CSS transition 对 display 属性是没有效果的，那带有 display 属性的元素 transition 该如何实现？Vue 有内置的 transition 组件配合 v-show 实现，React 该如何实现？
@@ -51,23 +53,23 @@ Vue 的 transition 组件配合 v-show 是没有上面这个问题的，看来 R
 
 <script>
   (() => {
-    const btn = document.getElementById('btn');
-    const box = document.getElementById('box');
+    const btn = document.getElementById("btn");
+    const box = document.getElementById("box");
 
-    btn.addEventListener('click', () => {
-      if (box.classList.contains('hide')) {
+    btn.addEventListener("click", () => {
+      if (box.classList.contains("hide")) {
         // 隐藏状态下先移除 display none 显示元素
         // 元素此时处于缩放状态 `scale(0)`
-        box.classList.remove('dn');
+        box.classList.remove("dn");
 
         // 当下一个执行栈执行时再移除 hide 从而执行过渡动效
-        setTimeout(() => box.classList.remove('hide'));
+        setTimeout(() => box.classList.remove("hide"));
       } else {
         // 显示状态下先添加 hide 执行过渡动效
-        box.classList.add('hide');
+        box.classList.add("hide");
 
         // 过渡动效结束立即添加 display none 隐藏元素
-        setTimeout(() => box.classList.add('dn'), 1000);
+        setTimeout(() => box.classList.add("dn"), 1000);
       }
     });
   })();
@@ -83,9 +85,9 @@ Vue 的 transition 组件配合 v-show 是没有上面这个问题的，看来 R
 在 React 项目实践中，对 React Transition Group 中的 CSSTransition 组件再包装一层，让其能够通用于 display 特性的过渡动效。
 
 ```js
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { CSSTransition } from 'react-transition-group';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { CSSTransition } from "react-transition-group";
 
 class DisplayCSSTransition extends Component {
   constructor(props) {
@@ -122,7 +124,7 @@ class DisplayCSSTransition extends Component {
     const style =
       isWillShow || isShow
         ? propStyle
-        : Object.assign({}, propStyle, { display: 'none' });
+        : Object.assign({}, propStyle, { display: "none" });
 
     return (
       <CSSTransition

@@ -1,5 +1,7 @@
 ---
 title: 告别定时器，走向 requestAnimationFrame
+categories: [技术]
+tags: [浏览器, setTimeout, requestAnimationFrame]
 ---
 
 以前有做过一些 HTML5 canvas 动画，但一直也没有仔细去了解过，而且也都是使用定时器 setTimeout 和 setInterval 方法去刷新 canvas。然而定时器延迟是无法保证准确的，因为所有的 JavaScript 在单线程中执行，只有当前面队列（代码）执行完毕且轮到了自己才能被执行，而且页面定时器可能不只有一个是吧，定时器越多延迟也就越严重。也就是说，无法保证帧速率达到显示器的刷新速率 **60 帧/秒 (60FPS)**。
@@ -22,15 +24,15 @@ if (!Date.now)
   };
 
 (function () {
-  'use strict';
+  "use strict";
 
-  var vendors = ['webkit', 'moz'];
+  var vendors = ["webkit", "moz"];
   for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
     var vp = vendors[i];
-    window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
+    window.requestAnimationFrame = window[vp + "RequestAnimationFrame"];
     window.cancelAnimationFrame =
-      window[vp + 'CancelAnimationFrame'] ||
-      window[vp + 'CancelRequestAnimationFrame'];
+      window[vp + "CancelAnimationFrame"] ||
+      window[vp + "CancelRequestAnimationFrame"];
   }
   if (
     /iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) || // iOS6 is buggy

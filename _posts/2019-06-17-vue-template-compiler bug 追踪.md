@@ -1,5 +1,7 @@
 ---
 title: vue-template-compiler 动态插槽名 bug 追踪
+categories: [技术]
+tags: [Vue, vue-template-compiler, debug, Range, 源码]
 ---
 
 问题来自于上周六 @彭泽华 开发 CRM 项目，带他一步一步调试找到问题的根本原因，并在后续向 vue 提 issue 协助推进解决问题。

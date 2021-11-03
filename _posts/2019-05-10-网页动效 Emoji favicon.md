@@ -1,5 +1,7 @@
 ---
 title: 网页动效 Emoji favicon
+categories: [技术]
+tags: [浏览器, Emoji, favicon, canvas]
 ---
 
 网站的 favicon 由 `link[rel="icon"]` 标签提供，修改 href 的 url 地址，即可更新网站标签的 favicon。
@@ -15,8 +17,8 @@ const setFavicon = function (url) {
     favicon.href = url;
   } else {
     // 创建 link 标签
-    const link = document.createElement('link');
-    link.rel = 'icon';
+    const link = document.createElement("link");
+    link.rel = "icon";
     link.href = url;
 
     // 添加到 head 标签内
@@ -28,7 +30,7 @@ const setFavicon = function (url) {
 提供 url 作为参数给到 setFavicon 方法即可，比如使用百度的 favicon 地址。
 
 ```js
-setFavicon('https://www.baidu.com/favicon.ico');
+setFavicon("https://www.baidu.com/favicon.ico");
 ```
 
 ![sU5vcV.gif](https://s3.ax1x.com/2021/01/14/sU5vcV.gif)
@@ -42,13 +44,13 @@ setFavicon('https://www.baidu.com/favicon.ico');
 ```js
 const setEmojiFavicon = function (emoji) {
   // 创建 canvas 标签
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.height = 64;
   canvas.width = 64;
 
   // 获取 canvas 上下文
-  const context = canvas.getContext('2d');
-  context.font = '64px serif';
+  const context = canvas.getContext("2d");
+  context.font = "64px serif";
   context.fillText(emoji, 0, 64);
 
   // 获取 emoji url
@@ -62,7 +64,7 @@ const setEmojiFavicon = function (emoji) {
 将 emoji 作为参数传入 setEmojiFavicon 方法即可，比如 "❤️"。
 
 ```js
-setEmojiFavicon('❤️');
+setEmojiFavicon("❤️");
 ```
 
 ![sUFmZQ.gif](https://s3.ax1x.com/2021/01/13/sUFmZQ.gif)
@@ -70,7 +72,7 @@ setEmojiFavicon('❤️');
 同样，我们也可以将 favicon 设置成任何文字，比如 "爷"。
 
 ```js
-setEmojiFavicon('爷');
+setEmojiFavicon("爷");
 ```
 
 ![sUAAHg.gif](https://s3.ax1x.com/2021/01/13/sUAAHg.gif)
@@ -84,7 +86,7 @@ setEmojiFavicon('爷');
 我们可以利用定时器，将一组图循环播放，将 favicon 做成动画效果。
 
 ```js
-const group = ['🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔'];
+const group = ["🌕", "🌖", "🌗", "🌘", "🌑", "🌒", "🌓", "🌔"];
 let i = 0;
 
 setInterval(() => {
