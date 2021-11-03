@@ -23,7 +23,7 @@ MDN 介绍的 `window.postMessage()` 是针对在一个页面使用 `window.open
 在 `var targetPage = window.open('http://target.com')` 打开新页面之后需要等到 http://target.com 页面加载完成之后才能进行 postMessage 跨域通信，但是在跨域的情况下我们是无法对 targetPage 进行 onload 事件监听的，所以这里只能做延迟 setTimeout 或者定时 setInterval 处理。
 同样的，在页面内嵌入 iframe 页面的情况下，我们也需要等到页面内的 iframe 加载完成之后进行 postMessage 跨域通信。
 
-缕缕思路，写了一些小 Demo，使用 window.open() 动态打开新的页面使用 postMessage 跨域通信是 OK 的（[干货代码](#———-干货代码-———)），但是在页面内嵌入 iframe 还是实现不了，Chrome Console 内经常这样报错：
+缕缕思路，写了一些小 Demo，使用 window.open() 动态打开新的页面使用 postMessage 跨域通信是 OK 的（[干货代码](#干货代码)），但是在页面内嵌入 iframe 还是实现不了，Chrome Console 内经常这样报错：
 
 ```
 Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('http://192.168.198.157:8000') does not match the recipient window's origin ('http://192.168.198.157:3000').
