@@ -55,13 +55,13 @@ build() {
   JEKYLL_ENV=production bundle exec jekyll b -d "$SITE_DIR$_baseurl" --config "$_config"
 }
 
-# test() {
-#   bundle exec htmlproofer \
-#     --disable-external \
-#     --check-html \
-#     --allow_hash_href \
-#     "$SITE_DIR"
-# }
+test() {
+  bundle exec htmlproofer \
+    --disable-external \
+    --check-html \
+    --allow_hash_href \
+    "$SITE_DIR"
+}
 
 resume_site_dir() {
   if [[ -n $_baseurl ]]; then
