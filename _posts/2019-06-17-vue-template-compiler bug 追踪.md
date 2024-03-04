@@ -4,9 +4,7 @@ categories: [技术]
 tags: [Vue, vue-template-compiler, debug, Range, 源码]
 ---
 
-问题来自于上周六 @彭泽华 开发 CRM 项目，带他一步一步调试找到问题的根本原因，并在后续向 vue 提 issue 协助推进解决问题。
-
-[https://github.com/vuejs/vue/issues/10165](https://github.com/vuejs/vue/issues/10165)
+Issue：[https://github.com/vuejs/vue/issues/10165](https://github.com/vuejs/vue/issues/10165)
 
 ## 调试过程
 
@@ -19,7 +17,7 @@ tags: [Vue, vue-template-compiler, debug, Range, 源码]
 ![VbbfiR.png](https://s2.ax1x.com/2019/06/18/VbbfiR.png)
 ![VbqGf1.png](https://s2.ax1x.com/2019/06/18/VbqGf1.png)
 
-那为什么 \$scopedSlots 对象只有 goalAmountMonth 呢？继续查找 \$scopedSlots 对象内的数据是如何来的。  
+那为什么 \$scopedSlots 对象只有 goalAmountMonth 呢？继续查找 \$scopedSlots 对象内的数据是如何来的。
 通过全局搜索 Vue 项目源码 \$scopedSlots 关键词，找到 \$scopedSlots 的赋值语句在 src/core/instants/render.js 文件内。
 
 ![VbOYqO.png](https://s2.ax1x.com/2019/06/18/VbOYqO.png)
@@ -29,18 +27,18 @@ tags: [Vue, vue-template-compiler, debug, Range, 源码]
 ![VbjkuV.png](https://s2.ax1x.com/2019/06/18/VbjkuV.png)
 ![Vbjij0.png](https://s2.ax1x.com/2019/06/18/Vbjij0.png)
 
-往上继续查找 \_parentVnode 的 scopedSlots 数据是从哪来的，条件断点继续添加条件。  
+往上继续查找 \_parentVnode 的 scopedSlots 数据是从哪来的，条件断点继续添加条件。
 终于找到问题的根节点是在 render 函数，只有动态插槽名为 goalAmountMonth 的 scopedSlots。💀
 
 ![Vbv2dO.png](https://s2.ax1x.com/2019/06/18/Vbv2dO.png)
 
-动态插槽名为 achieveRatioMonth 的 scopedSlots 哪去了？  
+动态插槽名为 achieveRatioMonth 的 scopedSlots 哪去了？
 这里很容易就能想到，render 函数是 [vue-loader](https://github.com/vuejs/vue-loader) 对 .vue SFC 编译后的结果，vue-loader 编译 .vue SFC 使用的是 [vue-template-compiler](https://github.com/vuejs/vue/tree/dev/packages/vue-template-compiler)。
 
 ## vue-template-compiler 源码调试
 
-想要继续探索问题原因就需要深入 vue-template-compiler 源码调试，但是编译时要怎么调试呢？  
-也不是不能调试编译时，只是太麻烦，没必要。  
+想要继续探索问题原因就需要深入 vue-template-compiler 源码调试，但是编译时要怎么调试呢？
+也不是不能调试编译时，只是太麻烦，没必要。
 先概览了一遍 vue-template-compiler 文档和源码，知道就是调用 compile 方法传入模板，就会输出一个包含 render 属性的对象。我的目的就是要调试这段过程，所以更简单的方法就是跑一个 node 脚本，引入 vue-template-compiler，调用 compile 方法传入模板，进入 compile 方法进行调试即可。
 
 使用 VSCode 可以轻松做到，代码如下：
@@ -81,6 +79,6 @@ OK，以上都没问题，但是当解析到第二个 template 结束时，再�
 
 ![VqTY0H.png](https://s2.ax1x.com/2019/06/18/VqTY0H.png)
 
-当执行完关键步骤之后，currentParent.scopedSlots.propertyName 被直接覆盖了！  
- 因为 element.slotTarget 值与第一个 template 解析时的值是一样的，都是 `propertyName`，所以后者覆盖了前者。  
- 问题的终点就在此处，也不需要继续往下调试了，后续也就是根据 root tag 对象生成代码对象了。
+当执行完关键步骤之后，currentParent.scopedSlots.propertyName 被直接覆盖了！
+因为 element.slotTarget 值与第一个 template 解析时的值是一样的，都是 `propertyName`，所以后者覆盖了前者。
+问题的终点就在此处，也不需要继续往下调试了，后续也就是根据 root tag 对象生成代码对象了。
